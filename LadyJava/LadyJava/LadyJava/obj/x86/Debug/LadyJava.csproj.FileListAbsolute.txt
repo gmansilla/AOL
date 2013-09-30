@@ -1,0 +1,50 @@
+G:\$COMP 231 - Proj I\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.csprojResolveAssemblyReference.cache
+G:\$COMP 231 - Proj I\LadyJava\LadyJava\LadyJava\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+G:\$COMP 231 - Proj I\LadyJava\LadyJava\LadyJava\bin\x86\Debug\LadyJava.exe
+G:\$COMP 231 - Proj I\LadyJava\LadyJava\LadyJava\bin\x86\Debug\LadyJava.pdb
+G:\$COMP 231 - Proj I\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.exe
+G:\$COMP 231 - Proj I\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.pdb
+G:\$COMP 231 - Proj I\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\LadyJava.exe
+G:\$COMP 231 - Proj I\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\LadyJava.pdb
+G:\$COMP 231 - Proj I\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.csprojResolveAssemblyReference.cache
+G:\$COMP 231 - Proj I\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+G:\$COMP 231 - Proj I\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.exe
+G:\$COMP 231 - Proj I\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.pdb
+G:\$COMP 231 - Proj I\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\LadyJavaBigOverWorld.xnb
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\LadyJavaBigOverWorld.xnb
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Grass.xnb
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\LadyJava.exe
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\LadyJava.pdb
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.csprojResolveAssemblyReference.cache
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.exe
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.pdb
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree1.xnb
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree2.xnb
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree3.xnb
+G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Road.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.csprojResolveAssemblyReference.cache
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.exe
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\LadyJavaBigOverWorld.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Grass.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree1.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree2.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree3.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Road.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\LadyJava.exe
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\LadyJava.pdb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\LadyJava.pdb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Water.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandDown.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandDownRight.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandLeft.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandRight.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareBL.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareBR.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareTL.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareTR.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandUp.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandUpLeft.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandUpRight.xnb
+E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandDownLeft.xnb
