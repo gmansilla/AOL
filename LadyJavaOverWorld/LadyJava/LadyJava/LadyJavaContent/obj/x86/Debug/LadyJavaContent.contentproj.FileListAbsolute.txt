@@ -1,4 +1,0 @@
-G:\$COMP 231 - Proj I\LadyJava\LadyJava\LadyJavaContent\obj\x86\Debug\LadyJavaContent.contentprojResolveAssemblyReference.cache
-G:\$COMP 231 - Proj I\LadyJavaOverWorld\LadyJava\LadyJava\LadyJavaContent\obj\x86\Debug\LadyJavaContent.contentprojResolveAssemblyReference.cache
-G:\$COMP 231 - Proj I\Work\LadyJavaOverWorld\LadyJava\LadyJava\LadyJavaContent\obj\x86\Debug\LadyJavaContent.contentprojResolveAssemblyReference.cache
-E:\LadyJavaOverWorld\LadyJava\LadyJava\LadyJavaContent\obj\x86\Debug\LadyJavaContent.contentprojResolveAssemblyReference.cache
