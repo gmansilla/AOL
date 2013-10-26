@@ -7,7 +7,7 @@ namespace LadyJava
     class Sprite
     {
         protected Vector2 position;
-        private Vector2 origin;
+       
 
         private Texture2D[] image;
         private Animation[] animations;
@@ -32,7 +32,7 @@ namespace LadyJava
         { get { return position; } }
 
         public Vector2 Origin
-        { get { return origin; } }
+        { get { return new Vector2(CurrentAnimation.CurrentFrame.Width / 2f, CurrentAnimation.CurrentFrame.Height / 2f); } }
 
         public int Width
         { get { return width; } }
@@ -65,7 +65,7 @@ namespace LadyJava
             spriteAnimationInfo[0, AnimationTime] = 0;
 
             rotation = 0f;
-            origin = Vector2.Zero;
+            
 
             image = spriteImage;
             position = spritePosition;
@@ -73,6 +73,7 @@ namespace LadyJava
             scale = spriteScale;
             width = spriteWidth;
             height = spriteHeight;
+            
 
             animations = new Animation[spriteAnimationInfo.GetLength(0)];
 
@@ -84,39 +85,7 @@ namespace LadyJava
                                                       spriteAnimationInfo[animation, AnimationTime], animation, spriteScale);
         }
 
-        public Sprite(Texture2D[] spriteImage, Vector2 spritePosition, Vector2 spriteOrigin, int spriteWidth, int spriteHeight,
-               float spriteScale)
-        {
-            const int AnimationType = 0;
-            const int TotalFrames = 1;
-            const int AnimationTime = 2;
-
-            int[,] spriteAnimationInfo = new int[1, 3];
-            spriteAnimationInfo[0, AnimationType] = 0;
-            spriteAnimationInfo[0, TotalFrames] = 1;
-            spriteAnimationInfo[0, AnimationTime] = 0;
-
-            rotation = 0f;
-
-            image = spriteImage;
-            origin = spriteOrigin;
-            position = spritePosition + spriteOrigin;
-
-            scale = spriteScale;
-            width = spriteWidth;
-            height = spriteHeight;
-
-            animations = new Animation[spriteAnimationInfo.GetLength(0)];
-
-            currentAnimation = 0;
-            for (int animation = 0; animation < animations.Length; animation++)
-                animations[animation] = new Animation(width, height,
-                                                      spriteAnimationInfo[animation, TotalFrames],
-                                                      spriteAnimationInfo[animation, AnimationType],
-                                                      spriteAnimationInfo[animation, AnimationTime], animation, spriteScale);
-        }
-
-        public Sprite(Texture2D[] spriteImage, Vector2 spritePosition, Vector2 spriteOrigin, float spriteAngle, int spriteWidth, int spriteHeight,
+       public Sprite(Texture2D[] spriteImage, Vector2 spritePosition, float spriteAngle, int spriteWidth, int spriteHeight,
                float spriteScale)
         {
             const int AnimationType = 0;
@@ -131,7 +100,6 @@ namespace LadyJava
             rotation = spriteAngle;
 
             image = spriteImage;
-            origin = spriteOrigin;
             position = spritePosition;// +spriteOrigin;
 
             scale = spriteScale;
@@ -156,7 +124,6 @@ namespace LadyJava
             const int AnimationTime = 2;
 
             rotation = 0f;
-            origin = Vector2.Zero;
 
             currentImage = 0;
             image = spriteImage;
@@ -172,35 +139,6 @@ namespace LadyJava
             currentAnimation = 0;
             for (int animation = 0; animation < animations.Length; animation++)
                 animations[animation] = new Animation(width, height, 
-                                                      spriteAnimationInfo[animation, TotalFrames],
-                                                      spriteAnimationInfo[animation, AnimationType],
-                                                      spriteAnimationInfo[animation, AnimationTime], animation, spriteScale);
-        }
-
-        public Sprite(Texture2D[] spriteImage, Vector2 spritePosition, Vector2 spriteOrigin, int spriteWidth, int spriteHeight,
-                      int[,] spriteAnimationInfo, float spriteScale)
-        {
-            const int AnimationType = 0;
-            const int TotalFrames = 1;
-            const int AnimationTime = 2;
-
-            rotation = 0f;
-            origin = spriteOrigin;
-
-            currentImage = 0;
-            image = spriteImage;
-
-            position = spritePosition;// +spriteOrigin;
-
-            scale = spriteScale;
-            width = spriteWidth;
-            height = spriteHeight;
-
-            animations = new Animation[spriteAnimationInfo.GetLength(0)];
-
-            currentAnimation = 0;
-            for (int animation = 0; animation < animations.Length; animation++)
-                animations[animation] = new Animation(width, height,
                                                       spriteAnimationInfo[animation, TotalFrames],
                                                       spriteAnimationInfo[animation, AnimationType],
                                                       spriteAnimationInfo[animation, AnimationTime], animation, spriteScale);
@@ -249,14 +187,8 @@ namespace LadyJava
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Image, position + origin, animations[currentAnimation].CurrentFrame.ToRectangle, //position + origin
-                             Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch, Vector2 newPos)
-        {
-            spriteBatch.Draw(Image, newPos + origin, animations[currentAnimation].CurrentFrame.ToRectangle, //position + origin
-                             Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Image, position + Origin, animations[currentAnimation].CurrentFrame.ToRectangle, //position + origin
+                             Color.White, rotation, Origin, scale, SpriteEffects.None, 0f);
         }
 
     }
