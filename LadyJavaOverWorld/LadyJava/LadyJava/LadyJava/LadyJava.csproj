@@ -72,15 +72,20 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Animation.cs" />
+    <Compile Include="Engine\Animation.cs" />
+    <Compile Include="Engine\AnimationInfo.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="Frame.cs" />
+    <Compile Include="Engine\Frame.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="Engine\InputManager.cs" />
     <Compile Include="LadyJava.cs" />
     <Compile Include="Npc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Sprite.cs" />
+    <Compile Include="Engine\Sprite.cs" />
+    <Compile Include="TileLayer.cs" />
+    <Compile Include="TileMap.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
