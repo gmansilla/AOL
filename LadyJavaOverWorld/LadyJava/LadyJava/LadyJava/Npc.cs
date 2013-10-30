@@ -14,8 +14,10 @@ namespace LadyJava
 {
     class Npc
     {
-        private Vector2 pos;
         Sprite sprite;
+
+        private Vector2 Position
+        { get { return sprite.Position; } }
 
         public Npc(Sprite newSprite)
         {
