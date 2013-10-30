@@ -43,7 +43,7 @@ namespace LadyJava
         protected override void LoadContent()
         {
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
-            Texture2D[] npcImage = { Content.Load<Texture2D>("Sprites\\NPI\\Sprites\\Amy") };
+            Texture2D[] npcImage = { Content.Load<Texture2D>("Sprites\\NPI\\Sprites\\NPC_Hugh") };
             
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -56,7 +56,7 @@ namespace LadyJava
                                            new AnimationInfo(Global.RIGHT, 32, 46, 4, 100),
                                            new AnimationInfo(Global.UP, 32, 46, 4, 100),};
             //    { { STILL, 1, 0 }, { DOWN, 4, 100 }, { LEFT, 4, 100 }, { RIGHT, 4, 100 }, { UP, 4, 100 } };
-            Sprite lady = new Sprite(image, new Vector2(0, 0), animations, 1.0f);
+            Sprite lady = new Sprite(image, new Vector2(100, 100), animations, 1.0f);
             ladyJ = new LadyJava(lady);
 
             //create a npc
@@ -77,17 +77,16 @@ namespace LadyJava
 
             // Allows the game to exit
             if (InputManager.IsKeyDown(Commands.Exit))
-                //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            ladyJ.Update(gameTime);
+            ladyJ.Update(gameTime, overworld.Width, overworld.Height);
             camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, overworld.Width, overworld.Height);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
 
@@ -95,7 +94,7 @@ namespace LadyJava
             #endregion
             overworld.Draw(spriteBatch);
             ladyJ.Draw(spriteBatch);
-            //npcAmy.Draw(spriteBatch);
+            npcAmy.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
