@@ -69,7 +69,7 @@ namespace LadyJava
 
         static public Command Frames = new Command(Keys.F, Buttons.Start);
 
-        static public Command Fire = new Command(Keys.Space, Buttons.RightTrigger);
+        static public Command Attack = new Command(Keys.Space, Buttons.RightTrigger);
         
         static public Command Execute = new Command(Keys.Space, Buttons.A);
         static public Command PauseGame = new Command(Keys.Enter, Buttons.Start);

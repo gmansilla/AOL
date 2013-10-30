@@ -37,7 +37,20 @@ namespace LadyJava
             sprite = newSprite;
         }
 
-        public void Update(GameTime gameTime)
+        Vector2 LockToLevel(int width, int height, Vector2 position, int levelW, int levelH)
+        {
+            if (position.X < 0)
+                position.X = 0;
+            if (position.Y < 0)
+                position.Y = 0;
+            if (position.X > levelW-width)
+                position.X = levelW - width;
+            if (position.Y > levelH - height)
+                position.Y = levelH - height;
+            return position;
+        }
+
+        public void Update(GameTime gameTime, int levelWidth, int levelHeight)
         {
             Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
@@ -80,7 +93,11 @@ namespace LadyJava
     
             position += motion * movement;
 
+            position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
+
             sprite.Update(gameTime, animation, position);
+
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
