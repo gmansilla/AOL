@@ -142,8 +142,45 @@
     <Folder Include="Sprites\NPI\HeadShot\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\NPI\Sprites\Amy.png">
-      <Name>Amy</Name>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Hugh.png">
+      <Name>NPC_Hugh</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Amy.png">
+      <Name>NPC_Amy</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Anna.png">
+      <Name>NPC_Anna</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Josh.png">
+      <Name>NPC_Josh</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_NEI.png">
+      <Name>NPC_NEI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Rolf.png">
+      <Name>NPC_Rolf</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Rudo.png">
+      <Name>NPC_Rudo</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Shir.png">
+      <Name>NPC_Shir</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

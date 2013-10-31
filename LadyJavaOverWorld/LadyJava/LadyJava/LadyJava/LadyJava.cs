@@ -10,10 +10,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using Engine;
+
 namespace LadyJava
 {
-    public enum Direction { Right = 2, Left = 1, Up = 3, Down = 0 }
-
     class LadyJava
     {
 
@@ -23,85 +23,87 @@ namespace LadyJava
         public Vector2 Origin
         { get { return sprite.Origin; } }
 
-        //private int skip;
-       
-        private Vector2 pos;
-        //private float y;
-        private Texture2D texture;
         private float movement = 2.4f;
-        
-        
+
+
         private Sprite sprite;
-       
 
-        int DOWN = 1, LEFT = 2, RIGHT = 3, UP = 4, STILL = 0;
-        int anim;
 
-        
+        string animation;
 
         public LadyJava(Sprite newSprite)
         {
-            anim = DOWN;
+            animation = Global.STILL;
             sprite = newSprite;
-            
-            
-            //skip = 0;
         }
 
-        public void Update(GameTime gameTime)
+        Vector2 LockToLevel(int width, int height, Vector2 position, int levelW, int levelH)
         {
+            if (position.X < 0)
+                position.X = 0;
+            if (position.Y < 0)
+                position.Y = 0;
+            if (position.X > levelW - width)
+                position.X = levelW - width;
+            if (position.Y > levelH - height)
+                position.Y = levelH - height;
+            return position;
+        }
 
+        public void Update(GameTime gameTime, int levelWidth, int levelHeight)
+        {
+            Vector2 motion = Vector2.Zero;
+            Vector2 position = sprite.Position;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (InputManager.IsKeyDown(Commands.Up))
+            //if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                
-                anim = UP;
-                pos.Y -= movement;
-                //skip++;
+
+                animation = Global.UP;
+                motion.Y--;//= movement;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (InputManager.IsKeyDown(Commands.Down))
+            //else if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-               
-                anim = DOWN;
-                pos.Y += movement;
-                //skip++;
+
+                animation = Global.DOWN;
+                motion.Y++;//= movement;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (InputManager.IsKeyDown(Commands.Right))
+            //else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                anim = RIGHT;
-                
-                pos.X += movement;
-                //skip++;
+                animation = Global.RIGHT;
+
+                motion.X++;//= movement;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (InputManager.IsKeyDown(Commands.Left))
+            //else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                anim = LEFT;
-               
-                pos.X -= movement;
-                //skip++;
+                animation = Global.LEFT;
+
+                motion.X--;//= movement;
+            }
+
+            if (motion == Vector2.Zero)
+            {
+                animation = Global.STILL;
             }
             else
-            {
-                anim = STILL;
-            }
+                motion.Normalize();
 
-            /*if (skip >= 5)
-            {
-                skip = 0;
-                currentFrame++;
-                if (currentFrame == columns)
-                {
-                    currentFrame = 0;
-                }
-            }
-            */
-            sprite.Update(gameTime, anim, pos);
+            position += motion * movement;
+
+            position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
+
+            sprite.Update(gameTime, animation, position);
+
+
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
-            
+
         }
 
     }

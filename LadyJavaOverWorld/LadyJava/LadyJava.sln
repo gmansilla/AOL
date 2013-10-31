@@ -3,20 +3,48 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LadyJava", "LadyJava\LadyJava\LadyJava.csproj", "{2E61F32B-DAF3-4E36-B120-A7152C37622A}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "LadyJavaContent", "LadyJava\LadyJavaContent\LadyJavaContent.contentproj", "{B01CC3DE-86FB-469A-AC2E-DF5761AAF4F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LadyJavaContent", "LadyJava\LadyJavaContent\LadyJavaContent.contentproj", "{B01CC3DE-86FB-469A-AC2E-DF5761AAF4F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TileMapEditor", "TileMapEditor\TileMapEditor.csproj", "{BE21D0C6-E559-4E6B-885B-AF8EA3AD09B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine\Engine.csproj", "{8FAB463D-044B-48F6-BE40-9F072CB08589}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "EngineContent", "Engine\EngineContent\EngineContent.contentproj", "{50906E4B-E2E2-44AB-8197-8585D80CF9E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E61F32B-DAF3-4E36-B120-A7152C37622A}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{2E61F32B-DAF3-4E36-B120-A7152C37622A}.Debug|x86.ActiveCfg = Debug|x86
 		{2E61F32B-DAF3-4E36-B120-A7152C37622A}.Debug|x86.Build.0 = Debug|x86
+		{2E61F32B-DAF3-4E36-B120-A7152C37622A}.Release|Any CPU.ActiveCfg = Release|x86
 		{2E61F32B-DAF3-4E36-B120-A7152C37622A}.Release|x86.ActiveCfg = Release|x86
 		{2E61F32B-DAF3-4E36-B120-A7152C37622A}.Release|x86.Build.0 = Release|x86
+		{B01CC3DE-86FB-469A-AC2E-DF5761AAF4F7}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B01CC3DE-86FB-469A-AC2E-DF5761AAF4F7}.Debug|x86.ActiveCfg = Debug|x86
+		{B01CC3DE-86FB-469A-AC2E-DF5761AAF4F7}.Release|Any CPU.ActiveCfg = Release|x86
 		{B01CC3DE-86FB-469A-AC2E-DF5761AAF4F7}.Release|x86.ActiveCfg = Release|x86
+		{BE21D0C6-E559-4E6B-885B-AF8EA3AD09B8}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BE21D0C6-E559-4E6B-885B-AF8EA3AD09B8}.Debug|x86.ActiveCfg = Debug|x86
+		{BE21D0C6-E559-4E6B-885B-AF8EA3AD09B8}.Debug|x86.Build.0 = Debug|x86
+		{BE21D0C6-E559-4E6B-885B-AF8EA3AD09B8}.Release|Any CPU.ActiveCfg = Release|x86
+		{BE21D0C6-E559-4E6B-885B-AF8EA3AD09B8}.Release|x86.ActiveCfg = Release|x86
+		{BE21D0C6-E559-4E6B-885B-AF8EA3AD09B8}.Release|x86.Build.0 = Release|x86
+		{8FAB463D-044B-48F6-BE40-9F072CB08589}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8FAB463D-044B-48F6-BE40-9F072CB08589}.Debug|x86.ActiveCfg = Debug|x86
+		{8FAB463D-044B-48F6-BE40-9F072CB08589}.Debug|x86.Build.0 = Debug|x86
+		{8FAB463D-044B-48F6-BE40-9F072CB08589}.Release|Any CPU.ActiveCfg = Release|x86
+		{8FAB463D-044B-48F6-BE40-9F072CB08589}.Release|x86.ActiveCfg = Release|x86
+		{8FAB463D-044B-48F6-BE40-9F072CB08589}.Release|x86.Build.0 = Release|x86
+		{50906E4B-E2E2-44AB-8197-8585D80CF9E7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{50906E4B-E2E2-44AB-8197-8585D80CF9E7}.Debug|x86.ActiveCfg = Debug|x86
+		{50906E4B-E2E2-44AB-8197-8585D80CF9E7}.Release|Any CPU.ActiveCfg = Release|x86
+		{50906E4B-E2E2-44AB-8197-8585D80CF9E7}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
