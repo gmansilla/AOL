@@ -100,8 +100,8 @@ namespace TileMapEditor
                         if(currentTextureIndex != -1)
                             currentLayer.SetCellIndex(cellX, cellY, currentTextureIndex);
 
-                        if (lstTextures.SelectedIndex != currentTextureIndex)
-                            currentTextureIndex = lstTextures.SelectedIndex;
+                        //if (lstTextures.SelectedIndex != currentTextureIndex)
+                        //    currentTextureIndex = lstTextures.SelectedIndex;
                     }
                     else if (rbErase.Checked)
                     {
@@ -199,8 +199,7 @@ namespace TileMapEditor
 
                 tileMap = new TileMap(filename, graphicsDevice);
 
-                for (int i = 1; i <= tileMap.Layers.Count; i++)
-                    lstLayers.Items.Add("layer" + i);
+                lstLayersUpdate();
 
                 UpdateCurrentLayerIndex(tileMap.Layers.Count - 1);
 
@@ -217,8 +216,11 @@ namespace TileMapEditor
                     }
 
                     Texture2D texture;
-                    using (FileStream fileStream = new FileStream(fullpath, FileMode.Open))
+                    using (FileStream fileStream = new FileStream(fullpath, FileMode.Open, FileAccess.Read))
+                    {
                         texture = Texture2D.FromStream(graphicsDevice, fileStream);
+                        fileStream.Close();
+                    }
                     Image image = Image.FromFile(fullpath);
 
                     textureList.Add(textureName, texture);
@@ -240,6 +242,13 @@ namespace TileMapEditor
                     vsTileMap.Maximum = tileMap.Height;
                 }
             } 
+        }
+
+        private void lstLayersUpdate()
+        {
+            lstLayers.Items.Clear();
+            for (int i = 1; i <= tileMap.Layers.Count; i++)
+                lstLayers.Items.Add("layer" + i);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -282,17 +291,24 @@ namespace TileMapEditor
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            currentTextureIndex = -1;
+            //currentTextureIndex = -1;
         }
 
         private void cmdAddLayer_Click(object sender, EventArgs e)
         {
-
+            //if (currentLayerIndex != -1)
+            tileMap.AddLayer();
+            lstLayersUpdate();
         }
 
         private void cmdRemoveLayer_Click(object sender, EventArgs e)
         {
-
+            if (currentLayerIndex != -1)
+            {
+                tileMap.RemoveLayer(currentLayerIndex);
+                lstLayersUpdate();
+                currentLayerIndex = lstLayers.Items.Count - 1;
+            }
         }
 
     }

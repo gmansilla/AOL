@@ -38,6 +38,18 @@ namespace Engine
             //height = tileLayer.GetLength(0);
         }
 
+        public TileLayer(int Width, int Height, int newTileWidth, int newTileHeight)
+        {
+            tileLayer = new int[Height, Width];
+
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
+                    SetCellIndex(x,y,-1);
+
+            tileWidth = newTileWidth;
+            tileHeight = newTileHeight;
+        }
+
         public int GetCellIndex(int x, int y)
         {
             return tileLayer[y, x];

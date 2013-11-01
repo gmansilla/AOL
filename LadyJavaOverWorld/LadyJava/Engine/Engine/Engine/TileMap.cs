@@ -86,9 +86,22 @@ namespace Engine
                     break;
                 }
 
-            using (FileStream fileStream = new FileStream(newTexturePath, FileMode.Open))
+            using (FileStream fileStream = new FileStream(newTexturePath, FileMode.Open, FileAccess.Read))
+            {
                 newTexture = Texture2D.FromStream(graphicsDevice, fileStream);
+                fileStream.Close();
+            }
             tileTextures.Add(newTexture);
+        }
+
+        public void AddLayer()
+        {
+            tileMap.Add(new TileLayer(Width, Height,  TileWidth, TileHeight));
+        }
+
+        public void RemoveLayer(int removeIndex)
+        {
+            tileMap.RemoveAt(removeIndex);
         }
 
         private void Load(String fileLocation, ContentManager gameContent)
