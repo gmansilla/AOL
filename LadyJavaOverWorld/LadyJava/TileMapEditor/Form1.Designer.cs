@@ -32,7 +32,7 @@
             this.vsTileMap = new System.Windows.Forms.VScrollBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newTIleMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newTileMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,13 +44,15 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.rbDraw = new System.Windows.Forms.RadioButton();
             this.rbErase = new System.Windows.Forms.RadioButton();
-            this.lstLayers = new System.Windows.Forms.ListBox();
             this.cmdAddLayer = new System.Windows.Forms.Button();
             this.cmdRemoveLayer = new System.Windows.Forms.Button();
-            this.lstTextures = new System.Windows.Forms.ListBox();
             this.cmdAddTexture = new System.Windows.Forms.Button();
             this.cmdRemoveTexture = new System.Windows.Forms.Button();
             this.picPreview = new System.Windows.Forms.PictureBox();
+            this.chkFill = new System.Windows.Forms.CheckBox();
+            this.lstLayers = new System.Windows.Forms.ListBox();
+            this.lstTextures = new System.Windows.Forms.ListBox();
+            this.tileDisplay2 = new TileMapEditor.TileDisplay();
             this.tileDisplay1 = new TileMapEditor.TileDisplay();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
@@ -78,14 +80,14 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(930, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1181, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newTIleMapToolStripMenuItem,
+            this.newTileMapToolStripMenuItem,
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
@@ -95,12 +97,12 @@
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
-            // newTIleMapToolStripMenuItem
+            // newTileMapToolStripMenuItem
             // 
-            this.newTIleMapToolStripMenuItem.Name = "newTIleMapToolStripMenuItem";
-            this.newTIleMapToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-            this.newTIleMapToolStripMenuItem.Text = "New TIle Map";
-            this.newTIleMapToolStripMenuItem.Click += new System.EventHandler(this.newTIleMapToolStripMenuItem_Click);
+            this.newTileMapToolStripMenuItem.Name = "newTileMapToolStripMenuItem";
+            this.newTileMapToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.newTileMapToolStripMenuItem.Text = "New Tile Map";
+            this.newTileMapToolStripMenuItem.Click += new System.EventHandler(this.newTileMapToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
@@ -175,15 +177,6 @@
             this.rbErase.Text = "Erase";
             this.rbErase.UseVisualStyleBackColor = true;
             // 
-            // lstLayers
-            // 
-            this.lstLayers.FormattingEnabled = true;
-            this.lstLayers.Location = new System.Drawing.Point(720, 87);
-            this.lstLayers.Name = "lstLayers";
-            this.lstLayers.Size = new System.Drawing.Size(200, 121);
-            this.lstLayers.TabIndex = 7;
-            this.lstLayers.SelectedIndexChanged += new System.EventHandler(this.lstLayers_SelectedIndexChanged);
-            // 
             // cmdAddLayer
             // 
             this.cmdAddLayer.Location = new System.Drawing.Point(720, 214);
@@ -204,57 +197,88 @@
             this.cmdRemoveLayer.UseVisualStyleBackColor = true;
             this.cmdRemoveLayer.Click += new System.EventHandler(this.cmdRemoveLayer_Click);
             // 
-            // lstTextures
-            // 
-            this.lstTextures.FormattingEnabled = true;
-            this.lstTextures.Location = new System.Drawing.Point(720, 243);
-            this.lstTextures.Name = "lstTextures";
-            this.lstTextures.Size = new System.Drawing.Size(200, 121);
-            this.lstTextures.TabIndex = 7;
-            this.lstTextures.SelectedIndexChanged += new System.EventHandler(this.lstTextures_SelectedIndexChanged);
-            // 
             // cmdAddTexture
             // 
-            this.cmdAddTexture.Location = new System.Drawing.Point(720, 370);
+            this.cmdAddTexture.Location = new System.Drawing.Point(938, 214);
             this.cmdAddTexture.Name = "cmdAddTexture";
             this.cmdAddTexture.Size = new System.Drawing.Size(99, 23);
             this.cmdAddTexture.TabIndex = 8;
             this.cmdAddTexture.Text = "Add";
             this.cmdAddTexture.UseVisualStyleBackColor = true;
+            this.cmdAddTexture.Click += new System.EventHandler(this.cmdAddTexture_Click);
             // 
             // cmdRemoveTexture
             // 
-            this.cmdRemoveTexture.Location = new System.Drawing.Point(821, 370);
+            this.cmdRemoveTexture.Location = new System.Drawing.Point(1039, 214);
             this.cmdRemoveTexture.Name = "cmdRemoveTexture";
             this.cmdRemoveTexture.Size = new System.Drawing.Size(99, 23);
             this.cmdRemoveTexture.TabIndex = 9;
             this.cmdRemoveTexture.Text = "Remove";
             this.cmdRemoveTexture.UseVisualStyleBackColor = true;
+            this.cmdRemoveTexture.Click += new System.EventHandler(this.cmdRemoveTexture_Click);
             // 
             // picPreview
             // 
             this.picPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPreview.Location = new System.Drawing.Point(720, 399);
+            this.picPreview.Location = new System.Drawing.Point(720, 243);
             this.picPreview.Name = "picPreview";
             this.picPreview.Size = new System.Drawing.Size(200, 200);
             this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPreview.TabIndex = 10;
             this.picPreview.TabStop = false;
             // 
+            // chkFill
+            // 
+            this.chkFill.AutoSize = true;
+            this.chkFill.Location = new System.Drawing.Point(834, 65);
+            this.chkFill.Name = "chkFill";
+            this.chkFill.Size = new System.Drawing.Size(38, 17);
+            this.chkFill.TabIndex = 12;
+            this.chkFill.Text = "Fill";
+            this.chkFill.UseVisualStyleBackColor = true;
+            // 
+            // lstLayers
+            // 
+            this.lstLayers.FormattingEnabled = true;
+            this.lstLayers.Location = new System.Drawing.Point(720, 87);
+            this.lstLayers.Name = "lstLayers";
+            this.lstLayers.Size = new System.Drawing.Size(200, 121);
+            this.lstLayers.TabIndex = 7;
+            this.lstLayers.SelectedIndexChanged += new System.EventHandler(this.lstLayers_SelectedIndexChanged);
+            // 
+            // lstTextures
+            // 
+            this.lstTextures.FormattingEnabled = true;
+            this.lstTextures.Location = new System.Drawing.Point(938, 87);
+            this.lstTextures.Name = "lstTextures";
+            this.lstTextures.Size = new System.Drawing.Size(200, 121);
+            this.lstTextures.TabIndex = 7;
+            this.lstTextures.SelectedIndexChanged += new System.EventHandler(this.lstTextures_SelectedIndexChanged);
+            // 
+            // tileDisplay2
+            // 
+            this.tileDisplay2.Location = new System.Drawing.Point(720, 449);
+            this.tileDisplay2.Name = "tileDisplay2";
+            this.tileDisplay2.Size = new System.Drawing.Size(317, 173);
+            this.tileDisplay2.TabIndex = 13;
+            this.tileDisplay2.Text = "tileDisplay2";
+            // 
             // tileDisplay1
             // 
-            this.tileDisplay1.Location = new System.Drawing.Point(13, 24);
+            this.tileDisplay1.Location = new System.Drawing.Point(12, 27);
             this.tileDisplay1.Name = "tileDisplay1";
-            this.tileDisplay1.Size = new System.Drawing.Size(683, 575);
-            this.tileDisplay1.TabIndex = 11;
-            this.tileDisplay1.Text = "tileDisplay2";
+            this.tileDisplay1.Size = new System.Drawing.Size(684, 575);
+            this.tileDisplay1.TabIndex = 13;
+            this.tileDisplay1.Text = "tileDisplay1";
             // 
             // frmTileMapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(930, 634);
+            this.ClientSize = new System.Drawing.Size(1181, 634);
             this.Controls.Add(this.tileDisplay1);
+            this.Controls.Add(this.tileDisplay2);
+            this.Controls.Add(this.chkFill);
             this.Controls.Add(this.picPreview);
             this.Controls.Add(this.cmdRemoveTexture);
             this.Controls.Add(this.cmdRemoveLayer);
@@ -288,7 +312,7 @@
         private System.Windows.Forms.VScrollBar vsTileMap;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newTIleMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newTileMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
@@ -300,13 +324,15 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.RadioButton rbDraw;
         private System.Windows.Forms.RadioButton rbErase;
-        private System.Windows.Forms.ListBox lstLayers;
         private System.Windows.Forms.Button cmdAddLayer;
         private System.Windows.Forms.Button cmdRemoveLayer;
-        private System.Windows.Forms.ListBox lstTextures;
         private System.Windows.Forms.Button cmdAddTexture;
         private System.Windows.Forms.Button cmdRemoveTexture;
         private System.Windows.Forms.PictureBox picPreview;
+        private System.Windows.Forms.CheckBox chkFill;
+        private System.Windows.Forms.ListBox lstLayers;
+        private System.Windows.Forms.ListBox lstTextures;
+        private TileDisplay tileDisplay2;
         private TileDisplay tileDisplay1;
     }
 }

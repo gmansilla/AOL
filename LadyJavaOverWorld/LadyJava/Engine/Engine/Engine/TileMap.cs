@@ -55,6 +55,12 @@ namespace Engine
             Load(titleMapLocation, graphicsDevice);
         }
 
+        public TileMap(int newWidth, int newHeight, int newTileWidth, int newTileHeight)
+        {
+            tileMap = new List<TileLayer>();
+            tileMap.Add(new TileLayer(newWidth, newHeight, newTileWidth, newTileHeight));
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (TileLayer layer in tileMap)
@@ -64,6 +70,7 @@ namespace Engine
         public void AddTexture(string newTexturePath, ContentManager gameContent)
         {
             tileTextures.Add(gameContent.Load<Texture2D>(newTexturePath));
+            textureNames.Add(newTexturePath);
         }
 
         public int GetCellIndex(int layerIndex, int x, int y)
@@ -76,7 +83,7 @@ namespace Engine
             Layers[layerIndex].SetCellIndex(x, y, cellIndex);
         }
         
-        public void AddTexture(string newTexturePath, GraphicsDevice graphicsDevice)
+        public Texture2D AddTexture(string newTexturePath, string newTextureName, GraphicsDevice graphicsDevice)
         {
             Texture2D newTexture;
             foreach (string extension in imageExtensions)
@@ -92,6 +99,23 @@ namespace Engine
                 fileStream.Close();
             }
             tileTextures.Add(newTexture);
+            textureNames.Add(newTextureName);
+
+            return newTexture;
+        }
+
+        public void RemoveTexture(int removeIndex)
+        {
+            tileTextures.RemoveAt(removeIndex);
+            textureNames.RemoveAt(removeIndex);
+
+            for(int z = 0; z < Layers.Count; z++)
+                for (int y = 0; y < Height; y++)
+                    for (int x = 0; x < Width; x++)
+                        if (GetCellIndex(z, x, y) == removeIndex)
+                            SetCellIndex(z, x, y, -1);
+                        else if (GetCellIndex(z, x, y) > removeIndex)
+                            SetCellIndex(z, x, y, GetCellIndex(z, x, y) - 1);
         }
 
         public void AddLayer()
@@ -277,9 +301,8 @@ namespace Engine
                             if (line[y].Trim() != "")
                             {
                                 string textureName = line[y].Trim();
-                                textureNames.Add(textureName);
 
-                                AddTexture(@"..\..\..\LadyJava\LadyJavaContent\" + textureName, graphicsDevice);
+                                AddTexture(@"..\..\..\LadyJava\LadyJavaContent\" + textureName, textureName, graphicsDevice);
                                 /*
                                 string textureFile = @"..\..\..\LadyJava\LadyJavaContent\" + textureName;
                                 foreach (string extension in imageExtensions)

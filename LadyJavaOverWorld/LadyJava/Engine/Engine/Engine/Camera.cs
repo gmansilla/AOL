@@ -60,7 +60,7 @@ namespace Engine
             position.X = scrollbarPosition.X;
             position.Y = scrollbarPosition.Y;
 
-            LockToLevel(levelWidth, levelHeight);
+            //LockToLevel(levelWidth, levelHeight);
 
             //collisionBox.Update(position, origin);
         }
@@ -68,14 +68,15 @@ namespace Engine
 
         void LockToLevel(int width, int height)
         {
-            if (position.X < 0)
-                position.X = 0;
-            if (position.Y < 0)
-                position.Y = 0;
             if (position.X > width - screenWidth)
                 position.X = width - screenWidth;
             if (position.Y > height - screenHeight)
                 position.Y = height - screenHeight;
+
+            if (position.X < 0)
+                position.X = 0;
+            if (position.Y < 0)
+                position.Y = 0;
         }
 
 
