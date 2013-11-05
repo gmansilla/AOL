@@ -34,6 +34,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newTileMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,8 +53,13 @@
             this.chkFill = new System.Windows.Forms.CheckBox();
             this.lstLayers = new System.Windows.Forms.ListBox();
             this.lstTextures = new System.Windows.Forms.ListBox();
-            this.tileDisplay2 = new TileMapEditor.TileDisplay();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtResizeW = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtResizeH = new System.Windows.Forms.TextBox();
+            this.cmdApplyResize = new System.Windows.Forms.Button();
             this.tileDisplay1 = new TileMapEditor.TileDisplay();
+            this.tileDisplay2 = new TileMapEditor.TileDisplay();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
             this.SuspendLayout();
@@ -89,6 +95,7 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newTileMapToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.resizeToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.exitToolStripMenuItem});
@@ -110,6 +117,13 @@
             this.openToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // resizeToolStripMenuItem
+            // 
+            this.resizeToolStripMenuItem.Name = "resizeToolStripMenuItem";
+            this.resizeToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.resizeToolStripMenuItem.Text = "Resize";
+            this.resizeToolStripMenuItem.Click += new System.EventHandler(this.resizeToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -179,7 +193,7 @@
             // 
             // cmdAddLayer
             // 
-            this.cmdAddLayer.Location = new System.Drawing.Point(720, 214);
+            this.cmdAddLayer.Location = new System.Drawing.Point(720, 299);
             this.cmdAddLayer.Name = "cmdAddLayer";
             this.cmdAddLayer.Size = new System.Drawing.Size(99, 23);
             this.cmdAddLayer.TabIndex = 8;
@@ -189,7 +203,7 @@
             // 
             // cmdRemoveLayer
             // 
-            this.cmdRemoveLayer.Location = new System.Drawing.Point(821, 214);
+            this.cmdRemoveLayer.Location = new System.Drawing.Point(821, 299);
             this.cmdRemoveLayer.Name = "cmdRemoveLayer";
             this.cmdRemoveLayer.Size = new System.Drawing.Size(99, 23);
             this.cmdRemoveLayer.TabIndex = 9;
@@ -199,7 +213,7 @@
             // 
             // cmdAddTexture
             // 
-            this.cmdAddTexture.Location = new System.Drawing.Point(938, 214);
+            this.cmdAddTexture.Location = new System.Drawing.Point(720, 565);
             this.cmdAddTexture.Name = "cmdAddTexture";
             this.cmdAddTexture.Size = new System.Drawing.Size(99, 23);
             this.cmdAddTexture.TabIndex = 8;
@@ -209,7 +223,7 @@
             // 
             // cmdRemoveTexture
             // 
-            this.cmdRemoveTexture.Location = new System.Drawing.Point(1039, 214);
+            this.cmdRemoveTexture.Location = new System.Drawing.Point(821, 565);
             this.cmdRemoveTexture.Name = "cmdRemoveTexture";
             this.cmdRemoveTexture.Size = new System.Drawing.Size(99, 23);
             this.cmdRemoveTexture.TabIndex = 9;
@@ -220,9 +234,9 @@
             // picPreview
             // 
             this.picPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPreview.Location = new System.Drawing.Point(720, 243);
+            this.picPreview.Location = new System.Drawing.Point(934, 336);
             this.picPreview.Name = "picPreview";
-            this.picPreview.Size = new System.Drawing.Size(200, 200);
+            this.picPreview.Size = new System.Drawing.Size(235, 235);
             this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPreview.TabIndex = 10;
             this.picPreview.TabStop = false;
@@ -242,26 +256,60 @@
             this.lstLayers.FormattingEnabled = true;
             this.lstLayers.Location = new System.Drawing.Point(720, 87);
             this.lstLayers.Name = "lstLayers";
-            this.lstLayers.Size = new System.Drawing.Size(200, 121);
+            this.lstLayers.Size = new System.Drawing.Size(200, 199);
             this.lstLayers.TabIndex = 7;
             this.lstLayers.SelectedIndexChanged += new System.EventHandler(this.lstLayers_SelectedIndexChanged);
             // 
             // lstTextures
             // 
             this.lstTextures.FormattingEnabled = true;
-            this.lstTextures.Location = new System.Drawing.Point(938, 87);
+            this.lstTextures.Location = new System.Drawing.Point(720, 336);
             this.lstTextures.Name = "lstTextures";
-            this.lstTextures.Size = new System.Drawing.Size(200, 121);
+            this.lstTextures.Size = new System.Drawing.Size(200, 199);
             this.lstTextures.TabIndex = 7;
             this.lstTextures.SelectedIndexChanged += new System.EventHandler(this.lstTextures_SelectedIndexChanged);
             // 
-            // tileDisplay2
+            // label1
             // 
-            this.tileDisplay2.Location = new System.Drawing.Point(720, 449);
-            this.tileDisplay2.Name = "tileDisplay2";
-            this.tileDisplay2.Size = new System.Drawing.Size(317, 173);
-            this.tileDisplay2.TabIndex = 13;
-            this.tileDisplay2.Text = "tileDisplay2";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(720, 542);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(21, 13);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "W:";
+            // 
+            // txtResizeW
+            // 
+            this.txtResizeW.Location = new System.Drawing.Point(747, 539);
+            this.txtResizeW.Name = "txtResizeW";
+            this.txtResizeW.Size = new System.Drawing.Size(35, 20);
+            this.txtResizeW.TabIndex = 15;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(785, 542);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(18, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "H:";
+            // 
+            // txtResizeH
+            // 
+            this.txtResizeH.Location = new System.Drawing.Point(809, 539);
+            this.txtResizeH.Name = "txtResizeH";
+            this.txtResizeH.Size = new System.Drawing.Size(35, 20);
+            this.txtResizeH.TabIndex = 15;
+            // 
+            // cmdApplyResize
+            // 
+            this.cmdApplyResize.Location = new System.Drawing.Point(851, 539);
+            this.cmdApplyResize.Name = "cmdApplyResize";
+            this.cmdApplyResize.Size = new System.Drawing.Size(69, 23);
+            this.cmdApplyResize.TabIndex = 16;
+            this.cmdApplyResize.Text = "Apply";
+            this.cmdApplyResize.UseVisualStyleBackColor = true;
+            this.cmdApplyResize.Click += new System.EventHandler(this.cmdApplyResize_Click);
             // 
             // tileDisplay1
             // 
@@ -271,11 +319,24 @@
             this.tileDisplay1.TabIndex = 13;
             this.tileDisplay1.Text = "tileDisplay1";
             // 
+            // tileDisplay2
+            // 
+            this.tileDisplay2.Location = new System.Drawing.Point(934, 87);
+            this.tileDisplay2.Name = "tileDisplay2";
+            this.tileDisplay2.Size = new System.Drawing.Size(235, 235);
+            this.tileDisplay2.TabIndex = 13;
+            this.tileDisplay2.Text = "tileDisplay2";
+            // 
             // frmTileMapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1181, 634);
+            this.Controls.Add(this.cmdApplyResize);
+            this.Controls.Add(this.txtResizeH);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.txtResizeW);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.tileDisplay1);
             this.Controls.Add(this.tileDisplay2);
             this.Controls.Add(this.chkFill);
@@ -334,5 +395,11 @@
         private System.Windows.Forms.ListBox lstTextures;
         private TileDisplay tileDisplay2;
         private TileDisplay tileDisplay1;
+        private System.Windows.Forms.ToolStripMenuItem resizeToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtResizeW;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtResizeH;
+        private System.Windows.Forms.Button cmdApplyResize;
     }
 }

@@ -44,7 +44,7 @@ namespace Engine
 
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
-                    SetCellIndex(x,y,-1);
+                    SetCellIndex(x, y, -1);
 
             tileWidth = newTileWidth;
             tileHeight = newTileHeight;
@@ -60,7 +60,7 @@ namespace Engine
             tileLayer[y, x] = cellIndex;
         }
 
-        public void Draw(SpriteBatch spriteBatch, List<Texture2D> tileTexture)
+        public void Draw(SpriteBatch spriteBatch, List<Tile> tiles)
         {
             for (int y = 0; y < Height; y++)
             {
@@ -69,10 +69,10 @@ namespace Engine
                     int textureIndex = tileLayer[y, x];
                     if (textureIndex != -1)
                     {
-                        spriteBatch.Draw(tileTexture[textureIndex], new Rectangle(
+                        spriteBatch.Draw(tiles[textureIndex].Image, new Rectangle(
                         x * tileWidth,
                         y * tileHeight,
-                        tileWidth, tileHeight), Color.White);
+                        tiles[textureIndex].Width, tiles[textureIndex].Height), Color.White);
                     }
                 }
             }

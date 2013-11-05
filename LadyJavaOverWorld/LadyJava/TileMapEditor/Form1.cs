@@ -20,9 +20,12 @@ namespace TileMapEditor
 
         int fillCount = 0;
 
+        int storedTextureIndex = -1;
+
         string[] imageExtensions = new string[] { ".jpg", ".png", ".tga" };
         
         Camera camera;
+        Camera previewCamera;
         TileMap tileMap;
         SpriteBatch spriteBatch;
         Texture2D cursor;
@@ -55,21 +58,24 @@ namespace TileMapEditor
             InitializeComponent();
             this.CenterToScreen();
 
-            tileDisplay1.OnInitializeAdd(new EventHandler(tdTileMap_OnInitialize));
-            tileDisplay1.OnDrawAdd(new EventHandler(tdTileMap_OnDraw));
-            
+            tileDisplay2.OnInitializeAdd(new EventHandler(tileDisplay2_OnInitialize));
+            tileDisplay2.OnDrawAdd(new EventHandler(tileDisplay2_OnDraw));
+
+            tileDisplay1.OnInitializeAdd(new EventHandler(tileDisplay1_OnInitialize));
+            tileDisplay1.OnDrawAdd(new EventHandler(tileDisplay1_OnDraw));
+
             saveFileDialog1.Filter = "Tile Map FIle|*.map";
             saveFileDialog1.FileName = "*.map";
 
             Mouse.WindowHandle = tileDisplay1.Handle;
-            Application.Idle += delegate { tileDisplay1.Invalidate(); };
+            Application.Idle += delegate { tileDisplay1.Invalidate(); tileDisplay2.Invalidate(); };
         }
 
         private void frmTileMapEditor_Load(object sender, EventArgs e)
         {
         }
 
-        void tdTileMap_OnInitialize(object sender, EventArgs e)
+        void tileDisplay1_OnInitialize(object sender, EventArgs e)
         {
             spriteBatch = new SpriteBatch(graphicsDevice);
             camera = new Camera(tileDisplay1.Width, tileDisplay1.Height);
@@ -86,7 +92,7 @@ namespace TileMapEditor
             }
         }
 
-        void tdTileMap_OnDraw(object sender, EventArgs e)
+        void tileDisplay1_OnDraw(object sender, EventArgs e)
         {
             if (tileMap != null)
             {
@@ -95,6 +101,23 @@ namespace TileMapEditor
 
             }
         }
+
+        void tileDisplay2_OnInitialize(object sender, EventArgs e)
+        {
+            //spriteBatch = new SpriteBatch(graphicsDevice);
+            previewCamera = new Camera(tileDisplay1.Width, tileDisplay1.Height);
+        }
+
+        void tileDisplay2_OnDraw(object sender, EventArgs e)
+        {
+            if (tileMap != null)
+            {
+                LogicPreview();
+                RenderPreview();
+
+            }
+        }
+
 
         public void FillCell(int layerIndex, int x, int y, int newIndex)
         {
@@ -148,7 +171,7 @@ namespace TileMapEditor
 
         private void Logic()
         {
-            camera.Update(new Vector2(hsTileMap.Value * tileMap.TileWidth, vsTileMap.Value * tileMap.TileHeight), tileMap.PixelWidth, tileMap.PixelHeight);
+            camera.Update(new Vector2(hsTileMap.Value * tileMap.TileWidth, vsTileMap.Value * tileMap.TileHeight));
 
             int mx = Mouse.GetState().X;
             int my = Mouse.GetState().Y;
@@ -166,7 +189,9 @@ namespace TileMapEditor
                     if (rbDraw.Checked)
                     {
                         if (currentTextureIndex != -1 && currentLayerIndex != -1)
-                            if (!chkFill.Checked)
+                            if (currentLayerIndex == tileMap.Layers.Count)
+                                tileMap.CollisionLayer.SetCellIndex(cellX, cellY, -1);
+                            else if (!chkFill.Checked)
                                 tileMap.SetCellIndex(currentLayerIndex, cellX, cellY, currentTextureIndex);
                             else
                             {
@@ -175,8 +200,10 @@ namespace TileMapEditor
                     }
                     else if (rbErase.Checked)
                     {
-                        if (currentLayerIndex != -1)
-                            if (!chkFill.Checked)
+                        if (currentLayerIndex != -1 && currentTextureIndex != -1)
+                            if (currentLayerIndex == tileMap.Layers.Count)
+                                tileMap.CollisionLayer.SetCellIndex(cellX, cellY, 0);
+                            else if (!chkFill.Checked)
                                 tileMap.SetCellIndex(currentLayerIndex, cellX, cellY, -1);
                             else
                             {
@@ -192,6 +219,12 @@ namespace TileMapEditor
             }
         }
 
+        private void LogicPreview()
+        {
+            float scale = tileDisplay2.Width / (float)tileMap.PixelWidth;
+            previewCamera.Update(Vector2.Zero, scale);
+        }
+
         private void Render()
         {
             graphicsDevice.Clear(Color.Black);
@@ -199,19 +232,33 @@ namespace TileMapEditor
 
             if (currentLayerIndex != -1)
             {
+                int drawTo = currentLayerIndex;
+                if (currentLayerIndex == lstLayers.Items.Count - 1)
+                    drawTo = currentLayerIndex - 1;
+
                 //Draw all layers up to the selected one
-                for (int i = 0; i < currentLayerIndex + 1; i++)
-                    tileMap.Layers[i].Draw(spriteBatch, tileMap.TileTextures);
+                for (int i = 0; i <= drawTo; i++)
+                    tileMap.Layers[i].Draw(spriteBatch, tileMap.Tiles);
 
                 //Draw empty cells
-                for (int y = 0; y < tileMap.Layers[currentLayerIndex].Height; y++)
-                    for (int x = 0; x < tileMap.Layers[currentLayerIndex].Height; x++)
-                        if (tileMap.GetCellIndex(currentLayerIndex, x, y) == -1)
+                for (int x = 0; x < tileMap.Layers[drawTo].Height; x++)
+                    for (int y = 0; y < tileMap.Layers[drawTo].Width; y++)
+                        if (tileMap.GetCellIndex(drawTo, x, y) == -1)
                             spriteBatch.Draw(emptyTile,
                                              new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
-                                                           tileMap.TileWidth, tileMap.TileHeight),
+                                                           tileMap.TileWidth, 
+                                                           tileMap.TileHeight),
                                              Color.White);
 
+                if(drawTo != currentLayerIndex)
+                    for (int x = 0; x < tileMap.CollisionLayer.Height; x++)
+                        for (int y = 0; y < tileMap.CollisionLayer.Width; y++)
+                            if (tileMap.CollisionLayer.GetCellIndex(x, y) == -1)
+                                spriteBatch.Draw(emptyTile,
+                                                 new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
+                                                               tileMap.TileWidth,
+                                                               tileMap.TileHeight),
+                                                 Color.Red);
 
             }
 
@@ -221,6 +268,30 @@ namespace TileMapEditor
                                     new Rectangle(cellX * tileMap.TileWidth, cellY * tileMap.TileWidth,
                                                 tileMap.TileWidth, tileMap.TileHeight),
                                     Color.Blue);
+            }
+
+            spriteBatch.End();
+        }
+
+        private void RenderPreview()
+        {
+            graphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, previewCamera.TransformMatrix);
+
+            if (currentLayerIndex != -1)
+            {
+                //Draw all layers up to the selected one
+                for (int i = 0; i < tileMap.Layers.Count; i++)
+                    tileMap.Layers[i].Draw(spriteBatch, tileMap.Tiles);
+
+                for (int x = 0; x < tileMap.CollisionLayer.Height; x++)
+                    for (int y = 0; y < tileMap.CollisionLayer.Width; y++)
+                        if (tileMap.CollisionLayer.GetCellIndex(x, y) == -1)
+                            spriteBatch.Draw(emptyTile,
+                                             new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
+                                                           tileMap.TileWidth,
+                                                           tileMap.TileHeight),
+                                             Color.Red);
             }
 
             spriteBatch.End();
@@ -298,9 +369,14 @@ namespace TileMapEditor
                     previewList.Add(textureName, image);
                     lstTextures.Items.Add(textureName);
                 }
-
+                if(lstTextures.Items.Count > 1)
+                    currentTextureIndex = 0;
+                
                 UpdateScrollbars();
-            } 
+            }
+
+            if (storedTextureIndex != -1)
+                currentTextureIndex = storedTextureIndex;
         }
 
         private void UpdateScrollbars()
@@ -313,7 +389,7 @@ namespace TileMapEditor
             vsTileMap.Visible = false;
             vsTileMap.Value = 0;
             vsTileMap.Minimum = 0;
-            vsTileMap.Maximum = tileMap.Height - 1;
+            vsTileMap.Maximum = tileMap.Height;
 
             if (tileMap.PixelWidth > tileDisplay1.Width)
             {
@@ -330,12 +406,14 @@ namespace TileMapEditor
         {
             lstLayers.Items.Clear();
             lstLayersADD(amount);
+
         }
 
         private void lstLayersADD(int amount)
         {
             for (int i = 1; i <= amount; i++)
                 lstLayers.Items.Add("layer" + i);
+            lstLayers.Items.Add("collisionLayer");
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -347,7 +425,11 @@ namespace TileMapEditor
                 {
                     tileMap.Save(saveFileDialog1.FileName);
                 }
+
+                if (storedTextureIndex != -1)
+                    currentTextureIndex = storedTextureIndex;
             }
+
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -365,6 +447,8 @@ namespace TileMapEditor
             if (lstTextures.SelectedItem != null)
             {
                 picPreview.Image = previewList[lstTextures.SelectedItem.ToString()];
+                txtResizeW.Text = tileMap.Tiles[currentTextureIndex].Width.ToString();
+                txtResizeH.Text = tileMap.Tiles[currentTextureIndex].Height.ToString();
                 //currentTextureIndex = lstTextures.SelectedIndex;
                 //tempTextureIndex = currentTextureIndex;
             }
@@ -378,7 +462,8 @@ namespace TileMapEditor
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //currentTextureIndex = -1;
+            storedTextureIndex = currentTextureIndex;
+            currentTextureIndex = -1;
         }
 
         private void cmdAddLayer_Click(object sender, EventArgs e)
@@ -446,5 +531,46 @@ namespace TileMapEditor
             }
         }
 
+        private void resizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tileMap != null)
+            {
+                frmNewTileMap form = new frmNewTileMap();
+
+                form.Text = "Resize Tile Map";
+                form.txtWidth.Text = tileMap.Width.ToString();
+                form.txtHeight.Text = tileMap.Height.ToString();
+                form.txtTileWidth.Text = tileMap.TileWidth.ToString();
+                form.txtTileHeight.Text = tileMap.TileHeight.ToString();
+
+                form.ShowDialog();
+                if (form.OKPressed)
+                {
+                    int width = int.Parse(form.txtWidth.Text);
+                    int height = int.Parse(form.txtHeight.Text);
+                    int tileWidth = int.Parse(form.txtTileWidth.Text);
+                    int tileHeight = int.Parse(form.txtTileHeight.Text);
+
+                    tileMap.Resize(width, height, tileWidth, tileHeight);
+                    //currentLayerIndex = 0;
+                    //lstLayersUpdate(tileMap.Layers.Count);
+                    //currentLayerIndex = tileMap.Layers.Count - 1;
+                    //lstLayers.SelectedIndex = tileMap.Layers.Count - 1;
+                    //currentTextureIndex = -1;
+
+                    UpdateScrollbars();
+                }
+
+                if (storedTextureIndex != -1)
+                    currentTextureIndex = storedTextureIndex;
+            }
+        }
+
+        private void cmdApplyResize_Click(object sender, EventArgs e)
+        {
+            tileMap.Tiles[currentTextureIndex].Resize(int.Parse(txtResizeW.Text), int.Parse(txtResizeH.Text));
+        }
+
+       
     }
 }

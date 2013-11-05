@@ -15,14 +15,19 @@ namespace Engine
         string[] imageExtensions = new string[] { ".jpg", ".png", ".tga" };
 
         List<TileLayer> tileMap;
-        List<Texture2D> tileTextures = new List<Texture2D>();
+        List<Tile> tiles = new List<Tile>();
         List<string> textureNames = new List<String>();
+
+        CollisionLayer collisionLayer;
+
+        public CollisionLayer CollisionLayer
+        { get { return collisionLayer; } }
 
         public List<TileLayer> Layers
         { get { return tileMap; } }
 
-        public List<Texture2D> TileTextures
-        { get { return tileTextures; } }
+        public List<Tile> Tiles
+        { get { return tiles; } }
 
         public List<string> TextureNames
         { get { return textureNames; } }
@@ -43,15 +48,18 @@ namespace Engine
         { get { return tileMap[0].Height; } }
 
 
-        public TileMap(string titleMapLocation, ContentManager gameContent)
+        TileMap()
         {
             tileMap = new List<TileLayer>();
+        }
+
+        public TileMap(string titleMapLocation, ContentManager gameContent) : this()
+        {
             Load(titleMapLocation, gameContent);
         }
 
-        public TileMap(string titleMapLocation, GraphicsDevice graphicsDevice)
+        public TileMap(string titleMapLocation, GraphicsDevice graphicsDevice) : this()
         {
-            tileMap = new List<TileLayer>();
             Load(titleMapLocation, graphicsDevice);
         }
 
@@ -59,17 +67,48 @@ namespace Engine
         {
             tileMap = new List<TileLayer>();
             tileMap.Add(new TileLayer(newWidth, newHeight, newTileWidth, newTileHeight));
+            collisionLayer = new CollisionLayer(newWidth, newHeight);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (TileLayer layer in tileMap)
-                layer.Draw(spriteBatch, tileTextures);
+                layer.Draw(spriteBatch, tiles);
         }
 
-        public void AddTexture(string newTexturePath, ContentManager gameContent)
+        public Point GetTileDemensions(int layerIndex, int x, int y)
         {
-            tileTextures.Add(gameContent.Load<Texture2D>(newTexturePath));
+            return new Point(tiles[GetCellIndex(layerIndex, x, y)].Width, tiles[GetCellIndex(layerIndex, x, y)].Height);
+        }
+
+        public void Resize(int newWidth, int newHeight, int newTileWidth, int newTileHeight)
+        {
+            List<TileLayer> newTileMap = new List<TileLayer>();
+            for (int layerIndex = 0; layerIndex < Layers.Count; layerIndex++)
+            {
+                TileLayer newLayer = new TileLayer(newWidth, newHeight, newTileWidth, newTileHeight);
+                for (int x = 0; x < Layers[layerIndex].Width; x++)
+                    for (int y = 0; y < Layers[layerIndex].Height; y++)
+                        //if(y >= Layers[layerIndex].Height || x >= Layers[layerIndex].Width)
+                        //    newLayer.SetCellIndex(x, y, -1);
+                        //else
+                        newLayer.SetCellIndex(x, y, GetCellIndex(layerIndex, x, y));
+                newTileMap.Add(newLayer);
+            }
+            tileMap = newTileMap;
+
+            CollisionLayer newCollisionLayer = new CollisionLayer(Width, Height);
+            for (int x = 0; x < collisionLayer.Width; x++)
+                for (int y = 0; y < collisionLayer.Height; y++)
+                    newCollisionLayer.SetCellIndex(x, y, collisionLayer.GetCellIndex(x, y));
+
+            collisionLayer = newCollisionLayer;
+        }
+
+        public void AddTexture(string newTexturePath, int newWidth, int newHeight, ContentManager gameContent)
+        {
+            Texture2D newTexture = gameContent.Load<Texture2D>(newTexturePath);
+            tiles.Add(new Tile(newTexture, newWidth, newHeight));
             textureNames.Add(newTexturePath);
         }
 
@@ -83,6 +122,27 @@ namespace Engine
             Layers[layerIndex].SetCellIndex(x, y, cellIndex);
         }
         
+        public Texture2D AddTexture(string newTexturePath, string newTextureName, int newWidth, int newHeight, GraphicsDevice graphicsDevice)
+        {
+            Texture2D newTexture;
+            foreach (string extension in imageExtensions)
+                if (File.Exists(newTexturePath + extension))
+                {
+                    newTexturePath += extension;
+                    break;
+                }
+
+            using (FileStream fileStream = new FileStream(newTexturePath, FileMode.Open, FileAccess.Read))
+            {
+                newTexture = Texture2D.FromStream(graphicsDevice, fileStream);
+                fileStream.Close();
+            }
+            tiles.Add(new Tile(newTexture, newWidth, newHeight));
+            textureNames.Add(newTextureName);
+
+            return newTexture;
+        }
+
         public Texture2D AddTexture(string newTexturePath, string newTextureName, GraphicsDevice graphicsDevice)
         {
             Texture2D newTexture;
@@ -98,15 +158,16 @@ namespace Engine
                 newTexture = Texture2D.FromStream(graphicsDevice, fileStream);
                 fileStream.Close();
             }
-            tileTextures.Add(newTexture);
+            tiles.Add(new Tile(newTexture, newTexture.Width, newTexture.Height));
             textureNames.Add(newTextureName);
 
             return newTexture;
         }
 
+        
         public void RemoveTexture(int removeIndex)
         {
-            tileTextures.RemoveAt(removeIndex);
+            tiles.RemoveAt(removeIndex);
             textureNames.RemoveAt(removeIndex);
 
             for(int z = 0; z < Layers.Count; z++)
@@ -131,9 +192,10 @@ namespace Engine
         private void Load(String fileLocation, ContentManager gameContent)
         {
             bool readingDemensions = false;
-            bool readingTileMap = false;
             bool readingTileDemensions = false;
             bool readingTextures = false;
+            bool readingTileMap = false;
+            bool readingCollisionLayer = false;
 
             int currentRow = 0;
             //int layersCount = 0;
@@ -171,6 +233,12 @@ namespace Engine
                             currentRow = 0;
                             tileLayer = new int[width, height];
                         }
+                        else if (line[y].Trim() == "[CollisionLayer]")
+                        {
+                            readingCollisionLayer = true;
+                            currentRow = 0;
+                            tileLayer = new int[width, height];
+                        }
                         else if (readingTileDemensions)
                         {
                             if (line[y].Trim() != "")
@@ -187,7 +255,12 @@ namespace Engine
                         {
                             if (line[y].Trim() != "")
                             {
-                                AddTexture(line[y].Trim(), gameContent);
+                                string[] textureInfo = line[y].Split(' ');
+                                string textureName = textureInfo[0].Trim();
+                                int textureWidth = int.Parse(textureInfo[1].Trim());
+                                int textureHeight = int.Parse(textureInfo[2].Trim());
+
+                                AddTexture(textureName, textureWidth, textureHeight, gameContent);
                             }
                             else
                                 readingTextures = false;
@@ -224,12 +297,30 @@ namespace Engine
                                 readingTileMap = false;
                             }
                         }
+                        else if (readingCollisionLayer)
+                        {
+                            if (line[y].Trim() != "")
+                            {
+                                string[] tiles = line[y].Trim().Split(new Char[] { '|' });
+
+                                for (int i = 0; i < tiles.Length; i++)
+                                {
+                                    tileLayer[currentRow, i] = int.Parse(tiles[i]);
+                                }
+                                currentRow++;
+                            }
+                            else
+                            {
+                                collisionLayer = new CollisionLayer(tileLayer);
+                                readingCollisionLayer = false;
+                            }
+                        }
                     }
 
-                    //add final layer if there is no blank line at end of file
-                    if (readingTileMap)
+                    //add the collision layer if there is no blank line at end of file
+                    if (readingCollisionLayer)
                     {
-                        tileMap.Add(new TileLayer(tileLayer, tileWidth, tileHeight));
+                        collisionLayer = new CollisionLayer(tileLayer);
                     }
                 }
             }
@@ -244,9 +335,10 @@ namespace Engine
         private void Load(String fileLocation, GraphicsDevice graphicsDevice)
         {
             bool readingDemensions = false;
-            bool readingTileMap = false;
             bool readingTileDemensions = false;
             bool readingTextures = false;
+            bool readingTileMap = false;
+            bool readingCollisionLayer = false;
 
             int currentRow = 0;
             //int layersCount = 0;
@@ -256,6 +348,7 @@ namespace Engine
             int tileHeight = 0;
 
             int[,] tileLayer = new int[width, height]; ;
+            //int[,] collisionLayer = new int[width, height]; ;
 
             try
             {
@@ -284,6 +377,12 @@ namespace Engine
                             currentRow = 0;
                             tileLayer = new int[width, height];
                         }
+                        else if (line[y].Trim() == "[CollisionLayer]")
+                        {
+                            readingCollisionLayer = true;
+                            currentRow = 0;
+                            tileLayer = new int[width, height];
+                        }
                         else if (readingTileDemensions)
                         {
                             if (line[y].Trim() != "")
@@ -300,23 +399,14 @@ namespace Engine
                         {
                             if (line[y].Trim() != "")
                             {
-                                string textureName = line[y].Trim();
+                                string[] textureInfo = line[y].Split(' ');
+                                string textureName = textureInfo[0].Trim();
+                                int textureWidth = int.Parse(textureInfo[1].Trim());
+                                int textureHeight = int.Parse(textureInfo[2].Trim());
 
-                                AddTexture(@"..\..\..\LadyJava\LadyJavaContent\" + textureName, textureName, graphicsDevice);
-                                /*
-                                string textureFile = @"..\..\..\LadyJava\LadyJavaContent\" + textureName;
-                                foreach (string extension in imageExtensions)
-                                    if (File.Exists(textureFile + extension))
-                                    {
-                                        textureFile += extension;
-                                        break;
-                                    }
-
-                                using (FileStream fileStream = new FileStream(textureFile, FileMode.Open))
-                                {
-                                    tileTextures.Add(Texture2D.FromStream(graphicsDevice, fileStream));
-                                }
-                                */ 
+                                AddTexture(@"..\..\..\LadyJava\LadyJavaContent\" + textureName, textureName, 
+                                           textureWidth, textureHeight, 
+                                           graphicsDevice);
                             }
                             else
                                 readingTextures = false;
@@ -353,12 +443,30 @@ namespace Engine
                                 readingTileMap = false;
                             }
                         }
+                        else if (readingCollisionLayer)
+                        {
+                            if (line[y].Trim() != "")
+                            {
+                                string[] tiles = line[y].Trim().Split(new Char[] { '|' });
+
+                                for (int i = 0; i < tiles.Length; i++)
+                                {
+                                    tileLayer[currentRow, i] = int.Parse(tiles[i]);
+                                }
+                                currentRow++;
+                            }
+                            else
+                            {
+                                collisionLayer = new CollisionLayer(tileLayer);
+                                readingCollisionLayer = false;
+                            }
+                        }
                     }
 
-                    //add final layer if there is no blank line at end of file
-                    if (readingTileMap)
+                    //add the collision layer if there is no blank line at end of file
+                    if (readingCollisionLayer)
                     {
-                        tileMap.Add(new TileLayer(tileLayer, tileWidth, tileHeight));
+                        collisionLayer = new CollisionLayer(tileLayer);
                     }
                 }
             }
@@ -381,8 +489,8 @@ namespace Engine
                 writer.WriteLine();
 
                 writer.WriteLine("[Textures]");
-                foreach (string textureName in textureNames)
-                    writer.WriteLine(textureName);
+                for(int i = 0; i < textureNames.Count; i++)
+                    writer.WriteLine(textureNames[i] + " " + tiles[i].Width + " " + +tiles[i].Height);
                 writer.WriteLine();
 
                 foreach (TileLayer layer in Layers)
@@ -405,6 +513,24 @@ namespace Engine
                         writer.WriteLine(line);
                     }
                     writer.WriteLine();
+                }
+
+                writer.WriteLine("[CollisionLayer]");
+                for (int y = 0; y < collisionLayer.Height; y++)
+                {
+                    string line = string.Empty;
+
+                    for (int x = 0; x < collisionLayer.Height; x++)
+                    {
+                        string cell = collisionLayer.GetCellIndex(x, y).ToString();
+                        if (cell.Length < 2)
+                            cell = "0" + cell;
+                        if (x == 0)
+                            line = cell;
+                        else
+                            line += "|" + cell;
+                    }
+                    writer.WriteLine(line);
                 }
             }
         }

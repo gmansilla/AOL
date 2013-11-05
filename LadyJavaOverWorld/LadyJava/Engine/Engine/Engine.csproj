@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollisionLayer.cs" />
     <Compile Include="Engine\Animation.cs" />
     <Compile Include="Engine\AnimationInfo.cs" />
     <Compile Include="Engine\Camera.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Engine\Sprite.cs" />
     <Compile Include="Engine\TileLayer.cs" />
     <Compile Include="Engine\TileMap.cs" />
+    <Compile Include="Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

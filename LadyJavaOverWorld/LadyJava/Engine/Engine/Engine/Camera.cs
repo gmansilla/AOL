@@ -11,6 +11,8 @@ namespace Engine
     {
         Vector2 position;
         Vector2 origin;
+        
+        float scale;
 
         //CollisionBox collisionBox;
 
@@ -29,11 +31,9 @@ namespace Engine
         public int Height
         { get { return screenHeight; } }
 
-        //public CollisionBox CollisionBox
-        //{ get { return collisionBox; } }
-
         public Matrix TransformMatrix
-        { get { return Matrix.CreateTranslation(new Vector3(-Position, 0f)); } }
+        { get { return Matrix.CreateTranslation(new Vector3(-Position, 0f)) * 
+                       Matrix.CreateScale(new Vector3(scale, scale, scale)); } }
 
         public Camera(int newScreenWidth, int newScreenHeight)
         {
@@ -41,8 +41,16 @@ namespace Engine
             screenHeight = newScreenHeight;
 
             origin = new Vector2(screenWidth / 2, screenHeight / 2f);
+            scale = 1.0f;
+        }
 
-            //collisionBox = new CollisionBox(newLineImage, position, origin);
+        public Camera(int newScreenWidth, int newScreenHeight, float newScale)
+        {
+            screenWidth = newScreenWidth;
+            screenHeight = newScreenHeight;
+            scale = newScale;
+
+            origin = new Vector2(screenWidth / 2, screenHeight / 2f) * scale;
         }
 
         public void Update(GameTime gameTime, Vector2 playerPosition, Vector2 playerOrigin, int levelWidth, int levelHeight)
@@ -55,14 +63,18 @@ namespace Engine
             //collisionBox.Update(position, origin);
         }
 
-        public void Update(Vector2 scrollbarPosition, int levelWidth, int levelHeight)
+        public void Update(Vector2 scrollbarPosition)
+        {
+            position.X = scrollbarPosition.X;
+            position.Y = scrollbarPosition.Y;
+        }
+
+        public void Update(Vector2 scrollbarPosition, float newScale)
         {
             position.X = scrollbarPosition.X;
             position.Y = scrollbarPosition.Y;
 
-            //LockToLevel(levelWidth, levelHeight);
-
-            //collisionBox.Update(position, origin);
+            scale = newScale;
         }
 
 
