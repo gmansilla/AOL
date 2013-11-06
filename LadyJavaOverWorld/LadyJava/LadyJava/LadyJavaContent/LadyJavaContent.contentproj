@@ -138,17 +138,20 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Sprites\NPI\HeadShot\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sprites\NPI\Sprites\NPC_Hugh.png">
-      <Name>NPC_Hugh</Name>
+    <Compile Include="Buildings\house1.png">
+      <Name>house1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Alison.png">
+      <Name>NPC_Alison</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Sprites\NPI\Sprites\NPC_Amy.png">
       <Name>NPC_Amy</Name>
       <Importer>TextureImporter</Importer>
@@ -159,13 +162,38 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Chaz.png">
+      <Name>NPC_Chaz</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Han.png">
+      <Name>NPC_Han</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Hugh.png">
+      <Name>NPC_Hugh</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Sprites\NPI\Sprites\NPC_Josh.png">
       <Name>NPC_Josh</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Kyra.png">
+      <Name>NPC_Kyra</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Sprites\NPI\Sprites\NPC_NEI.png">
       <Name>NPC_NEI</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Rika.png">
+      <Name>NPC_Rika</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -179,15 +207,135 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_Rune.png">
+      <Name>NPC_Rune</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_SeeHash.png">
+      <Name>NPC_SeeHash</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Sprites\NPI\Sprites\NPC_Shir.png">
       <Name>NPC_Shir</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_TechMan.png">
+      <Name>NPC_TechMan</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_TheOracle.png">
+      <Name>NPC_TheOracle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_TheOracle_Trapped.png">
+      <Name>NPC_TheOracle_Trapped</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\Sprites\NPC_TheScrumMaster.png">
+      <Name>NPC_TheScrumMaster</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="house1.png">
-      <Name>house1</Name>
+    <Compile Include="Sprites\NPI\HeadShot\F_Alison.png">
+      <Name>F_Alison</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Amy.png">
+      <Name>F_Amy</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Anna.png">
+      <Name>F_Anna</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Chaz.png">
+      <Name>F_Chaz</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Han.png">
+      <Name>F_Han</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Huge.png">
+      <Name>F_Huge</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Josh.png">
+      <Name>F_Josh</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Kyra.png">
+      <Name>F_Kyra</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_LadyJ_Normal.png">
+      <Name>F_LadyJ_Normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_LadyJ_Sad.png">
+      <Name>F_LadyJ_Sad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Rika.png">
+      <Name>F_Rika</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Rolf.png">
+      <Name>F_Rolf</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Rudo.png">
+      <Name>F_Rudo</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Rune.png">
+      <Name>F_Rune</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_SeeHash.png">
+      <Name>F_SeeHash</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Shir.png">
+      <Name>F_Shir</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_Tec-Man.png">
+      <Name>F_Tec-Man</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_TheOracle.png">
+      <Name>F_TheOracle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\NPI\HeadShot\F_TheScrumMaster.png">
+      <Name>F_TheScrumMaster</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
