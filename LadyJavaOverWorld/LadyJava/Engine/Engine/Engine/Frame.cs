@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LadyJava
+namespace Engine
 {
-    class Frame
+    public class Frame
     {
         Point position;
 

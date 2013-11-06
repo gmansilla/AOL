@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
 
+using Engine;
+
 namespace LadyJava
 {
     public class Game1 : Microsoft.Xna.Framework.Game
@@ -44,17 +46,17 @@ namespace LadyJava
         {
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
             Texture2D[] npcImage = { Content.Load<Texture2D>("Sprites\\NPI\\Sprites\\NPC_Hugh") };
-            
+
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            overworld = new TileMap("..\\..\\..\\..\\..\\overworld.txt", Content);
+            overworld = new TileMap("..\\..\\..\\..\\..\\overworld.map", Content);
 
             AnimationInfo[] animations = { new AnimationInfo(Global.STILL, 32, 46, 1, 0),
                                            new AnimationInfo(Global.DOWN, 32, 46, 4, 100),
                                            new AnimationInfo(Global.LEFT, 32, 46, 4, 100),
                                            new AnimationInfo(Global.RIGHT, 32, 46, 4, 100),
-                                           new AnimationInfo(Global.UP, 32, 46, 4, 100),};
+                                           new AnimationInfo(Global.UP, 32, 46, 4, 100) };
             //    { { STILL, 1, 0 }, { DOWN, 4, 100 }, { LEFT, 4, 100 }, { RIGHT, 4, 100 }, { UP, 4, 100 } };
             Sprite lady = new Sprite(image, new Vector2(100, 100), animations, 1.0f);
             ladyJ = new LadyJava(lady);
@@ -79,8 +81,8 @@ namespace LadyJava
             if (InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-            ladyJ.Update(gameTime, overworld.Width, overworld.Height);
-            camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, overworld.Width, overworld.Height);
+            ladyJ.Update(gameTime, overworld.PixelWidth, overworld.PixelHeight);
+            camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, overworld.PixelWidth, overworld.PixelHeight);
             base.Update(gameTime);
         }
 

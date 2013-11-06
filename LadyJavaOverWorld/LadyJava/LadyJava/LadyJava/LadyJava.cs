@@ -10,10 +10,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using Engine;
+
 namespace LadyJava
 {
-    public enum Direction { Right = 2, Left = 1, Up = 3, Down = 0 }
-
     class LadyJava
     {
 
@@ -24,10 +24,10 @@ namespace LadyJava
         { get { return sprite.Origin; } }
 
         private float movement = 2.4f;
-        
-        
+
+
         private Sprite sprite;
-       
+
 
         string animation;
 
@@ -43,7 +43,7 @@ namespace LadyJava
                 position.X = 0;
             if (position.Y < 0)
                 position.Y = 0;
-            if (position.X > levelW-width)
+            if (position.X > levelW - width)
                 position.X = levelW - width;
             if (position.Y > levelH - height)
                 position.Y = levelH - height;
@@ -55,42 +55,51 @@ namespace LadyJava
             Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
 
-            if(InputManager.IsKeyDown(Commands.Up))
+            if (InputManager.IsKeyDown(Commands.Up))
             //if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                
+
                 animation = Global.UP;
                 motion.Y--;//= movement;
             }
-            if(InputManager.IsKeyDown(Commands.Down))
+            if (InputManager.IsKeyDown(Commands.Down))
             //else if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
 
                 animation = Global.DOWN;
                 motion.Y++;//= movement;
             }
-            if(InputManager.IsKeyDown(Commands.Right))
+            if (InputManager.IsKeyDown(Commands.Right))
             //else if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 animation = Global.RIGHT;
 
                 motion.X++;//= movement;
             }
-            if(InputManager.IsKeyDown(Commands.Left))
+            if (InputManager.IsKeyDown(Commands.Left))
             //else if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 animation = Global.LEFT;
 
                 motion.X--;//= movement;
             }
-            
-            if(motion == Vector2.Zero)
+            else
+                motion.Normalize();
+    
+            position += motion * movement;
+
+            position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
+
+            sprite.Update(gameTime, animation, position);
+
+
+            if (motion == Vector2.Zero)
             {
                 animation = Global.STILL;
             }
             else
                 motion.Normalize();
-    
+
             position += motion * movement;
 
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
@@ -103,7 +112,7 @@ namespace LadyJava
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
-            
+
         }
 
     }
