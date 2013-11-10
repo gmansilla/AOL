@@ -83,30 +83,19 @@ namespace LadyJava
 
                 motion.X--;//= movement;
             }
-            else
-                motion.Normalize();
-    
-            position += motion * movement;
-
-            position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
-
-            sprite.Update(gameTime, animation, position);
-
-
             if (motion == Vector2.Zero)
             {
                 animation = Global.STILL;
             }
             else
+            {
                 motion.Normalize();
-
-            position += motion * movement;
+                position += motion * movement;
+            }
 
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
 
             sprite.Update(gameTime, animation, position);
-
-
         }
 
         public void Draw(SpriteBatch spriteBatch)

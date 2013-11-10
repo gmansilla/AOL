@@ -34,6 +34,7 @@ Buildings\House5 256 192
 Buildings\House6 256 192
 Background\Gate 128 64
 Background\Statue 128 64
+Buildings\house1 380 250
 
 [TileLayer]
 00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|09|05|05|08|00|00|00
