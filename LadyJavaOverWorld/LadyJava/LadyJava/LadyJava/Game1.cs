@@ -62,7 +62,7 @@ namespace LadyJava
             ladyJ = new LadyJava(lady);
 
             //create a npc
-            Sprite amy = new Sprite(npcImage, new Vector2(200, 200), 38, 73, 1.0f);
+            Sprite amy = new Sprite(npcImage, new Vector2(200, 200), 25, 50, 1.0f);
             npcAmy = new Npc(amy);
         }
 
