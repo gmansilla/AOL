@@ -23,7 +23,7 @@ Background\Sand\SandSquareTL 64 64
 Background\Sand\SandSquareTR 64 64
 Background\Sand\SandSquareBL 64 64
 Background\Sand\SandSquareBR 64 64
-house1 380 250
+Buildings\house1 380 250
 
 [TileLayer]
 00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|00|09|05|05|08|00|00|00
