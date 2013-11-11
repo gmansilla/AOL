@@ -23,13 +23,9 @@ namespace LadyJava
         Camera camera;
         Texture2D collisionLayerImage;
 
-        #region Background
-        //List<Texture2D> tileTexture = new List<Texture2D>();
-        //int[][,] tileMap;
+        TileMap overworld;
+        string contentPath = "..\\..\\..\\..\\LadyJavaContent\\";
 
-        //int tileWidth = 64;
-        //int tileHeight = 64;
-        #endregion
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -41,8 +37,6 @@ namespace LadyJava
             base.Initialize();
         }
 
-        //int STILL = 0 , DOWN = 1, LEFT=2, RIGHT=3, UP=4;
-        TileMap overworld;
         protected override void LoadContent()
         {
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
@@ -52,14 +46,14 @@ namespace LadyJava
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            overworld = new TileMap("..\\..\\..\\..\\..\\overworld.map", Content);
+            overworld = new TileMap(contentPath + "TileMaps\\overworld.map", Content);
 
             AnimationInfo[] animations = { new AnimationInfo(Global.STILL, 32, 46, 1, 0),
                                            new AnimationInfo(Global.DOWN, 32, 46, 4, 100),
                                            new AnimationInfo(Global.LEFT, 32, 46, 4, 100),
                                            new AnimationInfo(Global.RIGHT, 32, 46, 4, 100),
                                            new AnimationInfo(Global.UP, 32, 46, 4, 100) };
-            //    { { STILL, 1, 0 }, { DOWN, 4, 100 }, { LEFT, 4, 100 }, { RIGHT, 4, 100 }, { UP, 4, 100 } };
+
             Sprite lady = new Sprite(image, new Vector2(100, 100), animations, 1.0f);
             ladyJ = new LadyJava(lady);
 
@@ -83,7 +77,7 @@ namespace LadyJava
             if (InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-            ladyJ.Update(gameTime, overworld.PixelWidth, overworld.PixelHeight, overworld.CollisionLayer.ToBoundingBox);
+            ladyJ.Update(gameTime, overworld.PixelWidth, overworld.PixelHeight, overworld.CollisionLayer.ToCollisionBox);
             camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, overworld.PixelWidth, overworld.PixelHeight);
             base.Update(gameTime);
         }
