@@ -21,6 +21,7 @@ namespace LadyJava
         LadyJava ladyJ;
         Npc npcAmy;
         Camera camera;
+        Texture2D collisionLayerImage;
 
         #region Background
         //List<Texture2D> tileTexture = new List<Texture2D>();
@@ -46,6 +47,7 @@ namespace LadyJava
         {
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
             Texture2D[] npcImage = { Content.Load<Texture2D>("Sprites\\NPI\\Sprites\\NPC_Hugh") };
+            collisionLayerImage = Content.Load<Texture2D>("tileSelector");
 
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -81,7 +83,7 @@ namespace LadyJava
             if (InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-            ladyJ.Update(gameTime, overworld.PixelWidth, overworld.PixelHeight);
+            ladyJ.Update(gameTime, overworld.PixelWidth, overworld.PixelHeight, overworld.CollisionLayer.ToBoundingBox);
             camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, overworld.PixelWidth, overworld.PixelHeight);
             base.Update(gameTime);
         }
@@ -92,11 +94,11 @@ namespace LadyJava
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
 
-            #region DrawTile
-            #endregion
             overworld.Draw(spriteBatch);
             ladyJ.Draw(spriteBatch);
             npcAmy.Draw(spriteBatch);
+
+            //overworld.CollisionLayer.Draw(spriteBatch, collisionLayerImage);
             spriteBatch.End();
             base.Draw(gameTime);
         }

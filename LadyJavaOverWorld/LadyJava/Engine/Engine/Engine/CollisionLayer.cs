@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Engine
 {
@@ -67,6 +68,15 @@ namespace Engine
             collisionLayer[y, x] = newIndex;
         }
 
-
+        public void Draw(SpriteBatch spriteBatch, Texture2D texture)
+        {
+            for (int i = 0; i < collisionBoxes.Length; i++)
+                spriteBatch.Draw(texture,
+                                 new Rectangle((int)collisionBoxes[i].Min.X,
+                                               (int)collisionBoxes[i].Min.Y,
+                                               (int)collisionBoxes[i].Max.X - (int)collisionBoxes[i].Min.X,
+                                               (int)collisionBoxes[i].Max.Y - (int)collisionBoxes[i].Min.Y),
+                                 Color.Red);
+        }
     }
 }
