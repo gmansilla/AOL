@@ -216,11 +216,14 @@ namespace TileMapEditor
                         if (currentLayerIndex != -1 && currentTextureIndex != -1)
                             if (currentLayerIndex == tileMap.Layers.Count)
                             {
-                                if (lstEntrances.SelectedItem.ToString() == collisionBlock)
-                                    tileMap.CollisionLayer.SetCellIndex(cellX, cellY, 0);
-                                else if (currentEntranceIndex != -1)
-                                    tileMap.CollisionLayer.RemoveEntrance(cellX, cellY);
-                             
+                                if (lstEntrances.SelectedItem.ToString() != null)
+                                {
+                                    if (lstEntrances.SelectedItem.ToString() == collisionBlock)
+                                        tileMap.CollisionLayer.SetCellIndex(cellX, cellY, 0);
+                                    else if (currentEntranceIndex != -1)
+                                        tileMap.CollisionLayer.RemoveEntrance(cellX, cellY);
+
+                                }
                             }
                             else if (!chkFill.Checked)
                                 tileMap.SetCellIndex(currentLayerIndex, cellX, cellY, -1);
