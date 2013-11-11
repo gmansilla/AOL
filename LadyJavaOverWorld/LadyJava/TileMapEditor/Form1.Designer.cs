@@ -341,29 +341,31 @@
             // 
             // cmdAddEntrance
             // 
-            this.cmdAddEntrance.Location = new System.Drawing.Point(720, 345);
+            this.cmdAddEntrance.Location = new System.Drawing.Point(721, 346);
             this.cmdAddEntrance.Name = "cmdAddEntrance";
-            this.cmdAddEntrance.Size = new System.Drawing.Size(99, 23);
-            this.cmdAddEntrance.TabIndex = 8;
+            this.cmdAddEntrance.Size = new System.Drawing.Size(75, 23);
+            this.cmdAddEntrance.TabIndex = 17;
             this.cmdAddEntrance.Text = "Add";
             this.cmdAddEntrance.UseVisualStyleBackColor = true;
-            this.cmdAddEntrance.Click += new System.EventHandler(this.cmdAddLayer_Click);
+            this.cmdAddEntrance.Click += new System.EventHandler(this.cmdAddEntrance_Click_1);
             // 
             // cmdRemoveEntrance
             // 
-            this.cmdRemoveEntrance.Location = new System.Drawing.Point(821, 345);
+            this.cmdRemoveEntrance.Location = new System.Drawing.Point(834, 346);
             this.cmdRemoveEntrance.Name = "cmdRemoveEntrance";
-            this.cmdRemoveEntrance.Size = new System.Drawing.Size(99, 23);
-            this.cmdRemoveEntrance.TabIndex = 9;
+            this.cmdRemoveEntrance.Size = new System.Drawing.Size(75, 23);
+            this.cmdRemoveEntrance.TabIndex = 18;
             this.cmdRemoveEntrance.Text = "Remove";
             this.cmdRemoveEntrance.UseVisualStyleBackColor = true;
-            this.cmdRemoveEntrance.Click += new System.EventHandler(this.cmdRemoveLayer_Click);
+            this.cmdRemoveEntrance.Click += new System.EventHandler(this.cmdRemoveEntrance_Click_1);
             // 
             // frmTileMapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1181, 634);
+            this.Controls.Add(this.cmdRemoveEntrance);
+            this.Controls.Add(this.cmdAddEntrance);
             this.Controls.Add(this.cmdApplyResize);
             this.Controls.Add(this.txtResizeH);
             this.Controls.Add(this.label2);
@@ -374,10 +376,8 @@
             this.Controls.Add(this.chkFill);
             this.Controls.Add(this.picPreview);
             this.Controls.Add(this.cmdRemoveTexture);
-            this.Controls.Add(this.cmdRemoveEntrance);
             this.Controls.Add(this.cmdRemoveLayer);
             this.Controls.Add(this.cmdAddTexture);
-            this.Controls.Add(this.cmdAddEntrance);
             this.Controls.Add(this.cmdAddLayer);
             this.Controls.Add(this.lstTextures);
             this.Controls.Add(this.lstEntrances);
