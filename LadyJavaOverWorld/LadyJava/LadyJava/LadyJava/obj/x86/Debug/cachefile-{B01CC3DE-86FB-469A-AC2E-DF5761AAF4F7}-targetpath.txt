@@ -56,3 +56,13 @@ Content\Sprites\NPI\HeadShot\F_Shir.xnb
 Content\Sprites\NPI\HeadShot\F_Tec-Man.xnb
 Content\Sprites\NPI\HeadShot\F_TheOracle.xnb
 Content\Sprites\NPI\HeadShot\F_TheScrumMaster.xnb
+Content\Buildings\Gym.xnb
+Content\Buildings\House2.xnb
+Content\Buildings\House3.xnb
+Content\Buildings\House4.xnb
+Content\Buildings\House5.xnb
+Content\Buildings\House6.xnb
+Content\Buildings\Mart.xnb
+Content\Buildings\PC.xnb
+Content\Background\Gate.xnb
+Content\Background\Statue.xnb

@@ -67,7 +67,7 @@ namespace Engine
         {
             tileMap = new List<TileLayer>();
             tileMap.Add(new TileLayer(newWidth, newHeight, newTileWidth, newTileHeight));
-            collisionLayer = new CollisionLayer(newWidth, newHeight);
+            collisionLayer = new CollisionLayer(newWidth, newHeight, newTileWidth, newTileHeight);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -97,7 +97,7 @@ namespace Engine
             }
             tileMap = newTileMap;
 
-            CollisionLayer newCollisionLayer = new CollisionLayer(Width, Height);
+            CollisionLayer newCollisionLayer = new CollisionLayer(Width, Height, TileWidth, TileHeight);
             for (int x = 0; x < collisionLayer.Width; x++)
                 for (int y = 0; y < collisionLayer.Height; y++)
                     newCollisionLayer.SetCellIndex(x, y, collisionLayer.GetCellIndex(x, y));
@@ -311,7 +311,7 @@ namespace Engine
                             }
                             else
                             {
-                                collisionLayer = new CollisionLayer(tileLayer);
+                                collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight);
                                 readingCollisionLayer = false;
                             }
                         }
@@ -320,7 +320,7 @@ namespace Engine
                     //add the collision layer if there is no blank line at end of file
                     if (readingCollisionLayer)
                     {
-                        collisionLayer = new CollisionLayer(tileLayer);
+                        collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight);
                     }
                 }
             }
@@ -457,7 +457,7 @@ namespace Engine
                             }
                             else
                             {
-                                collisionLayer = new CollisionLayer(tileLayer);
+                                collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight);
                                 readingCollisionLayer = false;
                             }
                         }
@@ -466,7 +466,7 @@ namespace Engine
                     //add the collision layer if there is no blank line at end of file
                     if (readingCollisionLayer)
                     {
-                        collisionLayer = new CollisionLayer(tileLayer);
+                        collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight);
                     }
                 }
             }

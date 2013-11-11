@@ -107,7 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollisionLayer.cs" />
+    <Compile Include="Engine\CollisionLayer.cs" />
     <Compile Include="Engine\Animation.cs" />
     <Compile Include="Engine\AnimationInfo.cs" />
     <Compile Include="Engine\Camera.cs" />
