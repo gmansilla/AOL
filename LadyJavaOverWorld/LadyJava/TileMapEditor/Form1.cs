@@ -17,6 +17,7 @@ namespace TileMapEditor
     {
         Point invalidPoint = new Point(-1, -1);
         const int MaxFillCount = 100;
+        string collisionBlock = "collisionBlock";
 
         int fillCount = 0;
 
@@ -46,6 +47,10 @@ namespace TileMapEditor
         int currentTextureIndex
         { get { return lstTextures.SelectedIndex; }
           set { lstTextures.SelectedIndex = value; } }
+
+        int currentEntranceIndex
+        { get { return lstEntrances.SelectedIndex; }
+          set { lstEntrances.SelectedIndex = value; } }
 
         TileLayer currentLayer
         { get { return tileMap.Layers[lstLayers.SelectedIndex]; } }
@@ -190,7 +195,15 @@ namespace TileMapEditor
                     {
                         if (currentTextureIndex != -1 && currentLayerIndex != -1)
                             if (currentLayerIndex == tileMap.Layers.Count)
-                                tileMap.CollisionLayer.SetCellIndex(cellX, cellY, -1);
+                            {
+                                if (lstEntrances.SelectedItem.ToString() != null)
+                                {
+                                    if (lstEntrances.SelectedItem.ToString() == collisionBlock)
+                                        tileMap.CollisionLayer.SetCellIndex(cellX, cellY, -1);
+                                    else if (currentEntranceIndex != -1)
+                                        tileMap.CollisionLayer.AddEntrance(lstEntrances.SelectedItem.ToString(), cellX, cellY, currentEntranceIndex);
+                                }
+                            }
                             else if (!chkFill.Checked)
                                 tileMap.SetCellIndex(currentLayerIndex, cellX, cellY, currentTextureIndex);
                             else
@@ -202,7 +215,13 @@ namespace TileMapEditor
                     {
                         if (currentLayerIndex != -1 && currentTextureIndex != -1)
                             if (currentLayerIndex == tileMap.Layers.Count)
-                                tileMap.CollisionLayer.SetCellIndex(cellX, cellY, 0);
+                            {
+                                if (lstEntrances.SelectedItem.ToString() == collisionBlock)
+                                    tileMap.CollisionLayer.SetCellIndex(cellX, cellY, 0);
+                                else if (currentEntranceIndex != -1)
+                                    tileMap.CollisionLayer.RemoveEntrance(cellX, cellY);
+                             
+                            }
                             else if (!chkFill.Checked)
                                 tileMap.SetCellIndex(currentLayerIndex, cellX, cellY, -1);
                             else
@@ -259,6 +278,12 @@ namespace TileMapEditor
                                                                tileMap.TileWidth,
                                                                tileMap.TileHeight),
                                                  Color.Red);
+                            else if (tileMap.CollisionLayer.GetCellIndex(x, y) > 0)
+                                spriteBatch.Draw(emptyTile,
+                                                 new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
+                                                               tileMap.TileWidth,
+                                                               tileMap.TileHeight),
+                                                 Color.Green);
 
             }
 
@@ -292,6 +317,12 @@ namespace TileMapEditor
                                                            tileMap.TileWidth,
                                                            tileMap.TileHeight),
                                              Color.Red);
+                        else if (tileMap.CollisionLayer.GetCellIndex(x, y) > 0)
+                            spriteBatch.Draw(emptyTile,
+                                             new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
+                                                           tileMap.TileWidth,
+                                                           tileMap.TileHeight),
+                                             Color.Green);
             }
 
             spriteBatch.End();
@@ -315,6 +346,12 @@ namespace TileMapEditor
                 int tileWidth = int.Parse(form.txtTileWidth.Text);
                 int tileHeight = int.Parse(form.txtTileHeight.Text);
 
+                lstEntrances.Items.Clear();
+                lstEntrances.Items.Add(collisionBlock);
+
+                lstTextures.Items.Clear();
+                previewList = new Dictionary<string, Image>();
+
                 tileMap = new TileMap(width, height, tileWidth, tileHeight);
                 //currentLayerIndex = 0;
                 lstLayersUpdate(tileMap.Layers.Count);
@@ -335,7 +372,9 @@ namespace TileMapEditor
             {
                 previewList = new Dictionary<string,Image>();
                 lstTextures.Items.Clear();
-                
+                lstEntrances.Items.Clear();
+                lstEntrances.Items.Add(collisionBlock);
+        
                 string filename = openFileDialog1.FileName;
 
                 tileMap = new TileMap(filename, graphicsDevice);
@@ -344,6 +383,9 @@ namespace TileMapEditor
 
                 currentLayerIndex = tileMap.Layers.Count - 1;
                 //lstLayers.SelectedIndex = tileMap.Layers.Count - 1;
+
+                foreach (string entrance in tileMap.CollisionLayer.Entrances)
+                    lstEntrances.Items.Add(entrance);
 
                 foreach(string textureName in tileMap.TextureNames)
                 {
@@ -414,6 +456,7 @@ namespace TileMapEditor
             for (int i = 1; i <= amount; i++)
                 lstLayers.Items.Add("layer" + i);
             lstLayers.Items.Add("collisionLayer");
+            currentLayerIndex = lstLayers.Items.Count - 2;
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -429,7 +472,6 @@ namespace TileMapEditor
                 if (storedTextureIndex != -1)
                     currentTextureIndex = storedTextureIndex;
             }
-
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -487,20 +529,6 @@ namespace TileMapEditor
                 currentLayerIndex = tempIndex;
 
                 UpdateScrollbars();
-            }
-        }
-
-        private void cmdAddEntrance_Click(object sender, EventArgs e)
-        {
-            if (tileMap != null)
-            {
-            }
-        }
-
-        private void cmdRemoveEntrance_Click(object sender, EventArgs e)
-        {
-            if (currentLayerIndex != -1)
-            {
             }
         }
 
@@ -583,6 +611,34 @@ namespace TileMapEditor
         private void cmdApplyResize_Click(object sender, EventArgs e)
         {
             tileMap.Tiles[currentTextureIndex].Resize(int.Parse(txtResizeW.Text), int.Parse(txtResizeH.Text));
+        }
+
+        private void cmdAddEntrance_Click_1(object sender, EventArgs e)
+        {
+            if (tileMap != null)
+            {
+                openFileDialog1.InitialDirectory = txtContentFolder.Text;
+                openFileDialog1.Filter = "TileMap Files|*.map";
+                openFileDialog1.FileName = "";
+                if (openFileDialog1.ShowDialog() == DialogResult.OK && tileMap != null)
+                {
+                    string tileMapPath = openFileDialog1.FileName;
+                    string rootFolder = txtContentFolder.Text.Substring(txtContentFolder.Text.LastIndexOf("\\"));
+                    string tileMapName = tileMapPath.Substring(tileMapPath.LastIndexOf(rootFolder) + rootFolder.Length);
+                    tileMapName = tileMapName.Substring(tileMapName.IndexOf("\\") + 1);
+                    lstEntrances.Items.Add(tileMapName);
+
+                    //textureName = textureName.Substring(0, textureName.IndexOf("."));
+                }
+            }
+        }
+
+        private void cmdRemoveEntrance_Click_1(object sender, EventArgs e)
+        {
+            if (currentLayerIndex != -1 && lstEntrances.SelectedItem != collisionBlock)
+            {
+
+            }
         }
 
        

@@ -92,8 +92,19 @@ namespace Engine
         public void AddEntrance(string fileLocation, int x, int y, int index)
         {
             SetCellIndex(x, y, index);
-            entrances.Add(fileLocation);
+            if (!entrances.Contains(fileLocation))
+                entrances.Add(fileLocation);
         }
+
+        public void RemoveEntrance(int x, int y)
+        {
+            SetCellIndex(x, y, 0);
+        }
+
+        //public void RemoveEntrance(string entranceString)
+        //{
+        //    SetCellIndex(x, y, 0);
+        //}
 
         public void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {
