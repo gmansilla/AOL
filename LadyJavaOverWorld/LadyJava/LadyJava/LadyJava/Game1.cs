@@ -45,7 +45,7 @@ namespace LadyJava
         protected override void LoadContent()
         {
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
-            Texture2D[] npcImage = { Content.Load<Texture2D>("Sprites\\NPI\\Sprites\\NPC_Hugh") };
+            Texture2D[] npcImage = { Content.Load<Texture2D>("Sprites\\NPI\\Sprites\\NPC_Amy") };
 
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -96,7 +96,7 @@ namespace LadyJava
             #endregion
             overworld.Draw(spriteBatch);
             ladyJ.Draw(spriteBatch);
-            npcAmy.Draw(spriteBatch);
+            //npcAmy.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

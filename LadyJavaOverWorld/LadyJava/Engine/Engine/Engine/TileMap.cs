@@ -158,7 +158,7 @@ namespace Engine
                 newTexture = Texture2D.FromStream(graphicsDevice, fileStream);
                 fileStream.Close();
             }
-            tiles.Add(new Tile(newTexture, newTexture.Width, newTexture.Height));
+            tiles.Add(new Tile(newTexture, TileWidth, TileHeight));
             textureNames.Add(newTextureName);
 
             return newTexture;
