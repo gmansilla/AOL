@@ -638,7 +638,7 @@ namespace TileMapEditor
 
         private void cmdRemoveEntrance_Click_1(object sender, EventArgs e)
         {
-            if (currentLayerIndex != -1 && lstEntrances.SelectedItem != collisionBlock)
+            if (currentLayerIndex != -1 && lstEntrances.SelectedItem.ToString() != collisionBlock)
             {
 
             }

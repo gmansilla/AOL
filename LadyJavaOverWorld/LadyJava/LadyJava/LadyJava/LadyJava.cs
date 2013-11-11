@@ -43,6 +43,7 @@ namespace LadyJava
         void UpdateBounds(Vector2 newPosition, int width, int height)
         {
             boundingBox = new BoundingBox(new Vector3(newPosition.X, newPosition.Y, 0f),
+                                          //new Vector3(newPosition.X + width, newPosition.Y + height, 0f),
                                           new Vector3(newPosition.X + width, newPosition.Y + height, 0f));
         }
 
