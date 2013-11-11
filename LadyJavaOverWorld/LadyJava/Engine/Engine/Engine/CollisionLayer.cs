@@ -74,7 +74,7 @@ namespace Engine
                     }
                     else if ((collisionLayer[y, x] > 0))
                     {
-                        collisionBoxes[entranceCount++] = new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
+                        entranceBoxes[entranceCount++] = new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
                                                                           new Vector3(x * tileWidth + tileWidth, y * tileHeight + tileHeight, 0f));
                     }
         }
