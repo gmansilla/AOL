@@ -67,7 +67,7 @@ namespace Engine
         {
             tileMap = new List<TileLayer>();
             tileMap.Add(new TileLayer(newWidth, newHeight, newTileWidth, newTileHeight));
-            collisionLayer = new CollisionLayer(newWidth, newHeight);
+            collisionLayer = new CollisionLayer(newWidth, newHeight, newTileWidth, newTileHeight);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -97,7 +97,7 @@ namespace Engine
             }
             tileMap = newTileMap;
 
-            CollisionLayer newCollisionLayer = new CollisionLayer(Width, Height);
+            CollisionLayer newCollisionLayer = new CollisionLayer(Width, Height, TileWidth, TileHeight);
             for (int x = 0; x < collisionLayer.Width; x++)
                 for (int y = 0; y < collisionLayer.Height; y++)
                     newCollisionLayer.SetCellIndex(x, y, collisionLayer.GetCellIndex(x, y));
@@ -194,11 +194,12 @@ namespace Engine
             bool readingDemensions = false;
             bool readingTileDemensions = false;
             bool readingTextures = false;
+            bool readingEntrances = false;
             bool readingTileMap = false;
             bool readingCollisionLayer = false;
 
+            List<string> entrances = new List<string>();
             int currentRow = 0;
-            //int layersCount = 0;
             int width = 0;
             int height = 0;
             int tileWidth = 0;
@@ -226,6 +227,10 @@ namespace Engine
                         else if (line[y].Trim() == "[Demensions]")
                         {
                             readingDemensions = true;
+                        }
+                        else if (line[y].Trim() == "[Entrances]")
+                        {
+                            readingEntrances = true;
                         }
                         else if (line[y].Trim() == "[TileLayer]")
                         {
@@ -274,10 +279,18 @@ namespace Engine
 
                                 width = int.Parse(dimensions[0]);
                                 height = int.Parse(dimensions[1]);
-                                //layersCount = int.Parse(dimensions[2]);
                             }
                             else
                                 readingDemensions = false;
+                        }
+                        else if (readingEntrances)
+                        {
+                            if (line[y].Trim() != "")
+                            {
+                                entrances.Add(line[y].Trim());
+                            }
+                            else
+                                readingEntrances = false;
                         }
                         else if (readingTileMap)
                         {
@@ -311,7 +324,7 @@ namespace Engine
                             }
                             else
                             {
-                                collisionLayer = new CollisionLayer(tileLayer);
+                                collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
                                 readingCollisionLayer = false;
                             }
                         }
@@ -320,7 +333,7 @@ namespace Engine
                     //add the collision layer if there is no blank line at end of file
                     if (readingCollisionLayer)
                     {
-                        collisionLayer = new CollisionLayer(tileLayer);
+                        collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
                     }
                 }
             }
@@ -337,9 +350,11 @@ namespace Engine
             bool readingDemensions = false;
             bool readingTileDemensions = false;
             bool readingTextures = false;
+            bool readingEntrances = false;
             bool readingTileMap = false;
             bool readingCollisionLayer = false;
 
+            List<string> entrances = new List<string>();
             int currentRow = 0;
             //int layersCount = 0;
             int width = 0;
@@ -371,6 +386,10 @@ namespace Engine
                         {
                             readingDemensions = true;
                         }
+                        else if (line[y].Trim() == "[Entrances]")
+                        {
+                            readingEntrances = true;
+                        }
                         else if (line[y].Trim() == "[TileLayer]")
                         {
                             readingTileMap = true;
@@ -394,6 +413,15 @@ namespace Engine
                             }
                             else
                                 readingTileDemensions = false;
+                        }
+                        else if (readingEntrances)
+                        {
+                            if (line[y].Trim() != "")
+                            {
+                                entrances.Add(line[y].Trim());
+                            }
+                            else
+                                readingEntrances = false;
                         }
                         else if (readingTextures)
                         {
@@ -420,7 +448,6 @@ namespace Engine
 
                                 width = int.Parse(dimensions[0]);
                                 height = int.Parse(dimensions[1]);
-                                //layersCount = int.Parse(dimensions[2]);
                             }
                             else
                                 readingDemensions = false;
@@ -457,7 +484,7 @@ namespace Engine
                             }
                             else
                             {
-                                collisionLayer = new CollisionLayer(tileLayer);
+                                collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
                                 readingCollisionLayer = false;
                             }
                         }
@@ -466,7 +493,7 @@ namespace Engine
                     //add the collision layer if there is no blank line at end of file
                     if (readingCollisionLayer)
                     {
-                        collisionLayer = new CollisionLayer(tileLayer);
+                        collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
                     }
                 }
             }
@@ -493,6 +520,11 @@ namespace Engine
                     writer.WriteLine(textureNames[i] + " " + tiles[i].Width + " " + +tiles[i].Height);
                 writer.WriteLine();
 
+                writer.WriteLine("[Entrances]");
+                for (int i = 0; i < collisionLayer.Entrances.Count; i++)
+                    writer.WriteLine(collisionLayer.Entrances[i]);
+                writer.WriteLine();
+                
                 foreach (TileLayer layer in Layers)
                 {
                     writer.WriteLine("[TileLayer]");
