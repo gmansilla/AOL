@@ -66,3 +66,4 @@ Content\Buildings\Mart.xnb
 Content\Buildings\PC.xnb
 Content\Background\Gate.xnb
 Content\Background\Statue.xnb
+Content\tileSelector.xnb

@@ -60,6 +60,9 @@
             this.cmdApplyResize = new System.Windows.Forms.Button();
             this.tileDisplay1 = new TileMapEditor.TileDisplay();
             this.tileDisplay2 = new TileMapEditor.TileDisplay();
+            this.lstEntrances = new System.Windows.Forms.ListBox();
+            this.cmdAddEntrance = new System.Windows.Forms.Button();
+            this.cmdRemoveEntrance = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPreview)).BeginInit();
             this.SuspendLayout();
@@ -193,7 +196,7 @@
             // 
             // cmdAddLayer
             // 
-            this.cmdAddLayer.Location = new System.Drawing.Point(720, 299);
+            this.cmdAddLayer.Location = new System.Drawing.Point(720, 202);
             this.cmdAddLayer.Name = "cmdAddLayer";
             this.cmdAddLayer.Size = new System.Drawing.Size(99, 23);
             this.cmdAddLayer.TabIndex = 8;
@@ -203,7 +206,7 @@
             // 
             // cmdRemoveLayer
             // 
-            this.cmdRemoveLayer.Location = new System.Drawing.Point(821, 299);
+            this.cmdRemoveLayer.Location = new System.Drawing.Point(821, 202);
             this.cmdRemoveLayer.Name = "cmdRemoveLayer";
             this.cmdRemoveLayer.Size = new System.Drawing.Size(99, 23);
             this.cmdRemoveLayer.TabIndex = 9;
@@ -213,7 +216,7 @@
             // 
             // cmdAddTexture
             // 
-            this.cmdAddTexture.Location = new System.Drawing.Point(720, 565);
+            this.cmdAddTexture.Location = new System.Drawing.Point(720, 599);
             this.cmdAddTexture.Name = "cmdAddTexture";
             this.cmdAddTexture.Size = new System.Drawing.Size(99, 23);
             this.cmdAddTexture.TabIndex = 8;
@@ -223,7 +226,7 @@
             // 
             // cmdRemoveTexture
             // 
-            this.cmdRemoveTexture.Location = new System.Drawing.Point(821, 565);
+            this.cmdRemoveTexture.Location = new System.Drawing.Point(821, 599);
             this.cmdRemoveTexture.Name = "cmdRemoveTexture";
             this.cmdRemoveTexture.Size = new System.Drawing.Size(99, 23);
             this.cmdRemoveTexture.TabIndex = 9;
@@ -234,7 +237,7 @@
             // picPreview
             // 
             this.picPreview.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.picPreview.Location = new System.Drawing.Point(934, 336);
+            this.picPreview.Location = new System.Drawing.Point(934, 375);
             this.picPreview.Name = "picPreview";
             this.picPreview.Size = new System.Drawing.Size(235, 235);
             this.picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -254,25 +257,25 @@
             // lstLayers
             // 
             this.lstLayers.FormattingEnabled = true;
-            this.lstLayers.Location = new System.Drawing.Point(720, 87);
+            this.lstLayers.Location = new System.Drawing.Point(720, 88);
             this.lstLayers.Name = "lstLayers";
-            this.lstLayers.Size = new System.Drawing.Size(200, 199);
+            this.lstLayers.Size = new System.Drawing.Size(200, 108);
             this.lstLayers.TabIndex = 7;
             this.lstLayers.SelectedIndexChanged += new System.EventHandler(this.lstLayers_SelectedIndexChanged);
             // 
             // lstTextures
             // 
             this.lstTextures.FormattingEnabled = true;
-            this.lstTextures.Location = new System.Drawing.Point(720, 336);
+            this.lstTextures.Location = new System.Drawing.Point(720, 375);
             this.lstTextures.Name = "lstTextures";
-            this.lstTextures.Size = new System.Drawing.Size(200, 199);
+            this.lstTextures.Size = new System.Drawing.Size(200, 186);
             this.lstTextures.TabIndex = 7;
             this.lstTextures.SelectedIndexChanged += new System.EventHandler(this.lstTextures_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(720, 542);
+            this.label1.Location = new System.Drawing.Point(720, 573);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(21, 13);
             this.label1.TabIndex = 14;
@@ -280,7 +283,7 @@
             // 
             // txtResizeW
             // 
-            this.txtResizeW.Location = new System.Drawing.Point(747, 539);
+            this.txtResizeW.Location = new System.Drawing.Point(747, 573);
             this.txtResizeW.Name = "txtResizeW";
             this.txtResizeW.Size = new System.Drawing.Size(35, 20);
             this.txtResizeW.TabIndex = 15;
@@ -288,7 +291,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(785, 542);
+            this.label2.Location = new System.Drawing.Point(785, 573);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(18, 13);
             this.label2.TabIndex = 14;
@@ -296,14 +299,14 @@
             // 
             // txtResizeH
             // 
-            this.txtResizeH.Location = new System.Drawing.Point(809, 539);
+            this.txtResizeH.Location = new System.Drawing.Point(809, 573);
             this.txtResizeH.Name = "txtResizeH";
             this.txtResizeH.Size = new System.Drawing.Size(35, 20);
             this.txtResizeH.TabIndex = 15;
             // 
             // cmdApplyResize
             // 
-            this.cmdApplyResize.Location = new System.Drawing.Point(851, 539);
+            this.cmdApplyResize.Location = new System.Drawing.Point(851, 573);
             this.cmdApplyResize.Name = "cmdApplyResize";
             this.cmdApplyResize.Size = new System.Drawing.Size(69, 23);
             this.cmdApplyResize.TabIndex = 16;
@@ -327,6 +330,35 @@
             this.tileDisplay2.TabIndex = 13;
             this.tileDisplay2.Text = "tileDisplay2";
             // 
+            // lstEntrances
+            // 
+            this.lstEntrances.FormattingEnabled = true;
+            this.lstEntrances.Location = new System.Drawing.Point(720, 231);
+            this.lstEntrances.Name = "lstEntrances";
+            this.lstEntrances.Size = new System.Drawing.Size(200, 108);
+            this.lstEntrances.TabIndex = 7;
+            this.lstEntrances.SelectedIndexChanged += new System.EventHandler(this.lstLayers_SelectedIndexChanged);
+            // 
+            // cmdAddEntrance
+            // 
+            this.cmdAddEntrance.Location = new System.Drawing.Point(720, 345);
+            this.cmdAddEntrance.Name = "cmdAddEntrance";
+            this.cmdAddEntrance.Size = new System.Drawing.Size(99, 23);
+            this.cmdAddEntrance.TabIndex = 8;
+            this.cmdAddEntrance.Text = "Add";
+            this.cmdAddEntrance.UseVisualStyleBackColor = true;
+            this.cmdAddEntrance.Click += new System.EventHandler(this.cmdAddLayer_Click);
+            // 
+            // cmdRemoveEntrance
+            // 
+            this.cmdRemoveEntrance.Location = new System.Drawing.Point(821, 345);
+            this.cmdRemoveEntrance.Name = "cmdRemoveEntrance";
+            this.cmdRemoveEntrance.Size = new System.Drawing.Size(99, 23);
+            this.cmdRemoveEntrance.TabIndex = 9;
+            this.cmdRemoveEntrance.Text = "Remove";
+            this.cmdRemoveEntrance.UseVisualStyleBackColor = true;
+            this.cmdRemoveEntrance.Click += new System.EventHandler(this.cmdRemoveLayer_Click);
+            // 
             // frmTileMapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -342,10 +374,13 @@
             this.Controls.Add(this.chkFill);
             this.Controls.Add(this.picPreview);
             this.Controls.Add(this.cmdRemoveTexture);
+            this.Controls.Add(this.cmdRemoveEntrance);
             this.Controls.Add(this.cmdRemoveLayer);
             this.Controls.Add(this.cmdAddTexture);
+            this.Controls.Add(this.cmdAddEntrance);
             this.Controls.Add(this.cmdAddLayer);
             this.Controls.Add(this.lstTextures);
+            this.Controls.Add(this.lstEntrances);
             this.Controls.Add(this.lstLayers);
             this.Controls.Add(this.rbErase);
             this.Controls.Add(this.rbDraw);
@@ -401,5 +436,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtResizeH;
         private System.Windows.Forms.Button cmdApplyResize;
+        private System.Windows.Forms.ListBox lstEntrances;
+        private System.Windows.Forms.Button cmdAddEntrance;
+        private System.Windows.Forms.Button cmdRemoveEntrance;
     }
 }

@@ -490,6 +490,20 @@ namespace TileMapEditor
             }
         }
 
+        private void cmdAddEntrance_Click(object sender, EventArgs e)
+        {
+            if (tileMap != null)
+            {
+            }
+        }
+
+        private void cmdRemoveEntrance_Click(object sender, EventArgs e)
+        {
+            if (currentLayerIndex != -1)
+            {
+            }
+        }
+
         private void cmdAddTexture_Click(object sender, EventArgs e)
         {
             openFileDialog1.InitialDirectory = txtContentFolder.Text;
