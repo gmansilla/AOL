@@ -24,7 +24,6 @@ namespace LadyJava
         Texture2D collisionLayerImage;
 
         TileMap overworld;
-        string contentPath = "..\\..\\..\\..\\LadyJavaContent\\";
 
         public Game1()
         {
@@ -46,7 +45,7 @@ namespace LadyJava
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            overworld = new TileMap(contentPath + "TileMaps\\overworld.map", Content);
+            overworld = new TileMap(Global.ContentPath + "TileMaps\\overworld.map", Content);
 
             AnimationInfo[] animations = { new AnimationInfo(Global.STILL, 32, 46, 1, 0),
                                            new AnimationInfo(Global.DOWN, 32, 46, 4, 100),

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Engine;
 
 namespace Dungeon
 {
@@ -18,6 +19,10 @@ namespace Dungeon
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        List<TileMap> dungeons;
+        Camera camera;
+
+        int currentDungeon;
 
         public Game1()
         {
@@ -47,6 +52,12 @@ namespace Dungeon
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            currentDungeon = 0;
+            dungeons = new List<TileMap>();
+            dungeons.Add(new TileMap(Global.DungeonContentPath + "TileMaps\\D1.map", Content));
+
+            camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -66,11 +77,14 @@ namespace Dungeon
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            InputManager.Update();
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if(InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-            // TODO: Add your update logic here
+
+            
+            camera.Update(gameTime, Vector2.Zero, Vector2.Zero, dungeons[currentDungeon].PixelWidth, dungeons[currentDungeon].PixelWidth);            
 
             base.Update(gameTime);
         }
@@ -83,8 +97,12 @@ namespace Dungeon
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
+
+            dungeons[currentDungeon].Draw(spriteBatch);
             // TODO: Add your drawing code here
 
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

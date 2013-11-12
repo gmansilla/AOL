@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EngineContent", "Engine\Eng
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dungeon", "Dungeon\Dungeon\Dungeon.csproj", "{8E86F23B-6721-46C7-BE57-C146DE812DEE}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "DungeonContent", "Dungeon\DungeonContent\DungeonContent.contentproj", "{23083B62-C3B9-4FDD-AC2A-A3BBE20C2446}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonContent", "Dungeon\DungeonContent\DungeonContent.contentproj", "{23083B62-C3B9-4FDD-AC2A-A3BBE20C2446}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +54,7 @@ Global
 		{50906E4B-E2E2-44AB-8197-8585D80CF9E7}.Release|Any CPU.ActiveCfg = Release|x86
 		{50906E4B-E2E2-44AB-8197-8585D80CF9E7}.Release|x86.ActiveCfg = Release|x86
 		{8E86F23B-6721-46C7-BE57-C146DE812DEE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8E86F23B-6721-46C7-BE57-C146DE812DEE}.Debug|Any CPU.Build.0 = Debug|x86
 		{8E86F23B-6721-46C7-BE57-C146DE812DEE}.Debug|x86.ActiveCfg = Debug|x86
 		{8E86F23B-6721-46C7-BE57-C146DE812DEE}.Debug|x86.Build.0 = Debug|x86
 		{8E86F23B-6721-46C7-BE57-C146DE812DEE}.Release|Any CPU.ActiveCfg = Release|x86
