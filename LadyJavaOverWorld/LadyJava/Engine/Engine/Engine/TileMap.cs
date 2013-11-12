@@ -76,10 +76,10 @@ namespace Engine
                 layer.Draw(spriteBatch, tiles);
         }
 
-        public Point GetTileDemensions(int layerIndex, int x, int y)
-        {
-            return new Point(tiles[GetCellIndex(layerIndex, x, y)].Width, tiles[GetCellIndex(layerIndex, x, y)].Height);
-        }
+        //public Point GetTileDemensions(int layerIndex, int x, int y)
+        //{
+        //    return new Point(tiles[GetCellIndex(layerIndex, x, y)].Width, tiles[GetCellIndex(layerIndex, x, y)].Height);
+        //}
 
         public void Resize(int newWidth, int newHeight, int newTileWidth, int newTileHeight)
         {
@@ -87,8 +87,8 @@ namespace Engine
             for (int layerIndex = 0; layerIndex < Layers.Count; layerIndex++)
             {
                 TileLayer newLayer = new TileLayer(newWidth, newHeight, newTileWidth, newTileHeight);
-                for (int x = 0; x < Layers[layerIndex].Width; x++)
-                    for (int y = 0; y < Layers[layerIndex].Height; y++)
+                for (int y = 0; y < Layers[layerIndex].Width; y++)
+                    for (int x = 0; x < Layers[layerIndex].Height; x++)
                         //if(y >= Layers[layerIndex].Height || x >= Layers[layerIndex].Width)
                         //    newLayer.SetCellIndex(x, y, -1);
                         //else
@@ -98,8 +98,8 @@ namespace Engine
             tileMap = newTileMap;
 
             CollisionLayer newCollisionLayer = new CollisionLayer(Width, Height, TileWidth, TileHeight);
-            for (int x = 0; x < collisionLayer.Width; x++)
-                for (int y = 0; y < collisionLayer.Height; y++)
+            for (int y = 0; y < collisionLayer.Width; y++)
+                for (int x = 0; x < collisionLayer.Height; x++)
                     newCollisionLayer.SetCellIndex(x, y, collisionLayer.GetCellIndex(x, y));
 
             collisionLayer = newCollisionLayer;
@@ -205,7 +205,7 @@ namespace Engine
             int tileWidth = 0;
             int tileHeight = 0;
 
-            int[,] tileLayer = new int[width, height]; ;
+            int[,] tileLayer = new int[height, width];
 
             try
             {
@@ -236,13 +236,13 @@ namespace Engine
                         {
                             readingTileMap = true;
                             currentRow = 0;
-                            tileLayer = new int[width, height];
+                            tileLayer = new int[height, width];
                         }
                         else if (line[y].Trim() == "[CollisionLayer]")
                         {
                             readingCollisionLayer = true;
                             currentRow = 0;
-                            tileLayer = new int[width, height];
+                            tileLayer = new int[height, width];
                         }
                         else if (readingTileDemensions)
                         {
@@ -362,7 +362,7 @@ namespace Engine
             int tileWidth = 0;
             int tileHeight = 0;
 
-            int[,] tileLayer = new int[width, height]; ;
+            int[,] tileLayer = new int[height, width]; ;
             //int[,] collisionLayer = new int[width, height]; ;
 
             try
@@ -394,13 +394,13 @@ namespace Engine
                         {
                             readingTileMap = true;
                             currentRow = 0;
-                            tileLayer = new int[width, height];
+                            tileLayer = new int[height, width];
                         }
                         else if (line[y].Trim() == "[CollisionLayer]")
                         {
                             readingCollisionLayer = true;
                             currentRow = 0;
-                            tileLayer = new int[width, height];
+                            tileLayer = new int[height, width];
                         }
                         else if (readingTileDemensions)
                         {
@@ -532,7 +532,7 @@ namespace Engine
                     {
                         string line = string.Empty;
                         
-                        for (int x = 0; x < layer.Height; x++)
+                        for (int x = 0; x < layer.Width; x++)
                         {
                             string cell = layer.Layer[y, x].ToString();
                             if (cell.Length < 2)
@@ -552,7 +552,7 @@ namespace Engine
                 {
                     string line = string.Empty;
 
-                    for (int x = 0; x < collisionLayer.Height; x++)
+                    for (int x = 0; x < collisionLayer.Width; x++)
                     {
                         string cell = collisionLayer.GetCellIndex(x, y).ToString();
                         if (cell.Length < 2)
