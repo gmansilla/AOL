@@ -87,19 +87,17 @@ namespace Engine
             for (int layerIndex = 0; layerIndex < Layers.Count; layerIndex++)
             {
                 TileLayer newLayer = new TileLayer(newWidth, newHeight, newTileWidth, newTileHeight);
-                for (int y = 0; y < Layers[layerIndex].Width; y++)
-                    for (int x = 0; x < Layers[layerIndex].Height; x++)
-                        //if(y >= Layers[layerIndex].Height || x >= Layers[layerIndex].Width)
-                        //    newLayer.SetCellIndex(x, y, -1);
-                        //else
+                for (int y = 0; y < Math.Min(Layers[layerIndex].Height, newLayer.Height); y++)
+                    for (int x = 0; x < Math.Min(Layers[layerIndex].Width, newLayer.Width); x++)
                         newLayer.SetCellIndex(x, y, GetCellIndex(layerIndex, x, y));
+
                 newTileMap.Add(newLayer);
             }
             tileMap = newTileMap;
 
             CollisionLayer newCollisionLayer = new CollisionLayer(Width, Height, TileWidth, TileHeight);
-            for (int y = 0; y < collisionLayer.Width; y++)
-                for (int x = 0; x < collisionLayer.Height; x++)
+            for (int y = 0; y < Math.Min(collisionLayer.Height, newCollisionLayer.Height); y++)
+                for (int x = 0; x < Math.Min(collisionLayer.Width, newCollisionLayer.Width); x++)
                     newCollisionLayer.SetCellIndex(x, y, collisionLayer.GetCellIndex(x, y));
 
             collisionLayer = newCollisionLayer;
