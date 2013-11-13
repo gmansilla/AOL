@@ -12,6 +12,7 @@ namespace LadyJava
         public const string RIGHT = "Right";
         public const string UP = "Up";
         public const string STILL = "Idle";
+        public const string ContentPath = "..\\..\\..\\..\\LadyJavaContent\\";
 
     }
 }
