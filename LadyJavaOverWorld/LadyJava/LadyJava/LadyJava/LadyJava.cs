@@ -240,7 +240,7 @@ namespace LadyJava
                     collision = true;
             }
             
-            if (!collision && motion == Vector2.Zero)
+            if (!collision && motion != Vector2.Zero)
             {
                 motion.Normalize();
                 motion *= movement;

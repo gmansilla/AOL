@@ -63,7 +63,7 @@ namespace Dungeon
                                               new AnimationInfo(Global.RIGHT, 50, 100, 2, 100),
                                               new AnimationInfo(Global.LEFT, 50, 100, 2, 100) };
 
-            player = new Player(new Sprite(playerImage, new Vector2(100,200), animationInfo, 1f));
+            player = new Player(new Sprite(playerImage, new Vector2(800,200), animationInfo, 1f));
 
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
 
