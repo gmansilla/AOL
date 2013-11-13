@@ -10,6 +10,9 @@ Inside\Floors\Tile_Grey 64 64
 Inside\Books\Book1 128 64
 Inside\Furni\Desk2 64 64
 
+[Entrances]
+TileMaps\overworld.map
+
 [TileLayer]
 00|00|00|00|00
 00|00|00|00|00

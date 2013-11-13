@@ -23,7 +23,7 @@ namespace LadyJava
         Camera camera;
         Texture2D collisionLayerImage;
 
-        TileMap overworld;
+       // TileMap overworld;
 
         public Game1()
         {
@@ -35,9 +35,12 @@ namespace LadyJava
         {
             base.Initialize();
         }
-
+        Dictionary<string, TileMap> campus;
+        string currentArea;
         protected override void LoadContent()
         {
+            campus = new Dictionary<string, TileMap>();
+            currentArea = "TileMaps\\overworld.map";
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
             
             
@@ -46,7 +49,9 @@ namespace LadyJava
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            overworld = new TileMap(Global.ContentPath + "TileMaps\\overworld.map", Content);
+            campus.Add("TileMaps\\overworld.map", new TileMap(Global.ContentPath + "TileMaps\\overworld.map", Content));
+            campus.Add("TileMaps\\house1.map", new TileMap(Global.ContentPath + "TileMaps\\house1.map", Content));
+            campus.Add("TileMaps\\PC.map", new TileMap(Global.ContentPath + "TileMaps\\PC.map", Content));
 
             AnimationInfo[] animations = { new AnimationInfo(Global.STILL, 32, 46, 1, 0),
                                            new AnimationInfo(Global.DOWN, 32, 46, 4, 100),
@@ -54,7 +59,7 @@ namespace LadyJava
                                            new AnimationInfo(Global.RIGHT, 32, 46, 4, 100),
                                            new AnimationInfo(Global.UP, 32, 46, 4, 100) };
 
-            Sprite lady = new Sprite(image, new Vector2(100, 100), animations, 1.0f);
+            Sprite lady = new Sprite(image, new Vector2(200, 300), animations, 1.0f);
             ladyJ = new LadyJava(lady);
 
             //create a Amy (NPC)
@@ -78,8 +83,14 @@ namespace LadyJava
             if (InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-            ladyJ.Update(gameTime, overworld.PixelWidth, overworld.PixelHeight, overworld.CollisionLayer.ToCollisionBox);
-            camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, overworld.PixelWidth, overworld.PixelHeight);
+            Vector2 entrancePix = ladyJ.Update(gameTime, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight, campus[currentArea].CollisionLayer.ToEntranceBox, campus[currentArea].CollisionLayer.ToCollisionBox);
+            if (entrancePix != Global.Invalid)
+            {
+                Vector2 entranceLoc = new Vector2(entrancePix.X / campus[currentArea].TileWidth, entrancePix.Y / campus[currentArea].TileHeight);
+                int currentIndex = campus[currentArea].CollisionLayer.GetCellIndex((int)entranceLoc.X, (int)entranceLoc.Y);
+                currentArea = campus[currentArea].CollisionLayer.Entrances[currentIndex];
+            }
+                camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
             base.Update(gameTime);
         }
 
@@ -89,11 +100,11 @@ namespace LadyJava
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
 
-            overworld.Draw(spriteBatch);
+            campus[currentArea].Draw(spriteBatch);
             ladyJ.Draw(spriteBatch);
             npcAmy.Draw(spriteBatch);
 
-            overworld.CollisionLayer.Draw(spriteBatch, collisionLayerImage);
+            campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -9,6 +9,9 @@ Inside\Floors\Tile_Purple 64 64
 Inside\Floors\Tile_Grey 64 64
 Inside\Furni\Desk2 64 64
 
+[Entrances]
+TileMaps\overworld.map
+
 [TileLayer]
 00|00|00|00|00
 00|00|00|00|00
@@ -28,4 +31,4 @@ Inside\Furni\Desk2 64 64
 00|00|00|00|00
 00|00|00|00|00
 00|00|00|00|00
-00|00|00|00|00
+00|00|01|00|00
