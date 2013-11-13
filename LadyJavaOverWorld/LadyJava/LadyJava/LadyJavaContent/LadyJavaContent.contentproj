@@ -352,6 +352,10 @@
       <Name>D1End</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
+    <None Include="TileMaps\D1Water.map">
+      <Name>D1Water</Name>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <None Include="TileMaps\D2End.map">
       <Name>D2End</Name>
       <Processor>PassThroughProcessor</Processor>
@@ -526,6 +530,25 @@
     </Compile>
     <Compile Include="Background\Statue.png">
       <Name>Statue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\Dirt.png">
+      <Name>Dirt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dungeon\Fin.png">
+      <Name>Fin</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Dungeon\Start.png">
+      <Name>Start</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

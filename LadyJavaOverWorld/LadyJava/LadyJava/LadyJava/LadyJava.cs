@@ -33,11 +33,8 @@ namespace LadyJava
         { get { return boundingBox; } }
 
         BoundingBox boundingBox;
-
         private float movement = 2.4f;
-
         private Sprite sprite;
-
         string animation;
 
         void UpdateBounds(Vector2 newPosition, int width, int height)
@@ -83,6 +80,78 @@ namespace LadyJava
 
             return collisions.ToArray<BoundingBox>();
         }
+
+        Vector2 EntranceCollision(Vector2 newMotion, BoundingBox[] enter)
+        {
+            //int doorEntered = 0;
+            UpdateBounds(Position + newMotion, Width, Height);
+            for (int i = 0; i < enter.Length; i++) //For each tile
+            {
+                if (boundingBox.Intersects(enter[i])) //compare Lady J's box with another square. 
+                {
+                    return new Vector2(enter[i].Min.X, enter[i].Min.Y);
+
+                }
+            }
+            return Global.Invalid;
+        }
+        //#region ?
+        //            //UpdateBounds(newPosition, Width, Height);
+        //            //for (int i = 0; i < enter.Length; i++)
+        //            //{
+        //            //    if (boundingBox.Intersects(enter[i]))
+        //            //    {
+        //            //        getMap = "TileMaps\\overworld.map";
+        //            //        return getMap;
+        //            //    }
+        //            //    else if (boundingBox.Intersects(enter[i]))
+        //            //    {
+        //            //        getMap = "TileMaps\\BoatHouse.map";
+        //            //        return getMap;
+        //            //    }
+        //            //    else if (boundingBox.Intersects(enter[i]))
+        //            //    {
+        //            //        getMap = "TileMaps\\Gym.map";
+        //            //        return getMap;
+        //            //    }
+        //            //    else if (boundingBox.Intersects(enter[i]))
+        //            //    {
+        //            //        getMap = "TileMaps\\house1.map";
+        //            //        return getMap;
+        //            //    }
+        //            //    else if (boundingBox.Intersects(enter[i]))
+        //            //    {
+        //            //        getMap = "TileMaps\\house2.map";
+        //            //        return getMap;
+        //            //    }
+        //            //    else if (boundingBox.Intersects(enter[i]))
+        //            //    {
+        //            //        getMap = "TileMaps\\house3.map";
+        //            //        return getMap;
+        //            //    }
+        //            //    else if (boundingBox.Intersects(enter[i]))
+        //            //    {
+        //            //        getMap = "TileMaps\\house4.map";
+        //            //        return getMap;
+        //            //    }
+        //            //    else if (boundingBox.Intersects(enter[i]))
+        //            //    {
+        //            //        getMap = "TileMaps\\PC.map";
+        //            //        return getMap;
+        //            //    }
+        //            //    else if (boundingBox.Intersects(enter[i]))
+        //            //    {
+        //            //        getMap = "TileMaps\\ShirsStudy.map";
+        //            //        return getMap;
+        //            //    }
+        //            //    else
+        //            //    {
+        //            //        return getMap;
+        //            //    }
+        //            //}
+        //            //return getMap;
+        //#endregion
+        //        }
 
         Vector2 AdjustForCollision(Vector2 newMotion, BoundingBox[] collisions)
         {
@@ -198,8 +267,9 @@ namespace LadyJava
             return newMotion;
         }
         
-        public void Update(GameTime gameTime, int levelWidth, int levelHeight, params Object[] collisionObjects)
+        public Vector2 Update(GameTime gameTime, int levelWidth, int levelHeight, BoundingBox[] entrances, params Object[] collisionObjects)
         {
+            Vector2 enterLoc = Global.Invalid;
             Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
 
@@ -248,8 +318,10 @@ namespace LadyJava
 
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
-
+            enterLoc = EntranceCollision(motion, entrances);
             sprite.Update(gameTime, animation, position);
+
+            return enterLoc;
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace Engine
 {
@@ -18,6 +19,8 @@ namespace Engine
 
         public const string ContentPath = "..\\..\\..\\..\\LadyJavaContent\\";
         public const string DungeonContentPath = "..\\..\\..\\..\\..\\LadyJava\\LadyJavaContent\\";
+
+        public static Vector2 Invalid = new Vector2(-1,-1); //Must be static
 
 
 
