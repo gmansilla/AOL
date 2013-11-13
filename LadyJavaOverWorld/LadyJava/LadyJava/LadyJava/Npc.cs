@@ -17,14 +17,14 @@ namespace LadyJava
     class Npc
     {
         Sprite sprite;
-
+        string[,] script = new string[6, 1];
         private Vector2 Position
         { get { return sprite.Position; } }
 
-        public Npc(Sprite newSprite)
+        public Npc(Sprite newSprite, string newName)
         {
             sprite = newSprite;
-            loadScript("Amy");
+            loadScript(newName);
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -34,9 +34,10 @@ namespace LadyJava
 
         private void loadScript(string name)
         {
-            string[,] script = new string[8, 5];
-            script[0, 0] = "Hello";
-            string fileLocation = name + "\\script.txt";
+           
+            bool readingStage1, readingStage2, readingStage3, readingStage4, readingOnCompleted;
+            readingStage1 = readingStage2 = readingStage3 = readingStage4 = readingOnCompleted = false; 
+            string fileLocation = Global.ContentPath + name + "\\script.txt";
             try
             {
                 using (StreamReader sr = new StreamReader(fileLocation))
@@ -45,7 +46,55 @@ namespace LadyJava
                     string[] line = lines.Split(new Char[] { '\n' });
                     for (int y = 0; y < line.Length; y++)
                     {
-                        Console.WriteLine(line[y].Trim());
+                        switch (line[y].Trim()) { 
+                            case "[Stage1]":
+                                readingStage1 = true;
+                                readingStage2 = readingStage3 = readingStage4 = readingOnCompleted = false;
+                            break;
+                            case "[Stage2]":
+                                readingStage2 = true;
+                                readingStage1 = readingStage3 = readingStage4 = readingOnCompleted = false;
+                            break;
+                            case "[Stage3]":
+                                readingStage3 = true;
+                                readingStage2 = readingStage1 = readingStage4 = readingOnCompleted = false;
+                            break;
+                            case "[Stage4]":
+                                readingStage4 = true;
+                                readingStage2 = readingStage3 = readingStage1 = readingOnCompleted = false;
+                            break;
+                            case "[onCompleted]":
+                                readingOnCompleted = true;
+                                readingStage2 = readingStage3 = readingStage1 = readingStage4 = false;
+                            break;
+                            default:
+                                if (readingStage1 == true) {
+                                    script[1, 0] = line[y].Trim();
+                                    readingStage1 = false;
+                                }
+                                else if (readingStage2 == true) {
+                                    script[2, 0] = line[y].Trim();
+                                    readingStage2 = false;
+                                }
+                                else if (readingStage3 == true)
+                                {
+                                    script[3, 0] = line[y].Trim();
+                                    readingStage3 = false;
+                                }
+                                else if (readingStage4 == true)
+                                {
+                                    script[4, 0] = line[y].Trim();
+                                    readingStage4 = false;
+                                }
+                                else if (readingOnCompleted == true)
+                                {
+                                    script[5, 0] = line[y].Trim();
+                                    readingOnCompleted = false;
+                                }
+                            break;
+                        }
+
+
                     }
                 }
             }
