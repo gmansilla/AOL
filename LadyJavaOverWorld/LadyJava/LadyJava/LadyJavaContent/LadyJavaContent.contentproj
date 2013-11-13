@@ -344,6 +344,10 @@
       <Name>BoatHouse</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
+    <None Include="TileMaps\D1.map">
+      <Name>D1</Name>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <None Include="TileMaps\D1End.map">
       <Name>D1End</Name>
       <Processor>PassThroughProcessor</Processor>

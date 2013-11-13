@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Engine;
 
 namespace Dungeon
 {
@@ -18,6 +19,11 @@ namespace Dungeon
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        List<TileMap> dungeons;
+        Camera camera;
+        Player player;
+
+        int currentDungeon;
 
         public Game1()
         {
@@ -47,6 +53,20 @@ namespace Dungeon
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            currentDungeon = 0;
+            dungeons = new List<TileMap>();
+            dungeons.Add(new TileMap(Global.DungeonContentPath + "TileMaps\\D1.map", Content));
+
+            Texture2D[] playerImage = { Content.Load<Texture2D>("player") };
+
+            AnimationInfo[] animationInfo = { new AnimationInfo(Global.STILL, 50, 100, 1, 0),
+                                              new AnimationInfo(Global.RIGHT, 50, 100, 2, 100),
+                                              new AnimationInfo(Global.LEFT, 50, 100, 2, 100) };
+
+            player = new Player(new Sprite(playerImage, new Vector2(100,200), animationInfo, 1f));
+
+            camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -66,11 +86,14 @@ namespace Dungeon
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            InputManager.Update();
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if(InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-            // TODO: Add your update logic here
+            player.Update(gameTime, dungeons[currentDungeon].PixelWidth, dungeons[currentDungeon].PixelWidth, dungeons[currentDungeon].CollisionLayer.ToCollisionBox);
+            
+            camera.Update(gameTime, player.Position, player.Origin, dungeons[currentDungeon].PixelWidth, dungeons[currentDungeon].PixelHeight);            
 
             base.Update(gameTime);
         }
@@ -83,8 +106,12 @@ namespace Dungeon
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
 
+            dungeons[currentDungeon].Draw(spriteBatch);
+            player.Draw(spriteBatch);
+
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

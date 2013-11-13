@@ -13,9 +13,9 @@ using Microsoft.Xna.Framework.Media;
 using Engine;
 using System.Collections.ObjectModel;
 
-namespace LadyJava
+namespace Dungeon
 {
-    class LadyJava
+    class Player
     {
         public Vector2 Position
         { get { return sprite.Position; } }
@@ -43,11 +43,10 @@ namespace LadyJava
         void UpdateBounds(Vector2 newPosition, int width, int height)
         {
             boundingBox = new BoundingBox(new Vector3(newPosition.X, newPosition.Y, 0f),
-                                          //new Vector3(newPosition.X + width, newPosition.Y + height, 0f),
                                           new Vector3(newPosition.X + width, newPosition.Y + height, 0f));
         }
 
-        public LadyJava(Sprite newSprite)
+        public Player(Sprite newSprite)
         {
             animation = Global.STILL;
             sprite = newSprite;
@@ -82,40 +81,6 @@ namespace LadyJava
                 }
 
             return collisions.ToArray<BoundingBox>();
-        }
-
-        Vector2 AdjustForCollision(Vector2 newMotion, BoundingBox[] collisions)
-        {
-            Vector2 newPosition = Position + newMotion;
-            const float buffer = 0.01f;
-
-            UpdateBounds(newPosition, Width, Height);
-            for (int i = 0; i < collisions.Length; i++)
-            {
-                if (boundingBox.Intersects(collisions[i]))
-                {
-                    if (Math.Abs(newMotion.X) > Math.Abs(newMotion.Y))
-                    {
-                        if (newMotion.X < 0f)
-                            if (boundingBox.Min.X < collisions[i].Max.X)
-                                newPosition = new Vector2(collisions[i].Max.X + buffer, boundingBox.Min.Y);
-                        if (newMotion.X > 0f)
-                            if (boundingBox.Max.X > collisions[i].Min.X)
-                                newPosition = new Vector2(collisions[i].Min.X - Width - buffer, boundingBox.Min.Y);
-                    }
-                    else if (Math.Abs(newMotion.X) < Math.Abs(newMotion.Y))
-                    {
-                        if (newMotion.Y < 0f)
-                            if (boundingBox.Min.Y < collisions[i].Max.Y)
-                                newPosition = new Vector2(boundingBox.Min.X, collisions[i].Max.Y + buffer);
-                        if (newMotion.Y > 0f)
-                            if (boundingBox.Max.Y > collisions[i].Min.Y)
-                                newPosition = new Vector2(boundingBox.Min.X, collisions[i].Min.Y - Height - buffer);
-                    }
-                }
-            }
-
-            return newPosition;
         }
 
         const float buffer = 0.01f;
@@ -197,58 +162,39 @@ namespace LadyJava
 
             return newMotion;
         }
-        
+
         public void Update(GameTime gameTime, int levelWidth, int levelHeight, params Object[] collisionObjects)
         {
             Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
 
-            bool collision = false;
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
+            motion.Y = (Global.GravityAccelation / Global.PixelsToMeter) * (float) gameTime.ElapsedGameTime.TotalSeconds;
+            motion = DownCollision(motion, collisions);
+
             animation = Global.STILL;
-            if (InputManager.IsKeyDown(Commands.Up))
-            {
-                animation = Global.UP;
-                motion.Y = -movement;
-                motion = UpCollision(motion, collisions);
-                if (motion.Y != -movement)
-                    collision = true;
-            }
-            if (InputManager.IsKeyDown(Commands.Down))
-            {
-                animation = Global.DOWN;
-                motion.Y = movement;
-                motion = DownCollision(motion, collisions);
-                if (motion.Y != movement)
-                    collision = true;
-            }
             if (InputManager.IsKeyDown(Commands.Right))
             {
                 animation = Global.RIGHT;
-                motion.X = movement;
+                motion.X += movement;
                 motion = RightCollision(motion, collisions);
-                if (motion.X != movement)
-                    collision = true;
             }
-            if (InputManager.IsKeyDown(Commands.Left))
+            else if (InputManager.IsKeyDown(Commands.Left))
             {
                 animation = Global.LEFT;
-                motion.X = -movement;
+                motion.X -= movement;
                 motion = LeftCollision(motion, collisions);
-                if (motion.X != -movement)
-                    collision = true;
             }
-            
-            if (!collision && motion == Vector2.Zero)
+            else if (motion != Vector2.Zero)
             {
-                motion.Normalize();
-                motion *= movement;
+                //motion.Normalize();
+
             }
 
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
-
+            
             sprite.Update(gameTime, animation, position);
         }
 

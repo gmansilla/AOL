@@ -103,13 +103,6 @@ namespace Engine
             collisionLayer = newCollisionLayer;
         }
 
-        public void AddTexture(string newTexturePath, int newWidth, int newHeight, ContentManager gameContent)
-        {
-            Texture2D newTexture = gameContent.Load<Texture2D>(newTexturePath);
-            tiles.Add(new Tile(newTexture, newWidth, newHeight));
-            textureNames.Add(newTexturePath);
-        }
-
         public int GetCellIndex(int layerIndex, int x, int y)
         {
             return Layers[layerIndex].GetCellIndex(x, y);
@@ -119,7 +112,14 @@ namespace Engine
         {
             Layers[layerIndex].SetCellIndex(x, y, cellIndex);
         }
-        
+
+        public void AddTexture(string newTexturePath, int newWidth, int newHeight, ContentManager gameContent)
+        {
+            Texture2D newTexture = gameContent.Load<Texture2D>(newTexturePath);
+            tiles.Add(new Tile(newTexture, newWidth, newHeight));
+            textureNames.Add(newTexturePath);
+        }
+
         public Texture2D AddTexture(string newTexturePath, string newTextureName, int newWidth, int newHeight, GraphicsDevice graphicsDevice)
         {
             Texture2D newTexture;
