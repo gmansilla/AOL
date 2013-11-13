@@ -1,0 +1,6 @@
+[Stage1]
+Hello, my name is Amy
+[Stage2]
+[Stage3]
+[onCompleted]
+Thank you for saving that guy!
