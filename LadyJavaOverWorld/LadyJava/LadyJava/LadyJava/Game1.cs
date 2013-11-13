@@ -91,7 +91,7 @@ namespace LadyJava
             ladyJ.Draw(spriteBatch);
             npcAmy.Draw(spriteBatch);
 
-            //overworld.CollisionLayer.Draw(spriteBatch, collisionLayerImage);
+            overworld.CollisionLayer.Draw(spriteBatch, collisionLayerImage);
             spriteBatch.End();
             base.Draw(gameTime);
         }

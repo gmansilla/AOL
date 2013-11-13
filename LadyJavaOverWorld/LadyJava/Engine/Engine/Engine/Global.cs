@@ -7,6 +7,9 @@ namespace Engine
 {
     public static class Global
     {
+        public const float GravityAccelation = 9.807f;
+        public const float PixelsToMeter = 0.018f;
+        
         public const string DOWN = "Down";
         public const string LEFT = "Left";
         public const string RIGHT = "Right";
@@ -15,6 +18,8 @@ namespace Engine
 
         public const string ContentPath = "..\\..\\..\\..\\LadyJavaContent\\";
         public const string DungeonContentPath = "..\\..\\..\\..\\..\\LadyJava\\LadyJavaContent\\";
+
+
 
     }
 }

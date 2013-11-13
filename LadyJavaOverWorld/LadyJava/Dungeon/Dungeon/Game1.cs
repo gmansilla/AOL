@@ -21,6 +21,7 @@ namespace Dungeon
         SpriteBatch spriteBatch;
         List<TileMap> dungeons;
         Camera camera;
+        Player player;
 
         int currentDungeon;
 
@@ -56,6 +57,14 @@ namespace Dungeon
             dungeons = new List<TileMap>();
             dungeons.Add(new TileMap(Global.DungeonContentPath + "TileMaps\\D1.map", Content));
 
+            Texture2D[] playerImage = { Content.Load<Texture2D>("player") };
+
+            AnimationInfo[] animationInfo = { new AnimationInfo(Global.STILL, 50, 100, 1, 0),
+                                              new AnimationInfo(Global.RIGHT, 50, 100, 2, 100),
+                                              new AnimationInfo(Global.LEFT, 50, 100, 2, 100) };
+
+            player = new Player(new Sprite(playerImage, new Vector2(100,200), animationInfo, 1f));
+
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
 
             // TODO: use this.Content to load your game content here
@@ -82,9 +91,9 @@ namespace Dungeon
             if(InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-
+            player.Update(gameTime, dungeons[currentDungeon].PixelWidth, dungeons[currentDungeon].PixelWidth, dungeons[currentDungeon].CollisionLayer.ToCollisionBox);
             
-            camera.Update(gameTime, Vector2.Zero, Vector2.Zero, dungeons[currentDungeon].PixelWidth, dungeons[currentDungeon].PixelWidth);            
+            camera.Update(gameTime, player.Position, player.Origin, dungeons[currentDungeon].PixelWidth, dungeons[currentDungeon].PixelHeight);            
 
             base.Update(gameTime);
         }
@@ -100,7 +109,7 @@ namespace Dungeon
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
 
             dungeons[currentDungeon].Draw(spriteBatch);
-            // TODO: Add your drawing code here
+            player.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
