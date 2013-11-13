@@ -10,8 +10,6 @@ namespace Engine
     public class TileLayer
     {
         int[,] tileLayer;
-        //int width;
-        //int height;
         
         int tileWidth;
         int tileHeight;
@@ -34,8 +32,6 @@ namespace Engine
             tileLayer = newTileLayer;
             tileWidth = newTileWidth;
             tileHeight = newTileHeight;
-            //width = tileLayer.GetLength(1);
-            //height = tileLayer.GetLength(0);
         }
 
         public TileLayer(int Width, int Height, int newTileWidth, int newTileHeight)

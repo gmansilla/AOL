@@ -40,9 +40,9 @@ namespace Engine
         public CollisionLayer(int newWidth, int newHeight, int tileWidth, int tileHeight)
         {
             entrances = new List<string>();
-            collisionLayer = new int[newWidth, newHeight];
-            for (int x = 0; x < Width; x++)
-                for (int y = 0; y < Height; y++)
+            collisionLayer = new int[newHeight, newWidth];
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
                     collisionLayer[y, x] = 0;
 
             CreateCollisionLayer(tileWidth, tileHeight);
@@ -52,8 +52,8 @@ namespace Engine
         {
             int boxCount = 0;
             int entranceCount = 0;
-            for (int x = 0; x < Width; x++)
-                for (int y = 0; y < Height; y++)
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
                     if (collisionLayer[y, x] == -1)
                         boxCount++;
                     else if (collisionLayer[y, x] > 0)
@@ -64,8 +64,8 @@ namespace Engine
 
             boxCount = 0;
             entranceCount = 0;
-            for (int x = 0; x < Width; x++)
-                for (int y = 0; y < Height; y++)
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
                     if (collisionLayer[y, x] == -1)
                     {
 
@@ -101,10 +101,21 @@ namespace Engine
             SetCellIndex(x, y, 0);
         }
 
-        //public void RemoveEntrance(string entranceString)
-        //{
-        //    SetCellIndex(x, y, 0);
-        //}
+        public void RemoveEntrance(string entranceString)
+        {
+            if (entrances.Contains(entranceString))
+            {
+                int index = entrances.IndexOf(entranceString);
+                for (int y = 0; y < Height; y++)
+                    for (int x = 0; x < Width; x++)
+                        if (GetCellIndex(x, y) > index)
+                            SetCellIndex(x, y, GetCellIndex(x, y) - 1);
+                        else if (GetCellIndex(x, y) == index)
+                            SetCellIndex(x, y, 0);
+                
+                entrances.RemoveAt(index);
+            }
+        }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D texture)
         {

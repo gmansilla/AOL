@@ -119,7 +119,7 @@
     <Compile Include="Engine\Sprite.cs" />
     <Compile Include="Engine\TileLayer.cs" />
     <Compile Include="Engine\TileMap.cs" />
-    <Compile Include="Tile.cs" />
+    <Compile Include="Engine\Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

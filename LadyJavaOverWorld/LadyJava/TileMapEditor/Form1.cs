@@ -263,8 +263,8 @@ namespace TileMapEditor
                     tileMap.Layers[i].Draw(spriteBatch, tileMap.Tiles);
 
                 //Draw empty cells
-                for (int x = 0; x < tileMap.Layers[drawTo].Height; x++)
-                    for (int y = 0; y < tileMap.Layers[drawTo].Width; y++)
+                for (int y = 0; y < tileMap.Layers[drawTo].Height; y++)
+                    for (int x = 0; x < tileMap.Layers[drawTo].Width; x++)
                         if (tileMap.GetCellIndex(drawTo, x, y) == -1)
                             spriteBatch.Draw(emptyTile,
                                              new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
@@ -273,8 +273,8 @@ namespace TileMapEditor
                                              Color.White);
 
                 if(drawTo != currentLayerIndex)
-                    for (int x = 0; x < tileMap.CollisionLayer.Height; x++)
-                        for (int y = 0; y < tileMap.CollisionLayer.Width; y++)
+                    for (int y = 0; y < tileMap.CollisionLayer.Height; y++)
+                        for (int x = 0; x < tileMap.CollisionLayer.Width; x++)
                             if (tileMap.CollisionLayer.GetCellIndex(x, y) == -1)
                                 spriteBatch.Draw(emptyTile,
                                                  new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
@@ -312,8 +312,8 @@ namespace TileMapEditor
                 for (int i = 0; i < tileMap.Layers.Count; i++)
                     tileMap.Layers[i].Draw(spriteBatch, tileMap.Tiles);
 
-                for (int x = 0; x < tileMap.CollisionLayer.Height; x++)
-                    for (int y = 0; y < tileMap.CollisionLayer.Width; y++)
+                for (int y = 0; y < tileMap.CollisionLayer.Height; y++)
+                    for (int x = 0; x < tileMap.CollisionLayer.Width; x++)
                         if (tileMap.CollisionLayer.GetCellIndex(x, y) == -1)
                             spriteBatch.Draw(emptyTile,
                                              new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
@@ -640,7 +640,10 @@ namespace TileMapEditor
         {
             if (currentLayerIndex != -1 && lstEntrances.SelectedItem.ToString() != collisionBlock)
             {
-
+                tileMap.CollisionLayer.RemoveEntrance(lstEntrances.SelectedItem.ToString());
+                int newIndex = currentEntranceIndex - 1;
+                lstEntrances.Items.RemoveAt(currentEntranceIndex);
+                currentEntranceIndex = newIndex;
             }
         }
 
