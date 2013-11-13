@@ -335,9 +335,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Alison\script.txt">
+    <None Include="Npc\Alison\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Alison\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -348,9 +349,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Amy\script.txt">
+    <None Include="Npc\Amy\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Amy\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -361,9 +363,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Anna\script.txt">
+    <None Include="Npc\Anna\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Anna\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -374,9 +377,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Chaz\script.txt">
+    <None Include="Npc\Chaz\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Chaz\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -387,9 +391,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Han\script.txt">
+    <None Include="Npc\Han\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Han\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -400,9 +405,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Hugh\script.txt">
+    <None Include="Npc\Hugh\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Hugh\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -413,9 +419,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Josh\script.txt">
+    <None Include="Npc\Josh\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Josh\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -426,9 +433,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Kyra\script.txt">
+    <None Include="Npc\Kyra\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Kyra\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -439,9 +447,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Nei\script.txt">
+    <None Include="Npc\Nei\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Nei\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -452,9 +461,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Rika\script.txt">
+    <None Include="Npc\Rika\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Rika\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -465,9 +475,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Rolf\script.txt">
+    <None Include="Npc\Rolf\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Rolf\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -478,9 +489,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Rudo\script.txt">
+    <None Include="Npc\Rudo\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Rudo\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -491,9 +503,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Rune\script.txt">
+    <None Include="Npc\Rune\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Rune\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -504,9 +517,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\SeeHash\script.txt">
+    <None Include="Npc\SeeHash\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\SeeHash\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -517,9 +531,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\Shir\script.txt">
+    <None Include="Npc\Shir\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\Shir\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -530,9 +545,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\TecMan\script.txt">
+    <None Include="Npc\TecMan\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\TecMan\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -543,9 +559,10 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\TheOracle\script.txt">
+    <None Include="Npc\TheOracle\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\TheOracle\sprite.png">
       <Name>sprite</Name>
       <Importer>TextureImporter</Importer>
@@ -556,11 +573,24 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Npc\TheScrumMaster\script.txt">
+    <None Include="Npc\TheScrumMaster\script.txt">
       <Name>script</Name>
-    </Compile>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <Compile Include="Npc\TheScrumMaster\sprite.png">
       <Name>sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\LadyJavaBigOverWorld.png">
+      <Name>LadyJavaBigOverWorld</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Sprites\LadyJavaBigOverWorldOld.png">
+      <Name>LadyJavaBigOverWorldOld</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

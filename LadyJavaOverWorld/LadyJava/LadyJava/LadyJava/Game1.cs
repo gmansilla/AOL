@@ -58,7 +58,7 @@ namespace LadyJava
             ladyJ = new LadyJava(lady);
 
             //create a Amy (NPC)
-            Texture2D[] npcImage = { Content.Load<Texture2D>("Amy\\sprite") };
+            Texture2D[] npcImage = { Content.Load<Texture2D>("Npc\\Amy\\sprite") };
             Sprite amy = new Sprite(npcImage, new Vector2(200, 200), 25, 50, 1.0f);
             npcAmy = new Npc(amy,"Amy");
         }
