@@ -39,7 +39,8 @@ namespace LadyJava
         protected override void LoadContent()
         {
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
-            Texture2D[] npcImage = { Content.Load<Texture2D>("Sprites\\NPI\\Sprites\\NPC_Hugh") };
+            
+            
             collisionLayerImage = Content.Load<Texture2D>("tileSelector");
 
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
@@ -56,9 +57,10 @@ namespace LadyJava
             Sprite lady = new Sprite(image, new Vector2(100, 100), animations, 1.0f);
             ladyJ = new LadyJava(lady);
 
-            //create a npc
+            //create a Amy (NPC)
+            Texture2D[] npcImage = { Content.Load<Texture2D>("Amy\\sprite") };
             Sprite amy = new Sprite(npcImage, new Vector2(200, 200), 25, 50, 1.0f);
-            npcAmy = new Npc(amy);
+            npcAmy = new Npc(amy,"Amy");
         }
 
         protected override void UnloadContent()
