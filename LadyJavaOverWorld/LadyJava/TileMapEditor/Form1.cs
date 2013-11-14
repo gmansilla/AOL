@@ -293,7 +293,7 @@ namespace TileMapEditor
                                                  new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
                                                                tileMap.TileWidth,
                                                                tileMap.TileHeight),
-                                                 Color.Black);
+                                                 Color.Gold);
                             else if (tileMap.CollisionLayer.GetCellIndex(x, y) >= 0)
                                 spriteBatch.Draw(emptyTile,
                                                  new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
@@ -338,7 +338,7 @@ namespace TileMapEditor
                                              new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
                                                            tileMap.TileWidth,
                                                            tileMap.TileHeight),
-                                             Color.Black);
+                                             Color.Gold);
                         else if (tileMap.CollisionLayer.GetCellIndex(x, y) >= 0)
                             spriteBatch.Draw(emptyTile,
                                              new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
