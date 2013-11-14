@@ -140,6 +140,11 @@ namespace Engine
             return animations[newType].NextFrame * animations[newType].FrameCount;
         }
 
+        public void SetPosition(Vector2 newPosition)
+        {
+            position = newPosition;
+        }
+
         public void Update(GameTime gameTime, Vector2 newPosition)
         {
             position = newPosition;

@@ -9,6 +9,10 @@ namespace Engine
 {
     public class CollisionLayer
     {
+        static public int CollisionCell = -2;
+        static public int NothingCell = -1;
+        static public int StartingCell = -3;
+
         BoundingBox[] collisionBoxes;
         BoundingBox[] entranceBoxes;
 
@@ -43,7 +47,7 @@ namespace Engine
             collisionLayer = new int[newHeight, newWidth];
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
-                    collisionLayer[y, x] = 0;
+                    collisionLayer[y, x] = NothingCell;
 
             CreateCollisionLayer(tileWidth, tileHeight);
         }
@@ -54,9 +58,9 @@ namespace Engine
             int entranceCount = 0;
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
-                    if (collisionLayer[y, x] == -1)
+                    if (collisionLayer[y, x] == CollisionCell)
                         boxCount++;
-                    else if (collisionLayer[y, x] > 0)
+                    else if (collisionLayer[y, x] >= 0)
                         entranceCount++;
 
             collisionBoxes = new BoundingBox[boxCount];
@@ -66,13 +70,13 @@ namespace Engine
             entranceCount = 0;
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
-                    if (collisionLayer[y, x] == -1)
+                    if (collisionLayer[y, x] == CollisionCell)
                     {
 
                         collisionBoxes[boxCount++] = new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
                                                                      new Vector3(x * tileWidth + tileWidth, y * tileHeight + tileHeight, 0f));
                     }
-                    else if ((collisionLayer[y, x] > 0))
+                    else if ((collisionLayer[y, x] >= 0))
                     {
                         entranceBoxes[entranceCount++] = new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
                                                                           new Vector3(x * tileWidth + tileWidth, y * tileHeight + tileHeight, 0f));
@@ -98,7 +102,7 @@ namespace Engine
 
         public void RemoveEntrance(int x, int y)
         {
-            SetCellIndex(x, y, 0);
+            SetCellIndex(x, y, NothingCell);
         }
 
         public void RemoveEntrance(string entranceString)
@@ -111,7 +115,7 @@ namespace Engine
                         if (GetCellIndex(x, y) > index)
                             SetCellIndex(x, y, GetCellIndex(x, y) - 1);
                         else if (GetCellIndex(x, y) == index)
-                            SetCellIndex(x, y, 0);
+                            SetCellIndex(x, y, NothingCell);
                 
                 entrances.RemoveAt(index);
             }

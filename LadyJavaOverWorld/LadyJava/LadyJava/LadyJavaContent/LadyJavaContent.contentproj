@@ -151,6 +151,10 @@
       <Name>D1End</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
+    <None Include="TileMaps\D1Water.map">
+      <Name>D1Water</Name>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <None Include="TileMaps\D2End.map">
       <Name>D2End</Name>
       <Processor>PassThroughProcessor</Processor>
@@ -591,6 +595,13 @@
     </Compile>
     <Compile Include="Sprites\LadyJavaBigOverWorldOld.png">
       <Name>LadyJavaBigOverWorldOld</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Npc\TheOracle\NPC_TheOracle_Trapped.png">
+      <Name>NPC_TheOracle_Trapped</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

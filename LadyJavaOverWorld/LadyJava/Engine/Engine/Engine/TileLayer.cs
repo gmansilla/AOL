@@ -9,6 +9,8 @@ namespace Engine
 {
     public class TileLayer
     {
+        static public int TransparentCell = -1;
+
         int[,] tileLayer;
         
         int tileWidth;

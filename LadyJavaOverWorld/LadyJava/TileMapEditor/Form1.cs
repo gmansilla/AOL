@@ -17,7 +17,10 @@ namespace TileMapEditor
     {
         Point invalidPoint = new Point(-1, -1);
         const int MaxFillCount = 100;
-        string collisionBlock = "collisionBlock";
+
+        string[] defaultCollisionItems = { "collisionBlock", "startPosition" };
+        int collisionBlockIndex = 0;
+        int startPositionIndex = 1;
 
         int fillCount = 0;
 
@@ -196,12 +199,14 @@ namespace TileMapEditor
                         if (currentTextureIndex != -1 && currentLayerIndex != -1)
                             if (currentLayerIndex == tileMap.Layers.Count)
                             {
-                                if (lstEntrances.SelectedItem.ToString() != null)
+                                if (lstEntrances.SelectedItem != null)
                                 {
-                                    if (lstEntrances.SelectedItem.ToString() == collisionBlock)
-                                        tileMap.CollisionLayer.SetCellIndex(cellX, cellY, -1);
+                                    if (lstEntrances.SelectedItem.ToString() == defaultCollisionItems[collisionBlockIndex])
+                                        tileMap.CollisionLayer.SetCellIndex(cellX, cellY, CollisionLayer.CollisionCell);
+                                    if (lstEntrances.SelectedItem.ToString() == defaultCollisionItems[startPositionIndex])
+                                        tileMap.CollisionLayer.SetCellIndex(cellX, cellY, CollisionLayer.StartingCell);
                                     else if (currentEntranceIndex != -1)
-                                        tileMap.CollisionLayer.AddEntrance(lstEntrances.SelectedItem.ToString(), cellX, cellY, currentEntranceIndex);
+                                        tileMap.CollisionLayer.AddEntrance(lstEntrances.SelectedItem.ToString(), cellX, cellY, currentEntranceIndex - defaultCollisionItems.Length);
                                 }
                             }
                             else if (!chkFill.Checked)
@@ -216,20 +221,22 @@ namespace TileMapEditor
                         if (currentLayerIndex != -1 && currentTextureIndex != -1)
                             if (currentLayerIndex == tileMap.Layers.Count)
                             {
-                                if (lstEntrances.SelectedItem.ToString() != null)
+                                if (lstEntrances.SelectedItem != null)
                                 {
-                                    if (lstEntrances.SelectedItem.ToString() == collisionBlock)
-                                        tileMap.CollisionLayer.SetCellIndex(cellX, cellY, 0);
+                                    if (lstEntrances.SelectedItem.ToString() == defaultCollisionItems[collisionBlockIndex])
+                                        tileMap.CollisionLayer.SetCellIndex(cellX, cellY, CollisionLayer.NothingCell);
+                                    else if (lstEntrances.SelectedItem.ToString() == defaultCollisionItems[startPositionIndex])
+                                        tileMap.CollisionLayer.SetCellIndex(cellX, cellY, CollisionLayer.NothingCell);
                                     else if (currentEntranceIndex != -1)
                                         tileMap.CollisionLayer.RemoveEntrance(cellX, cellY);
 
                                 }
                             }
                             else if (!chkFill.Checked)
-                                tileMap.SetCellIndex(currentLayerIndex, cellX, cellY, -1);
+                                tileMap.SetCellIndex(currentLayerIndex, cellX, cellY, TileLayer.TransparentCell);
                             else
                             {
-                                FillCell(currentLayerIndex, cellX, cellY, -1);
+                                FillCell(currentLayerIndex, cellX, cellY, TileLayer.TransparentCell);
                             }
                     }
                 }
@@ -265,7 +272,7 @@ namespace TileMapEditor
                 //Draw empty cells
                 for (int y = 0; y < tileMap.Layers[drawTo].Height; y++)
                     for (int x = 0; x < tileMap.Layers[drawTo].Width; x++)
-                        if (tileMap.GetCellIndex(drawTo, x, y) == -1)
+                        if (tileMap.GetCellIndex(drawTo, x, y) == TileLayer.TransparentCell)
                             spriteBatch.Draw(emptyTile,
                                              new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
                                                            tileMap.TileWidth, 
@@ -275,13 +282,19 @@ namespace TileMapEditor
                 if(drawTo != currentLayerIndex)
                     for (int y = 0; y < tileMap.CollisionLayer.Height; y++)
                         for (int x = 0; x < tileMap.CollisionLayer.Width; x++)
-                            if (tileMap.CollisionLayer.GetCellIndex(x, y) == -1)
+                            if (tileMap.CollisionLayer.GetCellIndex(x, y) == CollisionLayer.CollisionCell)
                                 spriteBatch.Draw(emptyTile,
                                                  new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
                                                                tileMap.TileWidth,
                                                                tileMap.TileHeight),
                                                  Color.Red);
-                            else if (tileMap.CollisionLayer.GetCellIndex(x, y) > 0)
+                            else if (tileMap.CollisionLayer.GetCellIndex(x, y) == CollisionLayer.StartingCell)
+                                spriteBatch.Draw(emptyTile,
+                                                 new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
+                                                               tileMap.TileWidth,
+                                                               tileMap.TileHeight),
+                                                 Color.Black);
+                            else if (tileMap.CollisionLayer.GetCellIndex(x, y) >= 0)
                                 spriteBatch.Draw(emptyTile,
                                                  new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
                                                                tileMap.TileWidth,
@@ -314,13 +327,19 @@ namespace TileMapEditor
 
                 for (int y = 0; y < tileMap.CollisionLayer.Height; y++)
                     for (int x = 0; x < tileMap.CollisionLayer.Width; x++)
-                        if (tileMap.CollisionLayer.GetCellIndex(x, y) == -1)
+                        if (tileMap.CollisionLayer.GetCellIndex(x, y) == CollisionLayer.CollisionCell)
                             spriteBatch.Draw(emptyTile,
                                              new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
                                                            tileMap.TileWidth,
                                                            tileMap.TileHeight),
                                              Color.Red);
-                        else if (tileMap.CollisionLayer.GetCellIndex(x, y) > 0)
+                        else if (tileMap.CollisionLayer.GetCellIndex(x, y) == CollisionLayer.StartingCell)
+                            spriteBatch.Draw(emptyTile,
+                                             new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
+                                                           tileMap.TileWidth,
+                                                           tileMap.TileHeight),
+                                             Color.Black);
+                        else if (tileMap.CollisionLayer.GetCellIndex(x, y) >= 0)
                             spriteBatch.Draw(emptyTile,
                                              new Rectangle(x * tileMap.TileWidth, y * tileMap.TileHeight,
                                                            tileMap.TileWidth,
@@ -350,7 +369,8 @@ namespace TileMapEditor
                 int tileHeight = int.Parse(form.txtTileHeight.Text);
 
                 lstEntrances.Items.Clear();
-                lstEntrances.Items.Add(collisionBlock);
+                foreach(string item in defaultCollisionItems)
+                    lstEntrances.Items.Add(item);
 
                 lstTextures.Items.Clear();
                 previewList = new Dictionary<string, Image>();
@@ -376,7 +396,8 @@ namespace TileMapEditor
                 previewList = new Dictionary<string,Image>();
                 lstTextures.Items.Clear();
                 lstEntrances.Items.Clear();
-                lstEntrances.Items.Add(collisionBlock);
+                foreach(string item in defaultCollisionItems)
+                    lstEntrances.Items.Add(item);
         
                 string filename = openFileDialog1.FileName;
 
@@ -638,7 +659,10 @@ namespace TileMapEditor
 
         private void cmdRemoveEntrance_Click_1(object sender, EventArgs e)
         {
-            if (currentLayerIndex != -1 && lstEntrances.SelectedItem.ToString() != collisionBlock)
+            if (currentLayerIndex != -1 &&
+                currentEntranceIndex != -1 &&
+                lstEntrances.Items[currentEntranceIndex].ToString() != defaultCollisionItems[collisionBlockIndex] &&
+                lstEntrances.Items[currentEntranceIndex].ToString() != defaultCollisionItems[startPositionIndex])
             {
                 tileMap.CollisionLayer.RemoveEntrance(lstEntrances.SelectedItem.ToString());
                 int newIndex = currentEntranceIndex - 1;

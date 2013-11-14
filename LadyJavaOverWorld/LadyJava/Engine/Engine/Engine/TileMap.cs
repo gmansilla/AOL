@@ -14,11 +14,20 @@ namespace Engine
     {
         string[] imageExtensions = new string[] { ".jpg", ".png", ".tga" };
 
+        Vector2 startingPosition;
+        Vector2 lastPosition;
+
         List<TileLayer> tileMap;
         List<Tile> tiles = new List<Tile>();
         List<string> textureNames = new List<String>();
 
         CollisionLayer collisionLayer;
+
+        public Vector2 StartingPosition
+        { get { return startingPosition; } }
+
+        public Vector2 LastPosition
+        { get { return lastPosition; } }
 
         public CollisionLayer CollisionLayer
         { get { return collisionLayer; } }
@@ -56,30 +65,39 @@ namespace Engine
         public TileMap(string titleMapLocation, ContentManager gameContent) : this()
         {
             Load(titleMapLocation, gameContent);
+            startingPosition = GetStartingPosition();
         }
 
         public TileMap(string titleMapLocation, GraphicsDevice graphicsDevice) : this()
         {
             Load(titleMapLocation, graphicsDevice);
+            startingPosition = GetStartingPosition();
         }
 
-        public TileMap(int newWidth, int newHeight, int newTileWidth, int newTileHeight)
+        public TileMap(int newWidth, int newHeight, int newTileWidth, int newTileHeight) : this()
         {
-            tileMap = new List<TileLayer>();
             tileMap.Add(new TileLayer(newWidth, newHeight, newTileWidth, newTileHeight));
             collisionLayer = new CollisionLayer(newWidth, newHeight, newTileWidth, newTileHeight);
+
+            startingPosition = GetStartingPosition();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        Vector2 GetStartingPosition()
         {
-            foreach (TileLayer layer in tileMap)
-                layer.Draw(spriteBatch, tiles);
+            lastPosition = Global.Invalid;
+
+            for (int y = 0; y < Width; y++)
+                for (int x = 0; x < Height; x++)
+                    if (collisionLayer.GetCellIndex(x, y) == CollisionLayer.StartingCell)
+                        return new Vector2(x * TileWidth, y * TileHeight);
+
+            return Vector2.Zero;
         }
 
-        //public Point GetTileDemensions(int layerIndex, int x, int y)
-        //{
-        //    return new Point(tiles[GetCellIndex(layerIndex, x, y)].Width, tiles[GetCellIndex(layerIndex, x, y)].Height);
-        //}
+        public void SetLastPosition(Vector2 newLastPosition)
+        {
+            lastPosition = newLastPosition;
+        }
 
         public void Resize(int newWidth, int newHeight, int newTileWidth, int newTileHeight)
         {
@@ -563,6 +581,12 @@ namespace Engine
                     writer.WriteLine(line);
                 }
             }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (TileLayer layer in tileMap)
+                layer.Draw(spriteBatch, tiles);
         }
     }
 }

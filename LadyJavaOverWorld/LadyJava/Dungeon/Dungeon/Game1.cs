@@ -55,7 +55,7 @@ namespace Dungeon
 
             currentDungeon = 0;
             dungeons = new List<TileMap>();
-            dungeons.Add(new TileMap(Global.DungeonContentPath + "TileMaps\\D1Water.map", Content));
+            dungeons.Add(new TileMap(Global.DungeonContentPath + "TileMaps\\D1.map", Content));
 
             Texture2D[] playerImage = { Content.Load<Texture2D>("player") };
 
@@ -63,7 +63,7 @@ namespace Dungeon
                                               new AnimationInfo(Global.RIGHT, 50, 100, 2, 100),
                                               new AnimationInfo(Global.LEFT, 50, 100, 2, 100) };
 
-            player = new Player(new Sprite(playerImage, new Vector2(800,200), animationInfo, 1f));
+            player = new Player(new Sprite(playerImage, dungeons[currentDungeon].StartingPosition, animationInfo, 1f));
 
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
 

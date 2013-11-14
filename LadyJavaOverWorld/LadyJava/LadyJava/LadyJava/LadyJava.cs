@@ -17,6 +17,13 @@ namespace LadyJava
 {
     class LadyJava
     {
+        const float BUFFER = 0.01f;
+
+        public Vector2 previousPosition;
+
+        public Vector2 PreviousPosition
+        { get { return previousPosition; } }
+        
         public Vector2 Position
         { get { return sprite.Position; } }
 
@@ -81,15 +88,14 @@ namespace LadyJava
             return collisions.ToArray<BoundingBox>();
         }
 
-        Vector2 EntranceCollision(Vector2 newMotion, BoundingBox[] enter)
+        Vector2 EntranceCollision(Vector2 newMotion, BoundingBox[] newEntrances)
         {
-            //int doorEntered = 0;
             UpdateBounds(Position + newMotion, Width, Height);
-            for (int i = 0; i < enter.Length; i++) //For each tile
+            for (int i = 0; i < newEntrances.Length; i++) //For each tile
             {
-                if (boundingBox.Intersects(enter[i])) //compare Lady J's box with another square. 
+                if (boundingBox.Intersects(newEntrances[i])) //compare Lady J's box with another square. 
                 {
-                    return new Vector2(enter[i].Min.X, enter[i].Min.Y);
+                    return new Vector2(newEntrances[i].Min.X, newEntrances[i].Min.Y);
 
                 }
             }
@@ -153,41 +159,6 @@ namespace LadyJava
         //#endregion
         //        }
 
-        Vector2 AdjustForCollision(Vector2 newMotion, BoundingBox[] collisions)
-        {
-            Vector2 newPosition = Position + newMotion;
-            const float buffer = 0.01f;
-
-            UpdateBounds(newPosition, Width, Height);
-            for (int i = 0; i < collisions.Length; i++)
-            {
-                if (boundingBox.Intersects(collisions[i]))
-                {
-                    if (Math.Abs(newMotion.X) > Math.Abs(newMotion.Y))
-                    {
-                        if (newMotion.X < 0f)
-                            if (boundingBox.Min.X < collisions[i].Max.X)
-                                newPosition = new Vector2(collisions[i].Max.X + buffer, boundingBox.Min.Y);
-                        if (newMotion.X > 0f)
-                            if (boundingBox.Max.X > collisions[i].Min.X)
-                                newPosition = new Vector2(collisions[i].Min.X - Width - buffer, boundingBox.Min.Y);
-                    }
-                    else if (Math.Abs(newMotion.X) < Math.Abs(newMotion.Y))
-                    {
-                        if (newMotion.Y < 0f)
-                            if (boundingBox.Min.Y < collisions[i].Max.Y)
-                                newPosition = new Vector2(boundingBox.Min.X, collisions[i].Max.Y + buffer);
-                        if (newMotion.Y > 0f)
-                            if (boundingBox.Max.Y > collisions[i].Min.Y)
-                                newPosition = new Vector2(boundingBox.Min.X, collisions[i].Min.Y - Height - buffer);
-                    }
-                }
-            }
-
-            return newPosition;
-        }
-
-        const float buffer = 0.01f;
         Vector2 DownCollision(Vector2 newMotion, BoundingBox[] collisions)
         {
 
@@ -201,7 +172,7 @@ namespace LadyJava
                         if (boundingBox.Max.Y > collisions[i].Min.Y &&
                             boundingBox.Max.Y < collisions[i].Max.Y)
                         {
-                            newMotion.Y = collisions[i].Min.Y - buffer - Position.Y - Height;
+                            newMotion.Y = collisions[i].Min.Y - BUFFER - Position.Y - Height;
                         }
                     }
                 }
@@ -221,7 +192,7 @@ namespace LadyJava
                     if (boundingBox.Min.Y < collisions[i].Max.Y &&
                         boundingBox.Min.Y > collisions[i].Min.Y)
                     {
-                        newMotion.Y = collisions[i].Max.Y + buffer - Position.Y;
+                        newMotion.Y = collisions[i].Max.Y + BUFFER - Position.Y;
                     }
                 }
             }
@@ -240,7 +211,7 @@ namespace LadyJava
                     if (boundingBox.Max.X > collisions[i].Min.X &&
                         boundingBox.Max.X < collisions[i].Max.X)
                     {
-                        newMotion.X = collisions[i].Min.X - buffer - Position.X - Width;
+                        newMotion.X = collisions[i].Min.X - BUFFER - Position.X - Width;
                     }
                 }
             }
@@ -259,7 +230,7 @@ namespace LadyJava
                     if (boundingBox.Min.X < collisions[i].Max.X &&
                         boundingBox.Min.X > collisions[i].Min.X)
                     {
-                        newMotion.X = collisions[i].Max.X + buffer - Position.X;
+                        newMotion.X = collisions[i].Max.X + BUFFER - Position.X;
                     }
                 }
             }
@@ -269,9 +240,10 @@ namespace LadyJava
         
         public Vector2 Update(GameTime gameTime, int levelWidth, int levelHeight, BoundingBox[] entrances, params Object[] collisionObjects)
         {
-            Vector2 enterLoc = Global.Invalid;
+            Vector2 entranceLocation = Global.Invalid;
             Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
+            previousPosition = sprite.Position;
 
             bool collision = false;
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
@@ -318,15 +290,20 @@ namespace LadyJava
 
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
-            enterLoc = EntranceCollision(motion, entrances);
+            entranceLocation = EntranceCollision(motion, entrances);
             sprite.Update(gameTime, animation, position);
 
-            return enterLoc;
+            return entranceLocation;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
+        }
+
+        internal void SetPosition(Vector2 newPosition)
+        {
+            sprite.SetPosition(newPosition);
         }
     }
 }
