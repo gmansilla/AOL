@@ -1,4 +1,7 @@
 [Stage1]
 [Stage2]
+The store is closed. The clerk See Hash should be on duty, I hope he didn't go to the gym when he should be working. 
 [Stage3]
+[Stage4]
 [onCompleted]
+Hey, now the door says "At scrum meeting, back in 15 minutes".

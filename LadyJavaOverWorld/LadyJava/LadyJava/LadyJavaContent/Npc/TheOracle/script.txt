@@ -1,4 +1,8 @@
 [Stage1]
 [Stage2]
 [Stage3]
+Thank you for saving me, I will meet you at the campus square for our scrum meeting.
+[Stage4]
+Our scrum can never be without our scrum master.
 [onCompleted]
+A sprint is an iteration of work; scum development is composed of many of these. 

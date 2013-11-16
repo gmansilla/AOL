@@ -1,4 +1,7 @@
 [Stage1]
+I have seen a man dragged into the water by monsters.
 [Stage2]
 [Stage3]
+[Stage4]
 [onCompleted]
+The scrum master makes sure the team follows the values and practices of scum.

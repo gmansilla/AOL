@@ -1,6 +1,7 @@
 [Stage1]
-Hello, my name is Amy
+Hi, I am Amy; I worked with Tech-Man yesterday. He told me he was going over to the lake to relax, but I have yet to see him. Try asking around over there.
 [Stage2]
 [Stage3]
+[Stage4]
 [onCompleted]
-Thank you for saving that guy!
+Thank you for finding Tech-Man!
