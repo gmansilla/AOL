@@ -1,4 +1,8 @@
 [Stage1]
 [Stage2]
+Thank you for saving me, I was trapped down here. I will see you at the campus square so we can hold our scrum meeting.
 [Stage3]
+[Stage4]
+Use your strength, you can do it.
 [onCompleted]
+The scrum master is like a trainer; he keeps us in check, but also motivates us.

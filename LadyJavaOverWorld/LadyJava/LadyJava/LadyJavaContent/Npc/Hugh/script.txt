@@ -1,4 +1,7 @@
 [Stage1]
 [Stage2]
+Here at the Gym we practice Extreme Programming, coding while working out. See Hash? Yeah I saw him here.
 [Stage3]
+[Stage4]
 [onCompleted]
+I'm joking; Extreme Programming does not involve working out.

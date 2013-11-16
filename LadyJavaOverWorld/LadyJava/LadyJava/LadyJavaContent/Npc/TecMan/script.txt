@@ -1,4 +1,8 @@
 [Stage1]
+I am Tech-Man, thank you for saving me Lady Java. I will be at the campus square if you need me.
 [Stage2]
 [Stage3]
+[Stage4]
+The scrum master is calling; please go down and save him. 
 [onCompleted]
+The scum master has no authority over the team members, but he does over the process.

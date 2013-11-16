@@ -1,4 +1,10 @@
 [Stage1]
+A girl with green hair threatened to tie me up if I kept bothering her.
 [Stage2]
+A girl with green hair threatened to tie me up if I kept bothering her.
 [Stage3]
+A girl with green hair threatened to tie me up if I kept bothering her.
+[Stage4]
+A girl with green hair threatened to tie me up if I kept bothering her.
 [onCompleted]
+A girl with green hair threatened to tie me up if I kept bothering her.
