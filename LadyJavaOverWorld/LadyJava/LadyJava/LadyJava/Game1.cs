@@ -18,8 +18,10 @@ namespace LadyJava
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        
         LadyJava ladyJ;
-        Npc npcAmy;
+        List<Npc> npcs;
+        
         Camera camera;
         Texture2D collisionLayerImage;
 
@@ -39,6 +41,8 @@ namespace LadyJava
         string currentArea;
         protected override void LoadContent()
         {
+            npcs = new List<Npc>();
+
             campus = new Dictionary<string, TileMap>();
             currentArea = "TileMaps\\overworld.map";
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
@@ -77,13 +81,66 @@ namespace LadyJava
                                            new AnimationInfo(Global.RIGHT, 32, 46, 4, 100),
                                            new AnimationInfo(Global.UP, 32, 46, 4, 100) };
 
-            Sprite lady = new Sprite(image, campus[currentArea].StartingPosition, animations, 1.0f);
+            Sprite lady = new Sprite(Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld"), 
+                                     campus[currentArea].StartingPosition, 
+                                     animations, 
+                                     1.0f);
             ladyJ = new LadyJava(lady);
 
-            //create a Amy (NPC)
-            Texture2D[] npcImage = { Content.Load<Texture2D>("Npc\\Amy\\sprite") };
-            Sprite amy = new Sprite(npcImage, new Vector2(200, 200), 25, 50, 1.0f);
-            npcAmy = new Npc(amy,"Amy");
+            //create Amy (NPC)
+            npcs.Add(new Npc("Amy", new Vector2(200, 200), 25, 50, 1.0f, Content));
+
+            //create Alison (NPC)
+            npcs.Add(new Npc("Alison", new Vector2(264, 200), 25, 50, 1.0f, Content));
+
+            //create Anna (NPC)
+            npcs.Add(new Npc("Anna", new Vector2(328, 200), 25, 50, 1.0f, Content));
+
+            //create Chaz (NPC)
+            npcs.Add(new Npc("Chaz", new Vector2(392, 200), 25, 50, 1.0f, Content));
+
+            //create Han (NPC)
+            npcs.Add(new Npc("Han", new Vector2(456, 200), 25, 50, 1.0f, Content));
+
+            //create Hugh (NPC)
+            npcs.Add(new Npc("Hugh", new Vector2(520, 200), 25, 50, 1.0f, Content));
+
+            //create Josh (NPC)
+            npcs.Add(new Npc("Josh", new Vector2(584, 200), 25, 50, 1.0f, Content));
+
+            //create Kyra (NPC)
+            npcs.Add(new Npc("Kyra", new Vector2(648, 200), 25, 50, 1.0f, Content));
+
+            //create Nei (NPC)
+            npcs.Add(new Npc("Nei", new Vector2(712, 200), 25, 50, 1.0f, Content));
+
+            //create Rika (NPC)
+            npcs.Add(new Npc("Rika", new Vector2(776, 200), 25, 50, 1.0f, Content));
+
+            //create Rolf (NPC)
+            npcs.Add(new Npc("Rolf", new Vector2(840, 200), 25, 50, 1.0f, Content));
+
+            //creare Rudo (NPC)
+            npcs.Add(new Npc("Rudo", new Vector2(904, 200), 25, 50, 1.0f, Content));
+
+            //create Rune (NPC)
+            npcs.Add(new Npc("Rune", new Vector2(968, 200), 25, 50, 1.0f, Content));
+
+            //create SeeHash (NPC)
+            npcs.Add(new Npc("SeeHash", new Vector2(1032, 200), 25, 50, 1.0f, Content));
+
+            //create Shir (NPC)
+            npcs.Add(new Npc("Shir", new Vector2(1096, 200), 25, 50, 1.0f, Content));
+
+            //create TecMan (NPC)
+            npcs.Add(new Npc("TecMan", new Vector2(1160, 200), 25, 50, 1.0f, Content));
+
+            //create TheOracle (NPC)
+            npcs.Add(new Npc("TheOracle", new Vector2(1224, 200), 25, 50, 1.0f, Content));
+
+            //create TheScrumMaster (NPC)
+            npcs.Add(new Npc("TheScrumMaster", new Vector2(1288, 200), 25, 50, 1.0f, Content));
+
         }
 
         protected override void UnloadContent()
@@ -126,7 +183,9 @@ namespace LadyJava
 
             campus[currentArea].Draw(spriteBatch);
             ladyJ.Draw(spriteBatch);
-            npcAmy.Draw(spriteBatch);
+
+            foreach(Npc npc in npcs)
+                npc.Draw(spriteBatch);
 
             campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
             spriteBatch.End();
