@@ -1,4 +1,7 @@
 [Stage1]
+It is said, if you jump into the water at the right place you will enter a dungeon of evil.
 [Stage2]
 [Stage3]
+[Stage4]
 [onCompleted]
+Scrum masters make sure team members don't over commit themselves.

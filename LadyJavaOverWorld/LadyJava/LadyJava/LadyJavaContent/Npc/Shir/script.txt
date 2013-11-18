@@ -1,4 +1,8 @@
 [Stage1]
 [Stage2]
 [Stage3]
+Go away I need to study!!!
+I don't know where your friends are! Go away.
+Ok, I tied up The Oracle in a tree cavern in the south east corner of campus. She would not let me study.
 [onCompleted]
+I'm sorry....

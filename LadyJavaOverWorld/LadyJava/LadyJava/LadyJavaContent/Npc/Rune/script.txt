@@ -1,4 +1,10 @@
 [Stage1]
+Scrum is the meaning of life. Well… not that important, but important for efficient development. 
 [Stage2]
+Scrum is the meaning of life. Well… not that important, but important for efficient development. 
 [Stage3]
+Scrum is the meaning of life. Well… not that important, but important for efficient development. 
+[Stage4]
+Scrum is the meaning of life. Well… not that important, but important for efficient development. 
 [onCompleted]
+Scrum is the meaning of life. Well… not that important, but important for efficient development. 
