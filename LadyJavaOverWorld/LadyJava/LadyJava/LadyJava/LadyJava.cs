@@ -18,6 +18,7 @@ namespace LadyJava
     class LadyJava
     {
         const float BUFFER = 0.01f;
+        bool switchedTileMap;
 
         public Vector2 previousPosition;
 
@@ -40,7 +41,7 @@ namespace LadyJava
         { get { return boundingBox; } }
 
         BoundingBox boundingBox;
-        private float movement = 2.4f;
+        private float movement = 10.4f;
         private Sprite sprite;
         string animation;
 
@@ -55,6 +56,7 @@ namespace LadyJava
         {
             animation = Global.STILL;
             sprite = newSprite;
+            switchedTileMap = false;
 
             UpdateBounds(Position, Width, Height);
         }
@@ -248,46 +250,59 @@ namespace LadyJava
             bool collision = false;
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
-            animation = Global.STILL;
-            if (InputManager.IsKeyDown(Commands.Up))
-            {
-                animation = Global.UP;
-                motion.Y = -movement;
-                motion = UpCollision(motion, collisions);
-                if (motion.Y != -movement)
-                    collision = true;
-            }
-            if (InputManager.IsKeyDown(Commands.Down))
-            {
-                animation = Global.DOWN;
-                motion.Y = movement;
-                motion = DownCollision(motion, collisions);
-                if (motion.Y != movement)
-                    collision = true;
-            }
-            if (InputManager.IsKeyDown(Commands.Right))
-            {
-                animation = Global.RIGHT;
-                motion.X = movement;
-                motion = RightCollision(motion, collisions);
-                if (motion.X != movement)
-                    collision = true;
-            }
-            if (InputManager.IsKeyDown(Commands.Left))
-            {
-                animation = Global.LEFT;
-                motion.X = -movement;
-                motion = LeftCollision(motion, collisions);
-                if (motion.X != -movement)
-                    collision = true;
-            }
             
-            if (!collision && motion != Vector2.Zero)
-            {
-                motion.Normalize();
-                motion *= movement;
-            }
-
+                animation = Global.STILL;
+                if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Up)) ||
+                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Up)))
+                {
+                    animation = Global.UP;
+                    motion.Y = -movement;
+                    motion = UpCollision(motion, collisions);
+                    if (motion.Y != -movement)
+                        collision = true;
+                    if (switchedTileMap)
+                        switchedTileMap = false;
+                }
+                if (!switchedTileMap && InputManager.IsKeyDown(Commands.Down) ||
+                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Down)))
+                {
+                    animation = Global.DOWN;
+                    motion.Y = movement;
+                    motion = DownCollision(motion, collisions);
+                    if (motion.Y != movement)
+                        collision = true;
+                    if (switchedTileMap)
+                        switchedTileMap = false;
+                }
+                if (!switchedTileMap && InputManager.IsKeyDown(Commands.Right) ||
+                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Right)))
+                {
+                    animation = Global.RIGHT;
+                    motion.X = movement;
+                    motion = RightCollision(motion, collisions);
+                    if (motion.X != movement)
+                        collision = true;
+                    if (switchedTileMap)
+                        switchedTileMap = false;
+                }
+                if (!switchedTileMap && InputManager.IsKeyDown(Commands.Left) ||
+                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
+                {
+                    animation = Global.LEFT;
+                    motion.X = -movement;
+                    motion = LeftCollision(motion, collisions);
+                    if (motion.X != -movement)
+                        collision = true;
+                    if (switchedTileMap)
+                        switchedTileMap = false;
+                }
+            
+                if (!collision && motion != Vector2.Zero)
+                {
+                    motion.Normalize();
+                    motion *= movement;
+                }
+            
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
@@ -301,9 +316,10 @@ namespace LadyJava
             sprite.Draw(spriteBatch);
         }
 
-        internal void SetPosition(Vector2 newPosition)
+        public void SetPosition(Vector2 newPosition)
         {
             sprite.SetPosition(newPosition);
+            switchedTileMap = true;
         }
     }
 }
