@@ -10,20 +10,20 @@ namespace Engine
         private Vector2 position;
         private Vector2 maxOrigin; //used to centre the camera because of the different sprite origins
 
-        private Texture2D[] image; //allows for multiple sprite maps for one sprite update, use method ChangeImage to display different image
+        private Texture2D image; //allows for multiple sprite maps for one sprite update, use method ChangeImage to display different image
         private Dictionary<string, Animation> animations;
-        private int currentImage;
+        //private int currentImage;
         private string currentAnimation;
         private string defaultAnimation;
 
         private float scale;
         private float rotation;
 
-        public Texture2D[] Images
+        public Texture2D Images
         { get { return image; } }
 
-        public Texture2D Image
-        { get { return image[currentImage]; } }
+        //public Texture2D Image
+        //{ get { return image[currentImage]; } }
                 
         public float Scale
         { get { return scale; } }
@@ -61,7 +61,7 @@ namespace Engine
         const int FrameWidth = 3;
         const int FrameHeight = 4;
         
-        public Sprite(Texture2D[] spriteImage, Vector2 spritePosition, int spriteWidth, int spriteHeight, float spriteScale)
+        public Sprite(Texture2D spriteImage, Vector2 spritePosition, int spriteWidth, int spriteHeight, float spriteScale)
         {
             const int totalFrames = 1;
             const int speed = 0;
@@ -71,7 +71,7 @@ namespace Engine
 
             rotation = 0f;
 
-            currentImage = 0;
+            //currentImage = 0;
             image = spriteImage;
 
             scale = spriteScale;
@@ -92,7 +92,7 @@ namespace Engine
         }
         
 
-        public Sprite(Texture2D[] spriteImage, Vector2 spritePosition, AnimationInfo[] spriteAnimations, float spriteScale)
+        public Sprite(Texture2D spriteImage, Vector2 spritePosition, AnimationInfo[] spriteAnimations, float spriteScale)
         {
             int startY = 0;
             int firstAnimation = 0;
@@ -100,7 +100,7 @@ namespace Engine
 
             rotation = 0f;
 
-            currentImage = 0;
+            //currentImage = 0;
             image = spriteImage;
 
             scale = spriteScale;
@@ -128,12 +128,14 @@ namespace Engine
             position = spritePosition;
         }
 
+        /*
         public void ChangeImage()
         {
             currentImage++;
             if (currentImage > image.Length - 1)
                 currentImage = 0;
         }
+        */
 
         public int GetNextFrameTime(string newType)
         {
@@ -174,7 +176,7 @@ namespace Engine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Image, position + Origin, animations[currentAnimation].CurrentFrame.ToRectangle, //position + origin
+            spriteBatch.Draw(image, position + Origin, animations[currentAnimation].CurrentFrame.ToRectangle, //position + origin
                              Color.White, rotation, Origin, scale, SpriteEffects.None, 0f);
         }
     }

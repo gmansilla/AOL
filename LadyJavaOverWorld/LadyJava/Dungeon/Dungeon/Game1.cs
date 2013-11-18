@@ -57,7 +57,7 @@ namespace Dungeon
             dungeons = new List<TileMap>();
             dungeons.Add(new TileMap(Global.DungeonContentPath + "TileMaps\\D1.map", Content));
 
-            Texture2D[] playerImage = { Content.Load<Texture2D>("player") };
+            Texture2D playerImage = Content.Load<Texture2D>("player");
 
             AnimationInfo[] animationInfo = { new AnimationInfo(Global.STILL, 50, 100, 1, 0),
                                               new AnimationInfo(Global.RIGHT, 50, 100, 2, 100),
