@@ -155,12 +155,20 @@
       <Name>D1Water</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
+    <None Include="TileMaps\D2Basement.map">
+      <Name>D2Basement</Name>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <None Include="TileMaps\D2End.map">
       <Name>D2End</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
     <None Include="TileMaps\D3End.map">
       <Name>D3End</Name>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
+    <None Include="TileMaps\D3Tree.map">
+      <Name>D3Tree</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
     <None Include="TileMaps\D4End.map">
@@ -614,6 +622,35 @@
     </Compile>
     <Compile Include="Dungeon\Start.png">
       <Name>Start</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Background\Dirt.png">
+      <Name>Dirt</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dungeon\Tree\Bark1.png">
+      <Name>Bark1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Dungeon\Tree\Bark2.png">
+      <Name>Bark2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Dungeon\Tree\Bark3.png">
+      <Name>Bark3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Dungeon\Tree\D3Background.jpg">
+      <Name>D3Background</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

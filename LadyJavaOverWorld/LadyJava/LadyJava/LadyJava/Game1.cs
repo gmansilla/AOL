@@ -48,11 +48,29 @@ namespace LadyJava
 
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            #region campus.add
             campus.Add("TileMaps\\overworld.map", new TileMap(Global.ContentPath + "TileMaps\\overworld.map", Content));
             campus.Add("TileMaps\\house1.map", new TileMap(Global.ContentPath + "TileMaps\\house1.map", Content));
+            campus.Add("TileMaps\\house2.map", new TileMap(Global.ContentPath + "TileMaps\\house2.map", Content));
+            campus.Add("TileMaps\\house3.map", new TileMap(Global.ContentPath + "TileMaps\\house3.map", Content));
+            campus.Add("TileMaps\\house4.map", new TileMap(Global.ContentPath + "TileMaps\\house4.map", Content));
             campus.Add("TileMaps\\PC.map", new TileMap(Global.ContentPath + "TileMaps\\PC.map", Content));
+            campus.Add("TileMaps\\ShirsStudy.map", new TileMap(Global.ContentPath + "TileMaps\\ShirsStudy.map", Content));
+            campus.Add("TileMaps\\Gym.map", new TileMap(Global.ContentPath + "TileMaps\\Gym.map", Content));
+            campus.Add("TileMaps\\BoatHouse.map", new TileMap(Global.ContentPath + "TileMaps\\BoatHouse.map", Content));
+            campus.Add("TileMaps\\D1Water.map", new TileMap(Global.ContentPath + "TileMaps\\D1Water.map", Content));
+            campus.Add("TileMaps\\D2Basement.map", new TileMap(Global.ContentPath + "TileMaps\\D2Basement.map", Content));
+            campus.Add("TileMaps\\D3Tree.map", new TileMap(Global.ContentPath + "TileMaps\\D3Tree.map", Content));
+            campus.Add("TileMaps\\D1End.map", new TileMap(Global.ContentPath + "TileMaps\\D1End.map", Content));
+            campus.Add("TileMaps\\D2End.map", new TileMap(Global.ContentPath + "TileMaps\\D2End.map", Content));
+            campus.Add("TileMaps\\D3End.map", new TileMap(Global.ContentPath + "TileMaps\\D3End.map", Content));
+            campus.Add("TileMaps\\D4End.map", new TileMap(Global.ContentPath + "TileMaps\\D4End.map", Content));
 
+
+
+
+
+            #endregion
             AnimationInfo[] animations = { new AnimationInfo(Global.STILL, 32, 46, 1, 0),
                                            new AnimationInfo(Global.DOWN, 32, 46, 4, 100),
                                            new AnimationInfo(Global.LEFT, 32, 46, 4, 100),
