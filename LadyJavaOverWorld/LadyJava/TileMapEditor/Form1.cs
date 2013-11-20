@@ -203,7 +203,7 @@ namespace TileMapEditor
                                 {
                                     if (lstEntrances.SelectedItem.ToString() == defaultCollisionItems[collisionBlockIndex])
                                         tileMap.CollisionLayer.SetCellIndex(cellX, cellY, CollisionLayer.CollisionCell);
-                                    if (lstEntrances.SelectedItem.ToString() == defaultCollisionItems[startPositionIndex])
+                                    else if (lstEntrances.SelectedItem.ToString() == defaultCollisionItems[startPositionIndex])
                                         tileMap.CollisionLayer.SetCellIndex(cellX, cellY, CollisionLayer.StartingCell);
                                     else if (currentEntranceIndex != -1)
                                         tileMap.CollisionLayer.AddEntrance(lstEntrances.SelectedItem.ToString(), cellX, cellY, currentEntranceIndex - defaultCollisionItems.Length);
@@ -389,7 +389,7 @@ namespace TileMapEditor
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.InitialDirectory = txtContentFolder.Text;
-            openFileDialog1.Filter = "Tile Map FIle|*.map";
+            openFileDialog1.Filter = "Tile Map File|*.map";
             openFileDialog1.FileName = "";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -487,7 +487,9 @@ namespace TileMapEditor
         {
             if (tileMap != null)
             {
-
+                saveFileDialog1.InitialDirectory = txtContentFolder.Text;
+                saveFileDialog1.Filter = "Tile Map File|*.map";
+                saveFileDialog1.FileName = "";
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     tileMap.Save(saveFileDialog1.FileName);
