@@ -10,6 +10,7 @@ Background\Dirt 64 64
 Background\Water 64 64
 
 [Entrances]
+TileMaps\overworld.map
 
 [TileLayer]
 02|02|02|02|02|02|02
@@ -22,7 +23,7 @@ Background\Water 64 64
 
 [CollisionLayer]
 -2|-2|-2|-2|-2|-2|-2
--2|-1|-1|-1|-1|-1|-2
+-2|-1|-1|-1|-1|00|-2
 -2|-1|-1|-1|-1|-1|-2
 -2|-1|-1|-1|-1|-1|-2
 -2|-1|-1|-1|-1|-1|-2
