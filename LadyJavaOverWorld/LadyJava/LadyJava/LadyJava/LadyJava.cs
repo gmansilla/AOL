@@ -101,63 +101,6 @@ namespace LadyJava
             }
             return Global.Invalid;
         }
-        //#region ?
-        //            //UpdateBounds(newPosition, Width, Height);
-        //            //for (int i = 0; i < enter.Length; i++)
-        //            //{
-        //            //    if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\overworld.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\BoatHouse.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\Gym.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\house1.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\house2.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\house3.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\house4.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\PC.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\ShirsStudy.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else
-        //            //    {
-        //            //        return getMap;
-        //            //    }
-        //            //}
-        //            //return getMap;
-        //#endregion
-        //        }
 
         Vector2 DownCollision(Vector2 newMotion, BoundingBox[] collisions)
         {

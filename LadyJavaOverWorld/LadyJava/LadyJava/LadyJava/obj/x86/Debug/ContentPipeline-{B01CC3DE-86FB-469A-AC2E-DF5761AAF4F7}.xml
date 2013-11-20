@@ -2,22 +2,13 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>Sprites\LadyJavaBigOverWorld.png</Source>
-      <Name>Sprites\LadyJavaBigOverWorld</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\LadyJavaBigOverWorld.xnb</Output>
-      <Time>2013-09-26T07:20:10-04:00</Time>
-    </Item>
-    <Item>
       <Source>Background\Grass.png</Source>
       <Name>Background\Grass</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Grass.xnb</Output>
-      <Time>2013-09-30T00:14:48-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Grass.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Tree1.png</Source>
@@ -25,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree1.xnb</Output>
-      <Time>2013-09-29T18:13:44-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree1.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Tree2.png</Source>
@@ -34,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree2.xnb</Output>
-      <Time>2013-09-29T18:13:44-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree2.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Tree3.png</Source>
@@ -43,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree3.xnb</Output>
-      <Time>2013-09-29T18:13:44-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Tree3.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Road.png</Source>
@@ -52,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Road.xnb</Output>
-      <Time>2013-09-30T00:51:50-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Road.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Water.png</Source>
@@ -61,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Water.xnb</Output>
-      <Time>2013-09-30T15:15:18-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Water.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandDown.png</Source>
@@ -70,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandDown.xnb</Output>
-      <Time>2013-09-30T15:19:08-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandDown.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandDownLeft.png</Source>
@@ -79,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandDownLeft.xnb</Output>
-      <Time>2013-09-30T15:19:08-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandDownLeft.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandDownRight.png</Source>
@@ -88,8 +79,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandDownRight.xnb</Output>
-      <Time>2013-09-30T15:19:08-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandDownRight.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandLeft.png</Source>
@@ -97,8 +88,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandLeft.xnb</Output>
-      <Time>2013-09-30T15:19:08-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandLeft.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandRight.png</Source>
@@ -106,8 +97,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandRight.xnb</Output>
-      <Time>2013-09-30T15:19:08-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandRight.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandSquareBL.png</Source>
@@ -115,8 +106,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareBL.xnb</Output>
-      <Time>2013-09-30T15:19:08-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareBL.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandSquareBR.png</Source>
@@ -124,8 +115,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareBR.xnb</Output>
-      <Time>2013-09-30T15:19:08-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareBR.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandSquareTL.png</Source>
@@ -133,8 +124,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareTL.xnb</Output>
-      <Time>2013-09-30T15:19:08-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareTL.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandSquareTR.png</Source>
@@ -142,8 +133,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareTR.xnb</Output>
-      <Time>2013-09-30T15:19:08-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandSquareTR.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandUp.png</Source>
@@ -151,8 +142,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandUp.xnb</Output>
-      <Time>2013-09-30T15:19:10-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandUp.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandUpLeft.png</Source>
@@ -160,8 +151,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandUpLeft.xnb</Output>
-      <Time>2013-09-30T15:19:12-04:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandUpLeft.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Background\Sand\SandUpRight.png</Source>
@@ -169,80 +160,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandUpRight.xnb</Output>
-      <Time>2013-09-30T15:19:12-04:00</Time>
-    </Item>
-    <Item>
-      <Source>Buildings\Gym.png</Source>
-      <Name>Buildings\Gym</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\Gym.xnb</Output>
-      <Time>2013-11-09T18:25:30-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Buildings\House2.png</Source>
-      <Name>Buildings\House2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House2.xnb</Output>
-      <Time>2013-11-09T18:25:30-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Buildings\House3.png</Source>
-      <Name>Buildings\House3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House3.xnb</Output>
-      <Time>2013-11-09T18:25:30-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Buildings\House4.png</Source>
-      <Name>Buildings\House4</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House4.xnb</Output>
-      <Time>2013-11-09T18:25:30-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Buildings\House5.png</Source>
-      <Name>Buildings\House5</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House5.xnb</Output>
-      <Time>2013-11-09T18:25:30-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Buildings\House6.png</Source>
-      <Name>Buildings\House6</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House6.xnb</Output>
-      <Time>2013-11-09T18:25:30-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Buildings\Mart.png</Source>
-      <Name>Buildings\Mart</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\Mart.xnb</Output>
-      <Time>2013-11-09T18:25:30-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Buildings\PC.png</Source>
-      <Name>Buildings\PC</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\PC.xnb</Output>
-      <Time>2013-11-09T18:25:30-05:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Sand\SandUpRight.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
     </Item>
     <Item>
       <Source>Buildings\house1.png</Source>
@@ -250,440 +169,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\house1.xnb</Output>
-      <Time>2013-11-06T13:38:22-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Alison.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Alison</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Alison.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Amy.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Amy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Amy.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Anna.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Anna</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Anna.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Chaz.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Chaz</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Chaz.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Han.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Han</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Han.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Hugh.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Hugh</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Hugh.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Josh.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Josh</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Josh.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Kyra.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Kyra</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Kyra.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_NEI.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_NEI</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_NEI.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Rika.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Rika</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Rika.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Rolf.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Rolf</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Rolf.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Rudo.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Rudo</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Rudo.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Rune.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Rune</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Rune.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_SeeHash.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_SeeHash</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_SeeHash.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_Shir.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_Shir</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_Shir.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_TechMan.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_TechMan</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_TechMan.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_TheOracle.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_TheOracle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_TheOracle.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_TheOracle_Trapped.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_TheOracle_Trapped</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_TheOracle_Trapped.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\Sprites\NPC_TheScrumMaster.png</Source>
-      <Name>Sprites\NPI\Sprites\NPC_TheScrumMaster</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\Sprites\NPC_TheScrumMaster.xnb</Output>
-      <Time>2013-11-06T13:41:08-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Alison.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Alison</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Alison.xnb</Output>
-      <Time>2013-11-06T13:41:36-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Amy.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Amy</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Amy.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Anna.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Anna</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Anna.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Chaz.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Chaz</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Chaz.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Han.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Han</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Han.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Huge.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Huge</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Huge.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Josh.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Josh</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Josh.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Kyra.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Kyra</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Kyra.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_LadyJ_Normal.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_LadyJ_Normal</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_LadyJ_Normal.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_LadyJ_Sad.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_LadyJ_Sad</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_LadyJ_Sad.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Rika.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Rika</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Rika.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Rolf.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Rolf</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Rolf.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Rudo.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Rudo</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Rudo.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Rune.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Rune</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Rune.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_SeeHash.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_SeeHash</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_SeeHash.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Shir.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Shir</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Shir.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_Tec-Man.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_Tec-Man</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_Tec-Man.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_TheOracle.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_TheOracle</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_TheOracle.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Sprites\NPI\HeadShot\F_TheScrumMaster.png</Source>
-      <Name>Sprites\NPI\HeadShot\F_TheScrumMaster</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\NPI\HeadShot\F_TheScrumMaster.xnb</Output>
-      <Time>2013-11-06T13:41:38-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Inside\Floors\Tile_Blue.png</Source>
-      <Name>Inside\Floors\Tile_Blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Blue.xnb</Output>
-      <Time>2013-11-09T21:00:32-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Inside\Floors\Tile_Green.png</Source>
-      <Name>Inside\Floors\Tile_Green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Green.xnb</Output>
-      <Time>2013-11-09T21:00:34-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Inside\Floors\Tile_Grey.png</Source>
-      <Name>Inside\Floors\Tile_Grey</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Grey.xnb</Output>
-      <Time>2013-11-09T21:00:34-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Inside\Floors\Tile_Orange.png</Source>
-      <Name>Inside\Floors\Tile_Orange</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Orange.xnb</Output>
-      <Time>2013-11-09T21:00:34-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Inside\Floors\Tile_Purple.png</Source>
-      <Name>Inside\Floors\Tile_Purple</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Purple.xnb</Output>
-      <Time>2013-11-09T21:00:34-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Inside\Floors\Tile_Red.png</Source>
-      <Name>Inside\Floors\Tile_Red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Red.xnb</Output>
-      <Time>2013-11-09T21:00:34-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Inside\Floors\Wood.png</Source>
-      <Name>Inside\Floors\Wood</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Wood.xnb</Output>
-      <Time>2013-11-09T21:00:34-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Background\Gate.png</Source>
-      <Name>Background\Gate</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Gate.xnb</Output>
-      <Time>2013-11-10T16:14:54-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Background\Statue.png</Source>
-      <Name>Background\Statue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Statue.xnb</Output>
-      <Time>2013-11-10T16:14:54-05:00</Time>
-    </Item>
-    <Item>
-      <Source>Inside\Floors\Gym.png</Source>
-      <Name>Inside\Floors\Gym</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Gym.xnb</Output>
-      <Time>2013-11-10T18:01:40-05:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\house1.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
     </Item>
     <Item>
       <Source>Inside\Books\Book1.png</Source>
@@ -691,26 +178,89 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Books\Book1.xnb</Output>
-      <Time>2013-11-10T17:41:50-05:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Books\Book1.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
     </Item>
     <Item>
-      <Source>Inside\Furni\Desk.png</Source>
-      <Name>Inside\Furni\Desk</Name>
+      <Source>Inside\Floors\Dirt.png</Source>
+      <Name>Inside\Floors\Dirt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Furni\Desk.xnb</Output>
-      <Time>2013-11-10T17:50:10-05:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Dirt.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
     </Item>
     <Item>
-      <Source>Inside\Furni\Desk2.png</Source>
-      <Name>Inside\Furni\Desk2</Name>
+      <Source>Inside\Floors\Gym.png</Source>
+      <Name>Inside\Floors\Gym</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Furni\Desk2.xnb</Output>
-      <Time>2013-11-10T18:10:22-05:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Gym.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Inside\Floors\Tile_Blue.png</Source>
+      <Name>Inside\Floors\Tile_Blue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Blue.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Inside\Floors\Tile_Green.png</Source>
+      <Name>Inside\Floors\Tile_Green</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Green.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Inside\Floors\Tile_Grey.png</Source>
+      <Name>Inside\Floors\Tile_Grey</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Grey.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Inside\Floors\Tile_Orange.png</Source>
+      <Name>Inside\Floors\Tile_Orange</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Orange.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Inside\Floors\Tile_Purple.png</Source>
+      <Name>Inside\Floors\Tile_Purple</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Purple.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Inside\Floors\Tile_Red.png</Source>
+      <Name>Inside\Floors\Tile_Red</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Tile_Red.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Inside\Floors\Wood.png</Source>
+      <Name>Inside\Floors\Wood</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Floors\Wood.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
     </Item>
     <Item>
       <Source>Inside\Furni\boat.png</Source>
@@ -718,8 +268,26 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Furni\boat.xnb</Output>
-      <Time>2013-11-10T18:57:52-05:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Furni\boat.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Inside\Furni\Desk.png</Source>
+      <Name>Inside\Furni\Desk</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Furni\Desk.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Inside\Furni\Desk2.png</Source>
+      <Name>Inside\Furni\Desk2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Furni\Desk2.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
     </Item>
     <Item>
       <Source>Inside\Furni\door.png</Source>
@@ -727,17 +295,476 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Furni\door.xnb</Output>
-      <Time>2013-11-10T19:42:56-05:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Inside\Furni\door.xnb</Output>
+      <Time>2013-11-11T16:28:52-05:00</Time>
     </Item>
     <Item>
-      <Source>Background\Dirt.png</Source>
-      <Name>Background\Dirt</Name>
+      <Source>tileSelector.png</Source>
+      <Name>tileSelector</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Dirt.xnb</Output>
-      <Time>2013-11-10T22:59:56-05:00</Time>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\tileSelector.xnb</Output>
+      <Time>2013-11-11T16:04:10-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Buildings\Gym.png</Source>
+      <Name>Buildings\Gym</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\Gym.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Buildings\House2.png</Source>
+      <Name>Buildings\House2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House2.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Buildings\House3.png</Source>
+      <Name>Buildings\House3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House3.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Buildings\House4.png</Source>
+      <Name>Buildings\House4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House4.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Buildings\House5.png</Source>
+      <Name>Buildings\House5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House5.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Buildings\House6.png</Source>
+      <Name>Buildings\House6</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\House6.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Buildings\Mart.png</Source>
+      <Name>Buildings\Mart</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\Mart.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Buildings\PC.png</Source>
+      <Name>Buildings\PC</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Buildings\PC.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Gate.png</Source>
+      <Name>Background\Gate</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Gate.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Background\Statue.png</Source>
+      <Name>Background\Statue</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Background\Statue.xnb</Output>
+      <Time>2013-11-11T09:12:28-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Alison\headshot.png</Source>
+      <Name>Npc\Alison\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Alison\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Alison\sprite.png</Source>
+      <Name>Npc\Alison\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Alison\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Amy\headshot.png</Source>
+      <Name>Npc\Amy\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Amy\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Amy\sprite.png</Source>
+      <Name>Npc\Amy\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Amy\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Anna\headshot.png</Source>
+      <Name>Npc\Anna\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Anna\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Anna\sprite.png</Source>
+      <Name>Npc\Anna\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Anna\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Chaz\headshot.png</Source>
+      <Name>Npc\Chaz\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Chaz\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Chaz\sprite.png</Source>
+      <Name>Npc\Chaz\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Chaz\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Han\headshot.png</Source>
+      <Name>Npc\Han\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Han\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Han\sprite.png</Source>
+      <Name>Npc\Han\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Han\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Hugh\headshot.png</Source>
+      <Name>Npc\Hugh\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Hugh\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Hugh\sprite.png</Source>
+      <Name>Npc\Hugh\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Hugh\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Josh\headshot.png</Source>
+      <Name>Npc\Josh\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Josh\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Josh\sprite.png</Source>
+      <Name>Npc\Josh\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Josh\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Kyra\headshot.png</Source>
+      <Name>Npc\Kyra\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Kyra\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Kyra\sprite.png</Source>
+      <Name>Npc\Kyra\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Kyra\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Nei\headshot.png</Source>
+      <Name>Npc\Nei\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Nei\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Nei\sprite.png</Source>
+      <Name>Npc\Nei\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Nei\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Rika\headshot.png</Source>
+      <Name>Npc\Rika\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Rika\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Rika\sprite.png</Source>
+      <Name>Npc\Rika\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Rika\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Rolf\headshot.png</Source>
+      <Name>Npc\Rolf\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Rolf\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Rolf\sprite.png</Source>
+      <Name>Npc\Rolf\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Rolf\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Rudo\headshot.png</Source>
+      <Name>Npc\Rudo\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Rudo\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Rudo\sprite.png</Source>
+      <Name>Npc\Rudo\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Rudo\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Rune\headshot.png</Source>
+      <Name>Npc\Rune\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Rune\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Rune\sprite.png</Source>
+      <Name>Npc\Rune\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Rune\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\SeeHash\headshot.png</Source>
+      <Name>Npc\SeeHash\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\SeeHash\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\SeeHash\sprite.png</Source>
+      <Name>Npc\SeeHash\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\SeeHash\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Shir\headshot.png</Source>
+      <Name>Npc\Shir\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Shir\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\Shir\sprite.png</Source>
+      <Name>Npc\Shir\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\Shir\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\TecMan\headshot.png</Source>
+      <Name>Npc\TecMan\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\TecMan\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\TecMan\sprite.png</Source>
+      <Name>Npc\TecMan\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\TecMan\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\TheOracle\headshot.png</Source>
+      <Name>Npc\TheOracle\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\TheOracle\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\TheOracle\sprite.png</Source>
+      <Name>Npc\TheOracle\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\TheOracle\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\TheScrumMaster\headshot.png</Source>
+      <Name>Npc\TheScrumMaster\headshot</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\TheScrumMaster\headshot.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\TheScrumMaster\sprite.png</Source>
+      <Name>Npc\TheScrumMaster\sprite</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\TheScrumMaster\sprite.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\LadyJavaBigOverWorld.png</Source>
+      <Name>Sprites\LadyJavaBigOverWorld</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\LadyJavaBigOverWorld.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Sprites\LadyJavaBigOverWorldOld.png</Source>
+      <Name>Sprites\LadyJavaBigOverWorldOld</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Sprites\LadyJavaBigOverWorldOld.xnb</Output>
+      <Time>2013-11-10T12:49:54-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Npc\TheOracle\NPC_TheOracle_Trapped.png</Source>
+      <Name>Npc\TheOracle\NPC_TheOracle_Trapped</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Npc\TheOracle\NPC_TheOracle_Trapped.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Dungeon\Fin.png</Source>
+      <Name>Dungeon\Fin</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Dungeon\Fin.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Dungeon\Start.png</Source>
+      <Name>Dungeon\Start</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\Dungeon\Start.xnb</Output>
+      <Time>2013-11-13T22:32:44-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -746,10 +773,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJavaContent\</RootDirectory>
-      <LoggerRootDirectory>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\</LoggerRootDirectory>
-      <IntermediateDirectory>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>E:\COMP231ProjI\Works\comp231\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJavaContent\</RootDirectory>
+      <LoggerRootDirectory>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\</LoggerRootDirectory>
+      <IntermediateDirectory>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>E:\COMP231\AOL\LadyJavaOverWorld\LadyJava\LadyJava\LadyJava\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

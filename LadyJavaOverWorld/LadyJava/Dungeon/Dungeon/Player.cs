@@ -17,6 +17,21 @@ namespace Dungeon
 {
     class Player
     {
+
+        bool jumpDone;
+        bool delayJump;
+        bool isJumping;
+        bool isFalling;
+
+        int jumpTime;
+        int delayJumpTime;
+
+        const int jumpHeight = 15;
+        const int delayJumpTimer = 100; //msecs
+        const int jumpTimer = 400; //msecs
+
+        Vector2 motion;
+
         public Vector2 Position
         { get { return sprite.Position; } }
 
@@ -48,8 +63,15 @@ namespace Dungeon
 
         public Player(Sprite newSprite)
         {
+            motion = Vector2.Zero; 
+            
             animation = Global.STILL;
             sprite = newSprite;
+
+            jumpDone = true;
+            delayJump = false;
+            isJumping = false;
+            isFalling = false;
 
             UpdateBounds(Position, Width, Height);
         }
@@ -83,7 +105,7 @@ namespace Dungeon
             return collisions.ToArray<BoundingBox>();
         }
 
-        const float buffer = 0.01f;
+        #region Collision Detection
         Vector2 DownCollision(Vector2 newMotion, BoundingBox[] collisions)
         {
 
@@ -97,7 +119,7 @@ namespace Dungeon
                         if (boundingBox.Max.Y > collisions[i].Min.Y &&
                             boundingBox.Max.Y < collisions[i].Max.Y)
                         {
-                            newMotion.Y = collisions[i].Min.Y - buffer - Position.Y - Height;
+                            newMotion.Y = collisions[i].Min.Y - Global.Buffer - Position.Y - Height;
                         }
                     }
                 }
@@ -117,7 +139,7 @@ namespace Dungeon
                     if (boundingBox.Min.Y < collisions[i].Max.Y &&
                         boundingBox.Min.Y > collisions[i].Min.Y)
                     {
-                        newMotion.Y = collisions[i].Max.Y + buffer - Position.Y;
+                        newMotion.Y = collisions[i].Max.Y + Global.Buffer - Position.Y;
                     }
                 }
             }
@@ -136,7 +158,7 @@ namespace Dungeon
                     if (boundingBox.Max.X > collisions[i].Min.X &&
                         boundingBox.Max.X < collisions[i].Max.X)
                     {
-                        newMotion.X = collisions[i].Min.X - buffer - Position.X - Width;
+                        newMotion.X = collisions[i].Min.X - Global.Buffer - Position.X - Width;
                     }
                 }
             }
@@ -146,7 +168,6 @@ namespace Dungeon
 
         Vector2 LeftCollision(Vector2 newMotion, BoundingBox[] collisions)
         {
-
             UpdateBounds(Position + newMotion, Width, Height);
             for (int i = 0; i < collisions.Length; i++)
             {
@@ -155,47 +176,126 @@ namespace Dungeon
                     if (boundingBox.Min.X < collisions[i].Max.X &&
                         boundingBox.Min.X > collisions[i].Min.X)
                     {
-                        newMotion.X = collisions[i].Max.X + buffer - Position.X;
+                        newMotion.X = collisions[i].Max.X + Global.Buffer - Position.X;
                     }
                 }
             }
 
             return newMotion;
         }
+        #endregion
 
         public void Update(GameTime gameTime, int levelWidth, int levelHeight, params Object[] collisionObjects)
         {
-            Vector2 motion = Vector2.Zero;
+            //Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
 
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
             motion.Y = (Global.GravityAccelation / Global.PixelsToMeter) * (float) gameTime.ElapsedGameTime.TotalSeconds;
             motion = DownCollision(motion, collisions);
-
-            animation = Global.STILL;
-            if (InputManager.IsKeyDown(Commands.Right))
+            if (motion.Y > Global.Buffer)
+                isFalling = true;
+            else
             {
-                animation = Global.RIGHT;
-                motion.X += movement;
-                motion = RightCollision(motion, collisions);
+                isFalling = false;
+                if (jumpTime >= jumpTimer && isJumping)
+                {
+                    isJumping = false;
+                    jumpTime = 0;
+                    delayJump = true;
+                    delayJumpTime = 0;
+                }
             }
-            else if (InputManager.IsKeyDown(Commands.Left))
-            {
-                animation = Global.LEFT;
-                motion.X -= movement;
-                motion = LeftCollision(motion, collisions);
-            }
-            else if (motion != Vector2.Zero)
-            {
-                //motion.Normalize();
 
+            if (delayJump)
+            {
+                delayJumpTime += gameTime.ElapsedGameTime.Milliseconds;
+                if (delayJumpTime > delayJumpTimer)
+                    delayJump = false;
+            }
+
+            if (InputManager.IsKeyDown(Commands.Jump) && !isJumping && !isFalling && !delayJump)
+            {
+                isJumping = true;
+            }
+            else if (isJumping)
+            {
+                motion = Jump(gameTime, motion);
+            }
+            else if (motion.X == 0)
+            {
+                animation = Global.STILL;
+                if (InputManager.IsKeyDown(Commands.Right))
+                {
+                    animation = Global.RIGHT;
+                    motion.X = movement;
+                    motion = RightCollision(motion, collisions);
+                }
+                else if (InputManager.IsKeyDown(Commands.Left))
+                {
+                    animation = Global.LEFT;
+                    motion.X = -movement;
+                    motion = LeftCollision(motion, collisions);
+                }
+            }
+            else
+            {
+                if (motion.X > 0)
+                {
+                    animation = Global.RIGHT;
+                    if (!InputManager.IsKeyDown(Commands.Right))
+                    {
+                        if (InputManager.IsKeyDown(Commands.Left))
+                            animation = Global.LEFT;
+                        else
+                            animation = Global.STILL;
+
+                        motion.X *= Global.GroundFriction;
+                        if (motion.X < Global.Buffer)
+                            motion.X = 0f;
+                    }
+                    else
+                        motion.X = movement;
+
+                    motion = RightCollision(motion, collisions);
+                }
+                else if (motion.X < 0)
+                {
+                    if (InputManager.IsKeyDown(Commands.Right))
+                        animation = Global.RIGHT;
+                    else
+                        animation = Global.STILL;
+
+                    if (!InputManager.IsKeyDown(Commands.Left))
+                    {
+                        animation = Global.STILL;
+                        motion.X *= Global.GroundFriction;
+                        if (motion.X > -Global.Buffer)
+                            motion.X = 0f;
+                    }
+                    else
+                        motion.X = -movement;
+
+                    motion = LeftCollision(motion, collisions);
+                }
             }
 
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             
             sprite.Update(gameTime, animation, position);
+        }
+
+        private Vector2 Jump(GameTime gameTime, Vector2 motion)
+        {
+            if (jumpTime < jumpTimer)
+            {
+                motion.Y -= jumpHeight;
+                jumpTime += gameTime.ElapsedGameTime.Milliseconds;
+            }
+
+            return motion;
         }
 
         public void Draw(SpriteBatch spriteBatch)
