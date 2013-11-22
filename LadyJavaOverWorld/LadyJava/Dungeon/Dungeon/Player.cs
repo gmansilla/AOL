@@ -17,6 +17,8 @@ namespace Dungeon
 {
     class Player
     {
+        const int RightDirection = 1;
+        const int LeftDirection = -1;
 
         bool jumpDone;
         bool delayJump;
@@ -27,7 +29,7 @@ namespace Dungeon
         int delayJumpTime;
 
         const int jumpHeight = 15;
-        const int delayJumpTimer = 100; //msecs
+        const int delayJumpTimer = 350; //msecs
         const int jumpTimer = 400; //msecs
 
         Vector2 motion;
@@ -187,7 +189,6 @@ namespace Dungeon
 
         public void Update(GameTime gameTime, int levelWidth, int levelHeight, params Object[] collisionObjects)
         {
-            //Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
 
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
@@ -199,10 +200,8 @@ namespace Dungeon
             else
             {
                 isFalling = false;
-                if (jumpTime >= jumpTimer && isJumping)
+                if (!delayJump && jumpDone && isJumping)
                 {
-                    isJumping = false;
-                    jumpTime = 0;
                     delayJump = true;
                     delayJumpTime = 0;
                 }
@@ -212,72 +211,35 @@ namespace Dungeon
             {
                 delayJumpTime += gameTime.ElapsedGameTime.Milliseconds;
                 if (delayJumpTime > delayJumpTimer)
+                {
+                    isJumping = false;
                     delayJump = false;
+                }
             }
 
-            if (InputManager.IsKeyDown(Commands.Jump) && !isJumping && !isFalling && !delayJump)
+            if (InputManager.IsKeyDown(Commands.Jump) && !isJumping && jumpDone && !isFalling && !delayJump)
             {
+                jumpTime = 0;
+                jumpDone = false;
                 isJumping = true;
             }
-            else if (isJumping)
+            else if (!jumpDone)
             {
                 motion = Jump(gameTime, motion);
             }
-            else if (motion.X == 0)
+            else  if (motion.X == 0)
             {
-                animation = Global.STILL;
-                if (InputManager.IsKeyDown(Commands.Right))
-                {
-                    animation = Global.RIGHT;
-                    motion.X = movement;
-                    motion = RightCollision(motion, collisions);
-                }
-                else if (InputManager.IsKeyDown(Commands.Left))
-                {
-                    animation = Global.LEFT;
-                    motion.X = -movement;
-                    motion = LeftCollision(motion, collisions);
-                }
+                motion = initialMovement(motion, collisions);
             }
             else
             {
                 if (motion.X > 0)
                 {
-                    animation = Global.RIGHT;
-                    if (!InputManager.IsKeyDown(Commands.Right))
-                    {
-                        if (InputManager.IsKeyDown(Commands.Left))
-                            animation = Global.LEFT;
-                        else
-                            animation = Global.STILL;
-
-                        motion.X *= Global.GroundFriction;
-                        if (motion.X < Global.Buffer)
-                            motion.X = 0f;
-                    }
-                    else
-                        motion.X = movement;
-
-                    motion = RightCollision(motion, collisions);
+                    motion = continuousMotion(motion, RightDirection, collisions);
                 }
                 else if (motion.X < 0)
                 {
-                    if (InputManager.IsKeyDown(Commands.Right))
-                        animation = Global.RIGHT;
-                    else
-                        animation = Global.STILL;
-
-                    if (!InputManager.IsKeyDown(Commands.Left))
-                    {
-                        animation = Global.STILL;
-                        motion.X *= Global.GroundFriction;
-                        if (motion.X > -Global.Buffer)
-                            motion.X = 0f;
-                    }
-                    else
-                        motion.X = -movement;
-
-                    motion = LeftCollision(motion, collisions);
+                    motion = continuousMotion(motion, LeftDirection, collisions);
                 }
             }
 
@@ -287,9 +249,67 @@ namespace Dungeon
             sprite.Update(gameTime, animation, position);
         }
 
+        #region movement
+        private Vector2 continuousMotion(Vector2 newMotion, int direction, BoundingBox[] collisions)
+        {
+            if(direction == RightDirection)
+                animation = Global.RIGHT;
+            else
+                animation = Global.LEFT;
+
+            if ((direction == RightDirection && !InputManager.IsKeyDown(Commands.Right)) ||
+                (direction == LeftDirection && !InputManager.IsKeyDown(Commands.Left)))
+            {
+                if (direction == RightDirection && InputManager.IsKeyDown(Commands.Left))
+                    animation = Global.LEFT;
+                else if (direction == LeftDirection && InputManager.IsKeyDown(Commands.Right))
+                    animation = Global.RIGHT;
+                else
+                    animation = Global.STILL;
+
+                newMotion.X *= Global.GroundFriction;
+                if (Math.Abs(newMotion.X) < Global.Buffer)
+                    newMotion.X = 0f;
+            }
+            else
+                newMotion.X = direction * movement;
+            
+            if (direction == RightDirection)
+                newMotion = RightCollision(newMotion, collisions);
+            else
+                newMotion = LeftCollision(newMotion, collisions);
+
+            return newMotion;
+        }
+
+        private Vector2 initialMovement(Vector2 newMotion, BoundingBox[] collisions)
+        {
+            animation = Global.STILL;
+            if (InputManager.IsKeyDown(Commands.Right))
+            {
+                animation = Global.RIGHT;
+                newMotion.X = movement;
+                newMotion = RightCollision(newMotion, collisions);
+            }
+            else if (InputManager.IsKeyDown(Commands.Left))
+            {
+                animation = Global.LEFT;
+                newMotion.X = -movement;
+                newMotion = LeftCollision(newMotion, collisions);
+            }
+
+            return newMotion;
+        }
+        #endregion
+
         private Vector2 Jump(GameTime gameTime, Vector2 motion)
         {
-            if (jumpTime < jumpTimer)
+            if ((InputManager.IsKeyDown(Commands.Left) && motion.X > 0) ||
+               (InputManager.IsKeyDown(Commands.Right) && motion.X < 0))
+                jumpDone = true;
+            else if (jumpTime > jumpTimer)
+                jumpDone = true;
+            else
             {
                 motion.Y -= jumpHeight;
                 jumpTime += gameTime.ElapsedGameTime.Milliseconds;
