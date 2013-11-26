@@ -139,6 +139,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpeachFont.spritefont">
+      <Name>SpeachFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="TileMaps\BoatHouse.map">
       <Name>BoatHouse</Name>
       <Processor>PassThroughProcessor</Processor>
@@ -651,6 +656,13 @@
     </Compile>
     <Compile Include="Dungeon\Tree\D3Background.jpg">
       <Name>D3Background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Npc\blank.png">
+      <Name>blank</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

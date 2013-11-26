@@ -18,21 +18,67 @@ namespace LadyJava
     {
         Sprite sprite;
         string[,] script = new string[6, 4];
+        private string name;
+        Texture2D blank;
         private Vector2 Position
         { get { return sprite.Position; } }
+        private Vector2 camPos;
+        int screenWidth;
+        int screenHeight;
+        SpriteFont speechText;
+        Texture2D headshot;
 
-        public Npc(Sprite newSprite, string newName)
+        public Npc(Sprite newSprite, string newName, ContentManager newContent, int newScreenWidth, int newScreenHeight, SpriteFont newSpeachText)
         {
             sprite = newSprite;
+            this.name = newName;
+            blank = newContent.Load<Texture2D>("Npc\\blank");
+            headshot = newContent.Load<Texture2D>("Npc\\" + name + "\\headshot");
             loadScript(newName);
+            screenWidth = newScreenWidth;
+            screenHeight = newScreenHeight;
+            speechText = newSpeachText;
+
         }
 
-        public Npc(string name, Vector2 position, int newWidth, int newHeight, float newScale, ContentManager content) : 
-               this(new Sprite(content.Load<Texture2D>("Npc\\" + name + "\\sprite"), position, newWidth, newHeight, newScale), name)
-        { }
-        
+        public Npc(string name, Vector2 position, int newWidth, int newHeight, float newScale, ContentManager content, int newScreenWidth, int newScreenHeight, SpriteFont newSpeachText) : 
+               this(new Sprite(content.Load<Texture2D>("Npc\\" + name + "\\sprite"), position, newWidth, newHeight, newScale), name, content, newScreenWidth, newScreenHeight, newSpeachText)
+        {
+            
+        }
+
+
+        public void Update(Camera playerCam, int newScreenWidth, int newScreenHeight)
+        {
+            camPos = playerCam.Position;
+            screenWidth = newScreenWidth;
+            screenHeight = newScreenHeight;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
+            if (name == "Amy") {
+                int h = screenHeight / 3;
+                int y = (int)camPos.Y + screenHeight - h;
+                String message = "hello world";
+                
+                Vector2 messageBoxPos = new Vector2(camPos.X, y);
+                Vector2 headshotPos = messageBoxPos + new Vector2(0, 0);
+                
+                
+                //dialog message box
+                Rectangle msgBoxRect = new Rectangle(0, 0, screenWidth, h);
+
+                spriteBatch.Draw(blank, messageBoxPos, msgBoxRect, Color.Black);
+                //headshot
+                int headshotWidth = headshot.Width;
+                Rectangle headshotRect = new Rectangle(0, 0, headshotWidth, headshotWidth);
+                spriteBatch.Draw(headshot, headshotPos, headshotRect, Color.White);
+                //text
+                Vector2 textPosition = headshotPos + new Vector2(headshotWidth, 0);
+                spriteBatch.DrawString(speechText, message, textPosition, Color.White);
+
+            }
             sprite.Draw(spriteBatch);
         }
 

@@ -42,15 +42,17 @@ namespace LadyJava
         protected override void LoadContent()
         {
             npcs = new List<Npc>();
-
+            SpriteFont speachText = Content.Load<SpriteFont>("SpeachFont");
             campus = new Dictionary<string, TileMap>();
             currentArea = "TileMaps\\overworld.map";
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
             
             
             collisionLayerImage = Content.Load<Texture2D>("tileSelector");
+            int screenWidth = graphics.GraphicsDevice.Viewport.Width;
+            int screenHeigth = graphics.GraphicsDevice.Viewport.Height;
+            camera = new Camera(screenWidth, screenHeigth);
 
-            camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             #region campus.add
             campus.Add("TileMaps\\overworld.map", new TileMap(Global.ContentPath + "TileMaps\\overworld.map", Content));
@@ -87,59 +89,60 @@ namespace LadyJava
                                      1.0f);
             ladyJ = new LadyJava(lady);
 
+            
             //create Amy (NPC)
-            npcs.Add(new Npc("Amy", new Vector2(200, 200), 25, 50, 1.0f, Content));
+            npcs.Add(new Npc("Amy", new Vector2(200, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
             //create Alison (NPC)
-            npcs.Add(new Npc("Alison", new Vector2(264, 200), 25, 50, 1.0f, Content));
+            //npcs.Add(new Npc("Alison", new Vector2(264, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Anna (NPC)
-            npcs.Add(new Npc("Anna", new Vector2(328, 200), 25, 50, 1.0f, Content));
+            ////create Anna (NPC)
+            //npcs.Add(new Npc("Anna", new Vector2(328, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Chaz (NPC)
-            npcs.Add(new Npc("Chaz", new Vector2(392, 200), 25, 50, 1.0f, Content));
+            ////create Chaz (NPC)
+            //npcs.Add(new Npc("Chaz", new Vector2(392, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Han (NPC)
-            npcs.Add(new Npc("Han", new Vector2(456, 200), 25, 50, 1.0f, Content));
+            ////create Han (NPC)
+            //npcs.Add(new Npc("Han", new Vector2(456, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Hugh (NPC)
-            npcs.Add(new Npc("Hugh", new Vector2(520, 200), 25, 50, 1.0f, Content));
+            ////create Hugh (NPC)
+            //npcs.Add(new Npc("Hugh", new Vector2(520, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Josh (NPC)
-            npcs.Add(new Npc("Josh", new Vector2(584, 200), 25, 50, 1.0f, Content));
+            ////create Josh (NPC)
+            //npcs.Add(new Npc("Josh", new Vector2(584, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Kyra (NPC)
-            npcs.Add(new Npc("Kyra", new Vector2(648, 200), 25, 50, 1.0f, Content));
+            ////create Kyra (NPC)
+            //npcs.Add(new Npc("Kyra", new Vector2(648, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Nei (NPC)
-            npcs.Add(new Npc("Nei", new Vector2(712, 200), 25, 50, 1.0f, Content));
+            ////create Nei (NPC)
+            //npcs.Add(new Npc("Nei", new Vector2(712, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Rika (NPC)
-            npcs.Add(new Npc("Rika", new Vector2(776, 200), 25, 50, 1.0f, Content));
+            ////create Rika (NPC)
+            //npcs.Add(new Npc("Rika", new Vector2(776, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Rolf (NPC)
-            npcs.Add(new Npc("Rolf", new Vector2(840, 200), 25, 50, 1.0f, Content));
+            ////create Rolf (NPC)
+            //npcs.Add(new Npc("Rolf", new Vector2(840, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //creare Rudo (NPC)
-            npcs.Add(new Npc("Rudo", new Vector2(904, 200), 25, 50, 1.0f, Content));
+            ////creare Rudo (NPC)
+            //npcs.Add(new Npc("Rudo", new Vector2(904, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Rune (NPC)
-            npcs.Add(new Npc("Rune", new Vector2(968, 200), 25, 50, 1.0f, Content));
+            ////create Rune (NPC)
+            //npcs.Add(new Npc("Rune", new Vector2(968, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create SeeHash (NPC)
-            npcs.Add(new Npc("SeeHash", new Vector2(1032, 200), 25, 50, 1.0f, Content));
+            ////create SeeHash (NPC)
+            //npcs.Add(new Npc("SeeHash", new Vector2(1032, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create Shir (NPC)
-            npcs.Add(new Npc("Shir", new Vector2(1096, 200), 25, 50, 1.0f, Content));
+            ////create Shir (NPC)
+            //npcs.Add(new Npc("Shir", new Vector2(1096, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create TecMan (NPC)
-            npcs.Add(new Npc("TecMan", new Vector2(1160, 200), 25, 50, 1.0f, Content));
+            ////create TecMan (NPC)
+            //npcs.Add(new Npc("TecMan", new Vector2(1160, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create TheOracle (NPC)
-            npcs.Add(new Npc("TheOracle", new Vector2(1224, 200), 25, 50, 1.0f, Content));
+            ////create TheOracle (NPC)
+            //npcs.Add(new Npc("TheOracle", new Vector2(1224, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            //create TheScrumMaster (NPC)
-            npcs.Add(new Npc("TheScrumMaster", new Vector2(1288, 200), 25, 50, 1.0f, Content));
+            ////create TheScrumMaster (NPC)
+            //npcs.Add(new Npc("TheScrumMaster", new Vector2(1288, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
         }
 
@@ -171,6 +174,10 @@ namespace LadyJava
                     campus[currentArea].SetLastPosition(Global.Invalid);
                 }
             }
+            foreach (Npc npc in npcs)
+            {
+                npc.Update(camera, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            }
             camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
             base.Update(gameTime);
         }
@@ -187,7 +194,7 @@ namespace LadyJava
             foreach(Npc npc in npcs)
                 npc.Draw(spriteBatch);
 
-            campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
+            //campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
             spriteBatch.End();
             base.Draw(gameTime);
         }
