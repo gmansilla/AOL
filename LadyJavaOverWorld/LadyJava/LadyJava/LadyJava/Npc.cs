@@ -58,13 +58,13 @@ namespace LadyJava
         public void Draw(SpriteBatch spriteBatch)
         {
             if (name == "Amy") {
-                int h = screenHeight / 3;
+                int h = (int)(screenHeight / 6.5);
                 int y = (int)camPos.Y + screenHeight - h;
-                String message = "hello world";
+                String message = getMessage(1, 0);
                 
                 Vector2 messageBoxPos = new Vector2(camPos.X, y);
                 Vector2 headshotPos = messageBoxPos + new Vector2(0, 0);
-                
+                Vector2 measureText = speechText.MeasureString(message);
                 
                 //dialog message box
                 Rectangle msgBoxRect = new Rectangle(0, 0, screenWidth, h);
@@ -76,8 +76,23 @@ namespace LadyJava
                 spriteBatch.Draw(headshot, headshotPos, headshotRect, Color.White);
                 //text
                 Vector2 textPosition = headshotPos + new Vector2(headshotWidth, 0);
-                spriteBatch.DrawString(speechText, message, textPosition, Color.White);
-
+                int splitBy = (int)(messageBoxPos.X - headshotWidth);
+                string[] words = message.Trim().Split(' ');
+                string line = " ";
+                Vector2 measureCurrentLine;
+                for (int i = 0; i < words.Length; i++)
+                {
+                    measureCurrentLine = speechText.MeasureString(line);
+                    if (measureCurrentLine.X < splitBy && i < words.Length - 1 )
+                    {
+                        line = line + words[i] + " ";
+                    }
+                    else {
+                        spriteBatch.DrawString(speechText, line + words[i], textPosition, Color.White);
+                        textPosition.Y += measureCurrentLine.Y;
+                        line = " ";
+                    }
+                }
             }
             sprite.Draw(spriteBatch);
         }
@@ -168,10 +183,11 @@ namespace LadyJava
         
         }
 
-        public string getMessage(int stage)
+        public string getMessage(int stage, int position)
         {
-            
-            return "";
+            String message = "Hey! I don't have much to tell you";
+            message = (script[stage, position] == null ? message : script[stage, position]); 
+            return message;
         }
 
     }
