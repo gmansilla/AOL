@@ -19,6 +19,10 @@ namespace LadyJava
     {
         const float BUFFER = 0.01f;
 
+        Global.PlayStates currentPlayState;
+        int talkingTo;
+        bool talking;
+
         public Vector2 previousPosition;
 
         public Vector2 PreviousPosition
@@ -36,6 +40,12 @@ namespace LadyJava
         public int Height
         { get { return sprite.Height; } }
 
+        public int TalkingTo
+        { get { return talkingTo; } }
+
+        public Global.PlayStates CurrentPlayState
+        { get { return currentPlayState; } }
+
         public BoundingBox ToBoundingBox
         { get { return boundingBox; } }
 
@@ -47,7 +57,6 @@ namespace LadyJava
         void UpdateBounds(Vector2 newPosition, int width, int height)
         {
             boundingBox = new BoundingBox(new Vector3(newPosition.X, newPosition.Y, 0f),
-                                          //new Vector3(newPosition.X + width, newPosition.Y + height, 0f),
                                           new Vector3(newPosition.X + width, newPosition.Y + height, 0f));
         }
 
@@ -55,7 +64,8 @@ namespace LadyJava
         {
             animation = Global.STILL;
             sprite = newSprite;
-
+            talkingTo = Global.InvalidInt;
+            talking = false;
             UpdateBounds(Position, Width, Height);
         }
 
@@ -99,65 +109,8 @@ namespace LadyJava
 
                 }
             }
-            return Global.Invalid;
+            return Global.InvalidVector2;
         }
-        //#region ?
-        //            //UpdateBounds(newPosition, Width, Height);
-        //            //for (int i = 0; i < enter.Length; i++)
-        //            //{
-        //            //    if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\overworld.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\BoatHouse.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\Gym.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\house1.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\house2.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\house3.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\house4.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\PC.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else if (boundingBox.Intersects(enter[i]))
-        //            //    {
-        //            //        getMap = "TileMaps\\ShirsStudy.map";
-        //            //        return getMap;
-        //            //    }
-        //            //    else
-        //            //    {
-        //            //        return getMap;
-        //            //    }
-        //            //}
-        //            //return getMap;
-        //#endregion
-        //        }
 
         Vector2 DownCollision(Vector2 newMotion, BoundingBox[] collisions)
         {
@@ -238,9 +191,12 @@ namespace LadyJava
             return newMotion;
         }
         
-        public Vector2 Update(GameTime gameTime, int levelWidth, int levelHeight, BoundingBox[] entrances, params Object[] collisionObjects)
+        public Vector2 Update(GameTime gameTime, 
+                              int levelWidth, int levelHeight, 
+                              BoundingBox[] entrances, BoundingSphere talkingRadii,
+                              params Object[] collisionObjects)
         {
-            Vector2 entranceLocation = Global.Invalid;
+            Vector2 entranceLocation = Global.InvalidVector2;
             Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
             previousPosition = sprite.Position;
@@ -249,37 +205,57 @@ namespace LadyJava
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
             animation = Global.STILL;
-            if (InputManager.IsKeyDown(Commands.Up))
+            if (currentPlayState == Global.PlayStates.Playing)
             {
-                animation = Global.UP;
-                motion.Y = -movement;
-                motion = UpCollision(motion, collisions);
-                if (motion.Y != -movement)
-                    collision = true;
+                if (InputManager.IsKeyDown(Commands.Up))
+                {
+                    animation = Global.UP;
+                    motion.Y = -movement;
+                    motion = UpCollision(motion, collisions);
+                    if (motion.Y != -movement)
+                        collision = true;
+                }
+                if (InputManager.IsKeyDown(Commands.Down))
+                {
+                    animation = Global.DOWN;
+                    motion.Y = movement;
+                    motion = DownCollision(motion, collisions);
+                    if (motion.Y != movement)
+                        collision = true;
+                }
+                if (InputManager.IsKeyDown(Commands.Right))
+                {
+                    animation = Global.RIGHT;
+                    motion.X = movement;
+                    motion = RightCollision(motion, collisions);
+                    if (motion.X != movement)
+                        collision = true;
+                }
+                if (InputManager.IsKeyDown(Commands.Left))
+                {
+                    animation = Global.LEFT;
+                    motion.X = -movement;
+                    motion = LeftCollision(motion, collisions);
+                    if (motion.X != -movement)
+                        collision = true;
+                }
             }
-            if (InputManager.IsKeyDown(Commands.Down))
+
+            if (InputManager.HasKeyBeenUp(Commands.Execute) &&
+                boundingBox.Intersects(talkingRadii))
             {
-                animation = Global.DOWN;
-                motion.Y = movement;
-                motion = DownCollision(motion, collisions);
-                if (motion.Y != movement)
-                    collision = true;
-            }
-            if (InputManager.IsKeyDown(Commands.Right))
-            {
-                animation = Global.RIGHT;
-                motion.X = movement;
-                motion = RightCollision(motion, collisions);
-                if (motion.X != movement)
-                    collision = true;
-            }
-            if (InputManager.IsKeyDown(Commands.Left))
-            {
-                animation = Global.LEFT;
-                motion.X = -movement;
-                motion = LeftCollision(motion, collisions);
-                if (motion.X != -movement)
-                    collision = true;
+                talkingTo = 0;
+                talking = !talking;
+                if (talking)
+                {
+                    currentPlayState = Global.PlayStates.Message;
+                    talkingTo = 0;
+                }
+                else
+                {
+                    currentPlayState = Global.PlayStates.Playing;
+                    //talkingTo = -1;
+                }
             }
             
             if (!collision && motion != Vector2.Zero)
@@ -296,6 +272,11 @@ namespace LadyJava
             return entranceLocation;
         }
 
+        public void EndConversation()
+        {
+            talkingTo = Global.InvalidInt;
+        }
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);

@@ -1,7 +1,10 @@
 [Stage1]
 Hi, I am Amy; I worked with Tech-Man yesterday. He told me he was going over to the lake to relax, but I have yet to see him. Try asking around over there.
 [Stage2]
+Hi, I am Amy; I worked with Tech-Man yesterday. He told me he was going over to the lake to relax, but I have yet to see him. Try asking around over there.
 [Stage3]
+Hi, I am Amy; I worked with Tech-Man yesterday. He told me he was going over to the lake to relax, but I have yet to see him. Try asking around over there.
 [Stage4]
+Hi, I am Amy; I worked with Tech-Man yesterday. He told me he was going over to the lake to relax, but I have yet to see him. Try asking around over there.
 [onCompleted]
 Thank you for finding Tech-Man!

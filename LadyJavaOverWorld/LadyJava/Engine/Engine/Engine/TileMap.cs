@@ -84,7 +84,7 @@ namespace Engine
 
         Vector2 GetStartingPosition()
         {
-            lastPosition = Global.Invalid;
+            lastPosition = Global.InvalidVector2;
 
             for (int y = 0; y < Width; y++)
                 for (int x = 0; x < Height; x++)

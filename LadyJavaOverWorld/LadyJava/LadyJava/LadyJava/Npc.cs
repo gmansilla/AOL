@@ -22,10 +22,13 @@ namespace LadyJava
         Texture2D headshot;
         SpriteFont speechText;
 
+        BoundingBox boundingBox;
+        BoundingSphere talkRadius;
+
+        int currentMessage;
         List<string> displayLines;
         Global.StoryStates storyState;
         Dictionary<Global.StoryStates, List<string>> dialog;
-        string[,] script = new string[6, 4];
 
         bool displayText;
 
@@ -38,8 +41,17 @@ namespace LadyJava
         Vector2 headshotPosition;
         Vector2 messageBoxPosition;
 
+        public bool MessageBoxVisible
+        { get { return displayText; } }
+        
         Vector2 Position
         { get { return sprite.Position; } }
+
+        public BoundingBox ToBoundingBox
+        { get { return boundingBox; } }
+
+        public BoundingSphere TalkRadius
+        { get { return talkRadius; } }
 
         public Npc(Sprite newSprite, string newName, ContentManager newContent, int newScreenWidth, int newScreenHeight, SpriteFont newSpeachText)
         {
@@ -50,15 +62,20 @@ namespace LadyJava
             headshot = newContent.Load<Texture2D>("Npc\\" + name + "\\headshot");
 
             dialog = new Dictionary<Global.StoryStates, List<string>>();
-            Global.StoryStates stages;
-            foreach (Global.StoryStates stage in stages)
-
+            foreach (Global.StoryStates stage in (Global.StoryStates[])Enum.GetValues(typeof(Global.StoryStates)))
+                dialog.Add(stage, new List<String>());
 
             loadScript(newName);
 
             setMessageBoxSize(newScreenWidth, newScreenHeight);
             
             speechText = newSpeachText;
+
+            boundingBox = new BoundingBox(new Vector3(Position, 0f),
+                                          new Vector3(Position + new Vector2(sprite.Width, sprite.Height), 0f));
+            
+            talkRadius = new BoundingSphere(boundingBox.Min + new Vector3(sprite.Width / 2f, sprite.Height / 2f, 0f), 
+                                            sprite.Height);
         }
 
         void setMessageBoxSize(int newWidth, int newHeight)
@@ -80,7 +97,7 @@ namespace LadyJava
 
             setMessageBoxSize(newScreenWidth, newScreenHeight);
 
-            displayText = false;
+            //displayText = true;
             messageBoxPosition = new Vector2(cameraPosition.X, (int)cameraPosition.Y + newScreenHeight - messageBoxHeight);
             headshotPosition = messageBoxPosition;
             textPosition = headshotPosition + new Vector2(headshot.Width, 0);
@@ -88,37 +105,44 @@ namespace LadyJava
             if (storyState != newStoryState)
             {
                 storyState = newStoryState;
-                displayLines = new List<string>();
+                currentMessage = 0;
 
-                String message = getMessage(1, 0);
+                processMessageToDraw();
+            }
+        }
 
-                string[] words = message.Trim().Split(' ');
-                string line = " ";
-                Vector2 measureCurrentLine;
-                for (int i = 0; i < words.Length; i++)
+        private void processMessageToDraw()
+        {
+            displayLines = new List<string>();
+
+            String message = getCurrentMessage(storyState);
+
+            string[] words = message.Trim().Split(' ');
+            string line = " ";
+            Vector2 measureCurrentLine;
+            for (int i = 0; i < words.Length; i++)
+            {
+                measureCurrentLine = speechText.MeasureString(line);
+                textHeight = (int)measureCurrentLine.Y;
+                Vector2 currentWordSize = speechText.MeasureString(words[i]);
+
+                //add to current line
+                if ((measureCurrentLine.X + currentWordSize.X) < (messageBoxWidth - textPosition.X) &&
+                    i < words.Length - 1)
                 {
-                    measureCurrentLine = speechText.MeasureString(line);
-                    textHeight = (int)measureCurrentLine.Y;
-                    Vector2 currentWordSize = speechText.MeasureString(words[i]);
-
-                    //add to current line
-                    if ((measureCurrentLine.X + currentWordSize.X) < (messageBoxWidth - textPosition.X) && 
-                        i < words.Length - 1)
-                    {
-                        line = line + words[i] + " ";
-                    }
-                    //last word
-                    else if (i == words.Length - 1)
-                    {
-                        displayLines.Add(line + words[i]);
-                        line = " ";
-                    }
-                    //next line
-                    else
-                    {
-                        displayLines.Add(line);
-                        line = " " + words[i] + " ";
-                    }
+                    line = line + words[i] + " ";
+                }
+                //last word
+                else if (i == words.Length - 1)
+                {
+                    displayLines.Add(line + words[i]);
+                    line = " ";
+                }
+                //next line
+                else
+                {
+                    displayLines.Add(line);
+                    line = " " + words[i] + " ";
                 }
             }
         }
@@ -159,62 +183,50 @@ namespace LadyJava
                 {
                     string lines = sr.ReadToEnd();
                     string[] line = lines.Split(new Char[] { '\n' });
-                    int i = 0;
                     for (int y = 0; y < line.Length; y++)
                     {
                         switch (line[y].Trim()) { 
                             case "[Stage1]":
-                                i = 0;
                                 readingStage1 = true;
                                 readingStage2 = readingStage3 = readingStage4 = readingOnCompleted = false;
                             break;
                             case "[Stage2]":
-                                i = 0;
                                 readingStage2 = true;
                                 readingStage1 = readingStage3 = readingStage4 = readingOnCompleted = false;
                             break;
                             case "[Stage3]":
-                                i = 0;
                                 readingStage3 = true;
                                 readingStage2 = readingStage1 = readingStage4 = readingOnCompleted = false;
                             break;
                             case "[Stage4]":
-                                i = 0;
                                 readingStage4 = true;
                                 readingStage2 = readingStage3 = readingStage1 = readingOnCompleted = false;
                             break;
                             case "[onCompleted]":
-                                i = 0;
                                 readingOnCompleted = true;
                                 readingStage2 = readingStage3 = readingStage1 = readingStage4 = false;
                             break;
                             default:
                                 if (readingStage1 == true) {
-                                    dialog.Add(Global.StoryStates.Stage1, 
-                                    script[1, i] = line[y].Trim();
-                                    i++;
+                                    dialog[Global.StoryStates.Stage1].Add(line[y].Trim());
                                 }
                                 else if (readingStage2 == true) {
                                     readingStage1 = false;
-                                    script[2, i] = line[y].Trim();
-                                    i++;
+                                    dialog[Global.StoryStates.Stage2].Add(line[y].Trim());
                                 }
                                 else if (readingStage3 == true)
                                 {
-                                    script[3, i] = line[y].Trim();
-                                    i++;
+                                    dialog[Global.StoryStates.Stage3].Add(line[y].Trim());
                                     readingStage2 = false;
                                 }
                                 else if (readingStage4 == true)
                                 {
-                                    script[4, i] = line[y].Trim();
-                                    i++;
+                                    dialog[Global.StoryStates.Stage4].Add(line[y].Trim());
                                     readingStage3 = false;
                                 }
                                 else if (readingOnCompleted == true)
                                 {
-                                    script[5, i] = line[y].Trim();
-                                    i++;
+                                    dialog[Global.StoryStates.Completed].Add(line[y].Trim());
                                 }
                             break;
                         }
@@ -231,11 +243,28 @@ namespace LadyJava
         
         }
 
-        public string getMessage(int stage, int position)
+        public void ShowMessageBox()
         {
-            String message = "Hey! I don't have much to tell you";
-            message = (script[stage, position] == null ? message : script[stage, position]); 
-            return message;
+            displayText = true;
+        }
+
+        public void HideMessageBox()
+        {
+            displayText = false;
+        }
+
+        public void ChangeMessage()
+        {
+            currentMessage++;
+            processMessageToDraw();
+        }
+
+        string getCurrentMessage(Global.StoryStates stage)
+        {
+            if (currentMessage >= dialog[stage].Count)
+                currentMessage = 0;
+
+            return dialog[stage][currentMessage];
         }
 
     }

@@ -161,26 +161,44 @@ namespace LadyJava
             if (InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-            Vector2 entrancePixelLocation = ladyJ.Update(gameTime, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight, campus[currentArea].CollisionLayer.ToEntranceBox, campus[currentArea].CollisionLayer.ToCollisionBox);
-            if (entrancePixelLocation != Global.Invalid)
+            Vector2 entrancePixelLocation = ladyJ.Update(gameTime, 
+                                                         campus[currentArea].PixelWidth, 
+                                                         campus[currentArea].PixelHeight, 
+                                                         campus[currentArea].CollisionLayer.ToEntranceBox,
+                                                         npcs[0].TalkRadius,
+                                                         campus[currentArea].CollisionLayer.ToCollisionBox, 
+                                                         npcs[0].ToBoundingBox);
+            
+            if (entrancePixelLocation != Global.InvalidVector2)
             {
                 campus[currentArea].SetLastPosition(ladyJ.PreviousPosition);
                 Vector2 entranceLocation = new Vector2(entrancePixelLocation.X / campus[currentArea].TileWidth,
                                                        entrancePixelLocation.Y / campus[currentArea].TileHeight);
                 int currentIndex = campus[currentArea].CollisionLayer.GetCellIndex((int)entranceLocation.X, (int)entranceLocation.Y);
                 currentArea = campus[currentArea].CollisionLayer.Entrances[currentIndex];
-                if (campus[currentArea].LastPosition == Global.Invalid)
+                if (campus[currentArea].LastPosition == Global.InvalidVector2)
                     ladyJ.SetPosition(campus[currentArea].StartingPosition);
                 else
                 {
                     ladyJ.SetPosition(campus[currentArea].LastPosition);
-                    campus[currentArea].SetLastPosition(Global.Invalid);
+                    campus[currentArea].SetLastPosition(Global.InvalidVector2);
                 }
             }
-            foreach (Npc npc in npcs)
+            
+            for (int i = 0; i < npcs.Count; i++ )
             {
-                npc.Update(camera, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, currentStoryState);
+                if (!npcs[i].MessageBoxVisible && ladyJ.TalkingTo == i)
+                    npcs[i].ShowMessageBox();
+                else
+                    if (ladyJ.CurrentPlayState == Global.PlayStates.Playing)
+                    {
+                        npcs[i].HideMessageBox();
+                        ladyJ.EndConversation();
+                    }
+
+                npcs[i].Update(camera, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, currentStoryState);
             }
+            
             camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
             base.Update(gameTime);
         }

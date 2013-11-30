@@ -20,16 +20,24 @@ namespace Engine
         public const string ContentPath = "..\\..\\..\\..\\LadyJavaContent\\";
         public const string DungeonContentPath = "..\\..\\..\\..\\..\\LadyJava\\LadyJavaContent\\";
 
-        public static Vector2 Invalid = new Vector2(-1,-1); //Must be static
+        public const int InvalidInt = -1;
+        public static Vector2 InvalidVector2 = new Vector2(-1, -1); //Must be static
 
         public enum StoryStates
         {
-            Stage0,
+            Completed,
             Stage1,
             Stage2,
             Stage3,
             Stage4
         }
+
+        public enum PlayStates
+        {
+            Playing,
+            Message
+        }
+
 
     }
 }
