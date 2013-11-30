@@ -25,6 +25,8 @@ namespace LadyJava
         Camera camera;
         Texture2D collisionLayerImage;
 
+        Global.StoryStates currentStoryState;
+
        // TileMap overworld;
 
         public Game1()
@@ -143,7 +145,8 @@ namespace LadyJava
 
             ////create TheScrumMaster (NPC)
             //npcs.Add(new Npc("TheScrumMaster", new Vector2(1288, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
+            
+            currentStoryState = Global.StoryStates.Stage1;
         }
 
         protected override void UnloadContent()
@@ -176,7 +179,7 @@ namespace LadyJava
             }
             foreach (Npc npc in npcs)
             {
-                npc.Update(camera, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+                npc.Update(camera, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, currentStoryState);
             }
             camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
             base.Update(gameTime);

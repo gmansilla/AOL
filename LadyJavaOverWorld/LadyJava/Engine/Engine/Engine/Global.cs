@@ -22,7 +22,14 @@ namespace Engine
 
         public static Vector2 Invalid = new Vector2(-1,-1); //Must be static
 
-
+        public enum StoryStates
+        {
+            Stage0,
+            Stage1,
+            Stage2,
+            Stage3,
+            Stage4
+        }
 
     }
 }
