@@ -141,6 +141,7 @@ namespace Dungeon
                     if (boundingBox.Min.Y < collisions[i].Max.Y &&
                         boundingBox.Min.Y > collisions[i].Min.Y)
                     {
+                        jumpDone = true;
                         newMotion.Y = collisions[i].Max.Y + Global.Buffer - Position.Y;
                     }
                 }
