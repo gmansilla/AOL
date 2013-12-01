@@ -139,13 +139,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpeachFont.spritefont">
-      <Name>SpeachFont</Name>
+    <Compile Include="SpeechFont.spritefont">
+      <Name>SpeechFont</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
     <None Include="TileMaps\BoatHouse.map">
       <Name>BoatHouse</Name>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
+    <None Include="TileMaps\overworld.map">
+      <Name>overworld</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
     <None Include="TileMaps\D1.map">
@@ -198,10 +202,6 @@
     </None>
     <None Include="TileMaps\house4.map">
       <Name>house4</Name>
-      <Processor>PassThroughProcessor</Processor>
-    </None>
-    <None Include="TileMaps\overworld.map">
-      <Name>overworld</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
     <None Include="TileMaps\PC.map">

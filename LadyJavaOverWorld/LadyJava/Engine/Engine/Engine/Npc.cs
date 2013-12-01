@@ -12,15 +12,19 @@ using System.IO;
 
 using Engine;
 
-namespace LadyJava
+namespace Engine
 {
-    class Npc
+    public class Npc
     {
+        const float Scale = 1f;
+
         string name;
         Sprite sprite;
         Texture2D blank;
         Texture2D headshot;
         SpriteFont speechText;
+
+        Global.TilePosition tilePosition;
 
         BoundingBox boundingBox;
         BoundingSphere talkRadius;
@@ -41,6 +45,17 @@ namespace LadyJava
         Vector2 headshotPosition;
         Vector2 messageBoxPosition;
 
+        public string Name
+        { get { return name; } }
+        
+        public Global.TilePosition TileAlignment
+        { get { return tilePosition; } }
+
+        public int Width
+        { get { return sprite.Width; } }
+        public int Height
+        { get { return sprite.Height; } }
+
         public bool MessageBoxVisible
         { get { return displayText; } }
         
@@ -53,13 +68,52 @@ namespace LadyJava
         public BoundingSphere TalkRadius
         { get { return talkRadius; } }
 
-        public Npc(Sprite newSprite, string newName, ContentManager newContent, int newScreenWidth, int newScreenHeight, SpriteFont newSpeachText)
+        public Npc(Sprite newSprite, string newName, ContentManager newContent, string newTilePosition, int tileWidth, int newScreenWidth, int newScreenHeight, SpriteFont newSpeechText)
+        {
+            SetupNPC(newSprite, newName, newContent, null, null, newTilePosition, tileWidth, newScreenWidth, newScreenHeight, newSpeechText);
+        }
+
+        public Npc(string name, 
+                   Vector2 position, string newTilePosition, 
+                   int newWidth, int newHeight, 
+                   ContentManager content,
+                   int tileWidth, int newScreenWidth, int newScreenHeight, SpriteFont newSpeachText) :
+               this(new Sprite(content.Load<Texture2D>("Npc\\" + name + "\\sprite"),
+                               position, newWidth, newHeight, Scale), 
+                               name, content, newTilePosition, 
+                               tileWidth, newScreenWidth, newScreenHeight, newSpeachText)
+        { }
+
+        public Npc(string name,
+                   Vector2 position, string newTilePosition,
+                   int newWidth, int newHeight,
+                   string contentPath, GraphicsDevice newGraphicsDevice,
+                   int tileWidth, int newScreenWidth, int newScreenHeight, SpriteFont newSpeachText)
+        {
+            Sprite newSprite = new Sprite(Global.LoadTexture(contentPath + "Npc\\" + name + "\\sprite", newGraphicsDevice), position, newWidth, newHeight, Scale);
+            SetupNPC(newSprite, name, null, contentPath, newGraphicsDevice, newTilePosition, tileWidth, newScreenWidth, newScreenHeight, null);
+            
+        }
+
+        void SetupNPC(Sprite newSprite, string newName,
+                              ContentManager newContent,
+                              string contentPath, GraphicsDevice newGraphicsDevice,
+                              string newTilePosition, int tileWidth,
+                              int newScreenWidth, int newScreenHeight, SpriteFont newSpeechText)
         {
             sprite = newSprite;
             name = newName;
-            
-            blank = newContent.Load<Texture2D>("Npc\\blank");
-            headshot = newContent.Load<Texture2D>("Npc\\" + name + "\\headshot");
+
+            if (newGraphicsDevice == null)
+            {
+                blank = newContent.Load<Texture2D>("Npc\\blank");
+                headshot = newContent.Load<Texture2D>("Npc\\" + name + "\\headshot");
+            }
+            else
+            {
+                blank = Global.LoadTexture(contentPath + "Npc\\blank", newGraphicsDevice);
+                headshot = Global.LoadTexture(contentPath + "Npc\\" + name + "\\headshot", newGraphicsDevice);
+            }
 
             dialog = new Dictionary<Global.StoryStates, List<string>>();
             foreach (Global.StoryStates stage in (Global.StoryStates[])Enum.GetValues(typeof(Global.StoryStates)))
@@ -68,14 +122,24 @@ namespace LadyJava
             loadScript(newName);
 
             setMessageBoxSize(newScreenWidth, newScreenHeight);
-            
-            speechText = newSpeachText;
 
-            boundingBox = new BoundingBox(new Vector3(Position, 0f),
-                                          new Vector3(Position + new Vector2(sprite.Width, sprite.Height), 0f));
-            
-            talkRadius = new BoundingSphere(boundingBox.Min + new Vector3(sprite.Width / 2f, sprite.Height / 2f, 0f), 
-                                            sprite.Height);
+            speechText = newSpeechText;
+
+            tilePosition = ((Global.TilePosition)Enum.Parse(typeof(Global.TilePosition), newTilePosition));
+
+            SetPosition(Position, tileWidth);
+        }
+
+        Vector2 findOffsets(int tileWidth)
+        {
+            Vector2 offsets = Vector2.Zero;
+
+            if (tilePosition == Global.TilePosition.Centre)
+                offsets = new Vector2(tileWidth / 2f - Width / 2f, 0f);
+            else if (tilePosition == Global.TilePosition.Right)
+                offsets = new Vector2(tileWidth - Width, 0f);
+
+            return offsets;
         }
 
         void setMessageBoxSize(int newWidth, int newHeight)
@@ -83,13 +147,6 @@ namespace LadyJava
             messageBoxWidth = newWidth;
             messageBoxHeight = (int)(newHeight / 6.5);
         }
-
-        public Npc(string name, Vector2 position, int newWidth, int newHeight, float newScale, ContentManager content, int newScreenWidth, int newScreenHeight, SpriteFont newSpeachText) : 
-               this(new Sprite(content.Load<Texture2D>("Npc\\" + name + "\\sprite"), position, newWidth, newHeight, newScale), name, content, newScreenWidth, newScreenHeight, newSpeachText)
-        {
-            
-        }
-
 
         public void Update(Camera playerCam, int newScreenWidth, int newScreenHeight, Global.StoryStates newStoryState)
         {
@@ -147,6 +204,14 @@ namespace LadyJava
             }
         }
 
+        public Vector2 GetCellPosition(int tileWidth, int tileHeight)
+        {
+            Vector2 position = Position - findOffsets(tileWidth);
+            Vector2 cell = new Vector2((int)(Position.X / tileWidth), (int)(Position.Y / tileHeight));
+
+            return cell;
+        }
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             if (displayText)
@@ -265,6 +330,19 @@ namespace LadyJava
                 currentMessage = 0;
 
             return dialog[stage][currentMessage];
+        }
+        
+        public void SetPosition(Vector2 newPosition, int tileWidth)
+        {
+            Vector2 offsets = findOffsets(tileWidth);
+
+            sprite.SetPosition(newPosition + offsets);
+
+            boundingBox = new BoundingBox(new Vector3(Position, 0f),
+                                          new Vector3(Position + new Vector2(Width, Height), 0f));
+
+            talkRadius = new BoundingSphere(boundingBox.Min + new Vector3(Width / 2f, Height / 2f, 0f),
+                                            sprite.Height);
         }
 
     }

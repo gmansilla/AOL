@@ -401,7 +401,10 @@ namespace TileMapEditor
         
                 string filename = openFileDialog1.FileName;
 
-                tileMap = new TileMap(filename, graphicsDevice);
+                
+                tileMap = new TileMap(filename, graphicsDevice, 
+                                      graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height,
+                                      null);
 
                 lstLayersUpdate(tileMap.Layers.Count);
 

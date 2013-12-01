@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace Engine
 {
@@ -23,6 +25,15 @@ namespace Engine
         public const int InvalidInt = -1;
         public static Vector2 InvalidVector2 = new Vector2(-1, -1); //Must be static
 
+        public static string[] imageExtensions = { ".jpg", ".png", ".tga" };
+
+        public enum TilePosition
+        {
+            Centre,
+            Right,
+            Left
+        }
+
         public enum StoryStates
         {
             Completed,
@@ -36,6 +47,25 @@ namespace Engine
         {
             Playing,
             Message
+        }
+
+        static public Texture2D LoadTexture(string newTexturePath, GraphicsDevice graphicsDevice)
+        {
+            Texture2D newTexture;
+            foreach (string extension in imageExtensions)
+                if (File.Exists(newTexturePath + extension))
+                {
+                    newTexturePath += extension;
+                    break;
+                }
+
+            using (FileStream fileStream = new FileStream(newTexturePath, FileMode.Open, FileAccess.Read))
+            {
+                newTexture = Texture2D.FromStream(graphicsDevice, fileStream);
+                fileStream.Close();
+            }
+
+            return newTexture;
         }
 
 

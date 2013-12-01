@@ -192,14 +192,17 @@ namespace LadyJava
         }
         
         public Vector2 Update(GameTime gameTime, 
+                              int newNPC, //npc index
                               int levelWidth, int levelHeight, 
-                              BoundingBox[] entrances, BoundingSphere talkingRadii,
+                              BoundingBox[] entrances, BoundingSphere[] talkingRadii,
                               params Object[] collisionObjects)
         {
             Vector2 entranceLocation = Global.InvalidVector2;
             Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
             previousPosition = sprite.Position;
+
+            talkingTo = newNPC;
 
             bool collision = false;
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
@@ -241,23 +244,26 @@ namespace LadyJava
                 }
             }
 
-            if (InputManager.HasKeyBeenUp(Commands.Execute) &&
-                boundingBox.Intersects(talkingRadii))
+            for (int i = 0; i < talkingRadii.Length; i++)
             {
-                talkingTo = 0;
-                talking = !talking;
-                if (talking)
+                if (InputManager.HasKeyBeenUp(Commands.Execute) &&
+                   boundingBox.Intersects(talkingRadii[i]))
                 {
-                    currentPlayState = Global.PlayStates.Message;
-                    talkingTo = 0;
-                }
-                else
-                {
-                    currentPlayState = Global.PlayStates.Playing;
-                    //talkingTo = -1;
+                    //talkingTo = i;
+                    talking = !talking;
+                    if (talking)
+                    {
+                        currentPlayState = Global.PlayStates.Message;
+                        talkingTo = i;
+                    }
+                    else
+                    {
+                        currentPlayState = Global.PlayStates.Playing;
+                        //talkingTo = -1;
+                    }
                 }
             }
-            
+
             if (!collision && motion != Vector2.Zero)
             {
                 motion.Normalize();
@@ -282,7 +288,7 @@ namespace LadyJava
             sprite.Draw(spriteBatch);
         }
 
-        internal void SetPosition(Vector2 newPosition)
+        public void SetPosition(Vector2 newPosition)
         {
             sprite.SetPosition(newPosition);
         }

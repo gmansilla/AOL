@@ -55,7 +55,11 @@ namespace Dungeon
 
             currentDungeon = 0;
             dungeons = new List<TileMap>();
-            dungeons.Add(new TileMap(Global.DungeonContentPath + "TileMaps\\D1.map", Content));
+            dungeons.Add(new TileMap(Global.DungeonContentPath + "TileMaps\\D1.map", 
+                                     Content, 
+                                     graphics.GraphicsDevice.Viewport.Width, 
+                                     graphics.GraphicsDevice.Viewport.Height, 
+                                     Content.Load<SpriteFont>("speechFont")));
 
             Texture2D playerImage = Content.Load<Texture2D>("player");
 
