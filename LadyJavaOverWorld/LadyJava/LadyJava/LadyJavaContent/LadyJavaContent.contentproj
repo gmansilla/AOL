@@ -175,6 +175,10 @@
       <Name>D4End</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
+    <None Include="TileMaps\D4Final.map">
+      <Name>D4Final</Name>
+      <Processor>PassThroughProcessor</Processor>
+    </None>
     <None Include="TileMaps\Gym.map">
       <Name>Gym</Name>
       <Processor>PassThroughProcessor</Processor>
@@ -651,6 +655,39 @@
     </Compile>
     <Compile Include="Dungeon\Tree\D3Background.jpg">
       <Name>D3Background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Inside\Furni\Book1.png">
+      <Name>Book1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Music\Chandelier.mp3">
+      <Name>Chandelier</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\TitleScreen.png">
+      <Name>TitleScreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Options.png">
+      <Name>Options</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Pause.png">
+      <Name>Pause</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

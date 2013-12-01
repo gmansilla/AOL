@@ -86,8 +86,8 @@ namespace Engine
         {
             lastPosition = Global.Invalid;
 
-            for (int y = 0; y < Width; y++)
-                for (int x = 0; x < Height; x++)
+            for (int y = 0; y < Height; y++)
+                for (int x = 0; x < Width; x++)
                     if (collisionLayer.GetCellIndex(x, y) == CollisionLayer.StartingCell)
                         return new Vector2(x * TileWidth, y * TileHeight);
 

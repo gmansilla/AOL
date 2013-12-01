@@ -18,14 +18,12 @@ namespace LadyJava
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
         LadyJava ladyJ;
-        List<Npc> npcs;
-        
+        Npc npcAmy;
         Camera camera;
         Texture2D collisionLayerImage;
-
-       // TileMap overworld;
+        TitleScreen titleScreen;
+        GameState state = GameState.TitleScreen;   //Set the starting screen
 
         public Game1()
         {
@@ -37,21 +35,26 @@ namespace LadyJava
         {
             base.Initialize();
         }
+
         Dictionary<string, TileMap> campus;
         string currentArea;
+
         protected override void LoadContent()
         {
-            npcs = new List<Npc>();
-
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             campus = new Dictionary<string, TileMap>();
             currentArea = "TileMaps\\overworld.map";
             Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
-            
+
+            //Adding the Title Screen
+            //Services.AddService(typeof(SpriteBatch), spriteBatch);
+            titleScreen = new TitleScreen(this, Content.Load<Texture2D>("Screens\\TitleScreen"), spriteBatch);
+            Components.Add(titleScreen);
             
             collisionLayerImage = Content.Load<Texture2D>("tileSelector");
 
             camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+
             #region campus.add
             campus.Add("TileMaps\\overworld.map", new TileMap(Global.ContentPath + "TileMaps\\overworld.map", Content));
             campus.Add("TileMaps\\house1.map", new TileMap(Global.ContentPath + "TileMaps\\house1.map", Content));
@@ -65,15 +68,11 @@ namespace LadyJava
             campus.Add("TileMaps\\D1Water.map", new TileMap(Global.ContentPath + "TileMaps\\D1Water.map", Content));
             campus.Add("TileMaps\\D2Basement.map", new TileMap(Global.ContentPath + "TileMaps\\D2Basement.map", Content));
             campus.Add("TileMaps\\D3Tree.map", new TileMap(Global.ContentPath + "TileMaps\\D3Tree.map", Content));
+            campus.Add("TileMaps\\D4Final.map", new TileMap(Global.ContentPath + "TileMaps\\D4Final.map", Content));
             campus.Add("TileMaps\\D1End.map", new TileMap(Global.ContentPath + "TileMaps\\D1End.map", Content));
             campus.Add("TileMaps\\D2End.map", new TileMap(Global.ContentPath + "TileMaps\\D2End.map", Content));
             campus.Add("TileMaps\\D3End.map", new TileMap(Global.ContentPath + "TileMaps\\D3End.map", Content));
             campus.Add("TileMaps\\D4End.map", new TileMap(Global.ContentPath + "TileMaps\\D4End.map", Content));
-
-
-
-
-
             #endregion
             AnimationInfo[] animations = { new AnimationInfo(Global.STILL, 32, 46, 1, 0),
                                            new AnimationInfo(Global.DOWN, 32, 46, 4, 100),
@@ -81,66 +80,19 @@ namespace LadyJava
                                            new AnimationInfo(Global.RIGHT, 32, 46, 4, 100),
                                            new AnimationInfo(Global.UP, 32, 46, 4, 100) };
 
-            Sprite lady = new Sprite(Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld"), 
-                                     campus[currentArea].StartingPosition, 
-                                     animations, 
-                                     1.0f);
+            Sprite lady = new Sprite(image, campus[currentArea].StartingPosition, animations, 1.0f);
             ladyJ = new LadyJava(lady);
 
-            //create Amy (NPC)
-            npcs.Add(new Npc("Amy", new Vector2(200, 200), 25, 50, 1.0f, Content));
+            //create a Amy (NPC)
+            Texture2D[] npcImage = { Content.Load<Texture2D>("Npc\\Amy\\sprite") };
+            Sprite amy = new Sprite(npcImage, new Vector2(200, 200), 25, 50, 1.0f);
+            npcAmy = new Npc(amy,"Amy");
 
-            //create Alison (NPC)
-            npcs.Add(new Npc("Alison", new Vector2(264, 200), 25, 50, 1.0f, Content));
-
-            //create Anna (NPC)
-            npcs.Add(new Npc("Anna", new Vector2(328, 200), 25, 50, 1.0f, Content));
-
-            //create Chaz (NPC)
-            npcs.Add(new Npc("Chaz", new Vector2(392, 200), 25, 50, 1.0f, Content));
-
-            //create Han (NPC)
-            npcs.Add(new Npc("Han", new Vector2(456, 200), 25, 50, 1.0f, Content));
-
-            //create Hugh (NPC)
-            npcs.Add(new Npc("Hugh", new Vector2(520, 200), 25, 50, 1.0f, Content));
-
-            //create Josh (NPC)
-            npcs.Add(new Npc("Josh", new Vector2(584, 200), 25, 50, 1.0f, Content));
-
-            //create Kyra (NPC)
-            npcs.Add(new Npc("Kyra", new Vector2(648, 200), 25, 50, 1.0f, Content));
-
-            //create Nei (NPC)
-            npcs.Add(new Npc("Nei", new Vector2(712, 200), 25, 50, 1.0f, Content));
-
-            //create Rika (NPC)
-            npcs.Add(new Npc("Rika", new Vector2(776, 200), 25, 50, 1.0f, Content));
-
-            //create Rolf (NPC)
-            npcs.Add(new Npc("Rolf", new Vector2(840, 200), 25, 50, 1.0f, Content));
-
-            //creare Rudo (NPC)
-            npcs.Add(new Npc("Rudo", new Vector2(904, 200), 25, 50, 1.0f, Content));
-
-            //create Rune (NPC)
-            npcs.Add(new Npc("Rune", new Vector2(968, 200), 25, 50, 1.0f, Content));
-
-            //create SeeHash (NPC)
-            npcs.Add(new Npc("SeeHash", new Vector2(1032, 200), 25, 50, 1.0f, Content));
-
-            //create Shir (NPC)
-            npcs.Add(new Npc("Shir", new Vector2(1096, 200), 25, 50, 1.0f, Content));
-
-            //create TecMan (NPC)
-            npcs.Add(new Npc("TecMan", new Vector2(1160, 200), 25, 50, 1.0f, Content));
-
-            //create TheOracle (NPC)
-            npcs.Add(new Npc("TheOracle", new Vector2(1224, 200), 25, 50, 1.0f, Content));
-
-            //create TheScrumMaster (NPC)
-            npcs.Add(new Npc("TheScrumMaster", new Vector2(1288, 200), 25, 50, 1.0f, Content));
-
+            #region Music
+            Song startSong = Content.Load<Song>("Music\\Chandelier");
+            MediaPlayer.Play(startSong);
+            MediaPlayer.IsRepeating = true;
+            #endregion 
         }
 
         protected override void UnloadContent()
@@ -151,44 +103,76 @@ namespace LadyJava
         protected override void Update(GameTime gameTime)
         {
             InputManager.Update();
+            
 
             if (InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-            Vector2 entrancePixelLocation = ladyJ.Update(gameTime, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight, campus[currentArea].CollisionLayer.ToEntranceBox, campus[currentArea].CollisionLayer.ToCollisionBox);
-            if (entrancePixelLocation != Global.Invalid)
+            #region Game States
+
+            if (state == GameState.TitleScreen)
             {
-                campus[currentArea].SetLastPosition(ladyJ.PreviousPosition);
-                Vector2 entranceLocation = new Vector2(entrancePixelLocation.X / campus[currentArea].TileWidth,
-                                                       entrancePixelLocation.Y / campus[currentArea].TileHeight);
-                int currentIndex = campus[currentArea].CollisionLayer.GetCellIndex((int)entranceLocation.X, (int)entranceLocation.Y);
-                currentArea = campus[currentArea].CollisionLayer.Entrances[currentIndex];
-                if (campus[currentArea].LastPosition == Global.Invalid)
-                    ladyJ.SetPosition(campus[currentArea].StartingPosition);
-                else
-                {
-                    ladyJ.SetPosition(campus[currentArea].LastPosition);
-                    campus[currentArea].SetLastPosition(Global.Invalid);
-                }
+                titleScreen.Show();
+                //Hide other screens here
             }
-            camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
+            if (state == GameState.Game)
+            {
+                titleScreen.Hide();
+                KeyboardState keyState = Keyboard.GetState();
+                #region Update Code
+                Vector2 entrancePixelLocation = ladyJ.Update(gameTime, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight, campus[currentArea].CollisionLayer.ToEntranceBox, campus[currentArea].CollisionLayer.ToCollisionBox);
+                if (entrancePixelLocation != Global.Invalid)
+                {
+                    campus[currentArea].SetLastPosition(ladyJ.PreviousPosition);
+                    Vector2 entranceLocation = new Vector2(entrancePixelLocation.X / campus[currentArea].TileWidth,
+                                                           entrancePixelLocation.Y / campus[currentArea].TileHeight);
+                    int currentIndex = campus[currentArea].CollisionLayer.GetCellIndex((int)entranceLocation.X, (int)entranceLocation.Y);
+                    currentArea = campus[currentArea].CollisionLayer.Entrances[currentIndex];
+                    if (campus[currentArea].LastPosition == Global.Invalid)
+                        ladyJ.SetPosition(campus[currentArea].StartingPosition);
+                    else
+                    {
+                        ladyJ.SetPosition(campus[currentArea].LastPosition);
+                        campus[currentArea].SetLastPosition(Global.Invalid);
+                    }
+                }
+                camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
+
+            }
+                #endregion
+            #endregion
+            if (Keyboard.GetState().IsKeyDown(Keys.P))
+            {
+                state = GameState.TitleScreen;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            {
+                state = GameState.Game;
+            }
+
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
 
-            campus[currentArea].Draw(spriteBatch);
-            ladyJ.Draw(spriteBatch);
+            if (state == GameState.Game)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
+                campus[currentArea].Draw(spriteBatch);
+                ladyJ.Draw(spriteBatch);
+                npcAmy.Draw(spriteBatch);
+                campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
+                spriteBatch.End();
+            }
+            else if (state == GameState.TitleScreen)
+            {
+                titleScreen.Show();
+            }
 
-            foreach(Npc npc in npcs)
-                npc.Draw(spriteBatch);
-
-            campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
-            spriteBatch.End();
             base.Draw(gameTime);
         }
 
