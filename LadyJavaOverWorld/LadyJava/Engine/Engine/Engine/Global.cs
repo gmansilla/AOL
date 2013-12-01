@@ -10,7 +10,9 @@ namespace Engine
     {
         public const float GravityAccelation = 9.807f;
         public const float PixelsToMeter = 0.018f;
-        
+        public const float GroundFriction = 0.75f;
+        public const float Buffer = 0.01f;
+
         public const string DOWN = "Down";
         public const string LEFT = "Left";
         public const string RIGHT = "Right";
