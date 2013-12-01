@@ -139,6 +139,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SpeechFont.spritefont">
+      <Name>SpeechFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="TileMaps\BoatHouse.map">
       <Name>BoatHouse</Name>
       <Processor>PassThroughProcessor</Processor>
@@ -688,6 +693,13 @@
     </Compile>
     <Compile Include="Screens\Pause.png">
       <Name>Pause</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Npc\blank.png">
+      <Name>blank</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

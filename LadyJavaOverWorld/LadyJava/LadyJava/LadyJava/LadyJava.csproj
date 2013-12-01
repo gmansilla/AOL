@@ -77,7 +77,6 @@
     <Compile Include="GameState.cs" />
     <Compile Include="ImageComponent.cs" />
     <Compile Include="LadyJava.cs" />
-    <Compile Include="Npc.cs" />
     <Compile Include="OptionScreen.cs" />
     <Compile Include="PauseScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

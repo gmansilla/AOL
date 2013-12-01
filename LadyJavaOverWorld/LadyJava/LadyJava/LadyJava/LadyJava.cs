@@ -20,6 +20,10 @@ namespace LadyJava
         const float BUFFER = 0.01f;
         bool switchedTileMap;
 
+        Global.PlayStates currentPlayState;
+        int talkingTo;
+        bool talking;
+
         public Vector2 previousPosition;
 
         public Vector2 PreviousPosition
@@ -37,6 +41,12 @@ namespace LadyJava
         public int Height
         { get { return sprite.Height; } }
 
+        public int TalkingTo
+        { get { return talkingTo; } }
+
+        public Global.PlayStates CurrentPlayState
+        { get { return currentPlayState; } }
+
         public BoundingBox ToBoundingBox
         { get { return boundingBox; } }
 
@@ -48,15 +58,19 @@ namespace LadyJava
         void UpdateBounds(Vector2 newPosition, int width, int height)
         {
             boundingBox = new BoundingBox(new Vector3(newPosition.X, newPosition.Y, 0f),
-                                          //new Vector3(newPosition.X + width, newPosition.Y + height, 0f),
                                           new Vector3(newPosition.X + width, newPosition.Y + height, 0f));
         }
 
-        public LadyJava(Sprite newSprite)
+        public LadyJava(Sprite newSprite, int tileWidth, int tileHeight)
         {
             animation = Global.STILL;
             sprite = newSprite;
+            SetPosition(Position, tileWidth, tileHeight, true, false);
+            
             switchedTileMap = false;
+            
+            talkingTo = Global.InvalidInt;
+            talking = false;
 
             UpdateBounds(Position, Width, Height);
         }
@@ -101,7 +115,7 @@ namespace LadyJava
 
                 }
             }
-            return Global.Invalid;
+            return Global.InvalidVector2;
         }
 
         Vector2 DownCollision(Vector2 newMotion, BoundingBox[] collisions)
@@ -183,18 +197,25 @@ namespace LadyJava
             return newMotion;
         }
         
-        public Vector2 Update(GameTime gameTime, int levelWidth, int levelHeight, BoundingBox[] entrances, params Object[] collisionObjects)
+        public Vector2 Update(GameTime gameTime, 
+                              int newNPC, //npc index
+                              int levelWidth, int levelHeight, 
+                              BoundingBox[] entrances, BoundingSphere[] talkingRadii,
+                              params Object[] collisionObjects)
         {
-            Vector2 entranceLocation = Global.Invalid;
+            Vector2 entranceLocation = Global.InvalidVector2;
             Vector2 motion = Vector2.Zero;
             Vector2 position = sprite.Position;
             previousPosition = sprite.Position;
 
+            talkingTo = newNPC;
+
             bool collision = false;
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
-            
-                animation = Global.STILL;
+            animation = Global.STILL;
+            if (currentPlayState == Global.PlayStates.Playing)
+            {
                 if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Up)) ||
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Up)))
                 {
@@ -202,7 +223,8 @@ namespace LadyJava
                     motion.Y = -movement;
                     motion = UpCollision(motion, collisions);
                     if (motion.Y != -movement)
-                        collision = true;
+                       collision = true;
+
                     if (switchedTileMap)
                         switchedTileMap = false;
                 }
@@ -214,6 +236,7 @@ namespace LadyJava
                     motion = DownCollision(motion, collisions);
                     if (motion.Y != movement)
                         collision = true;
+
                     if (switchedTileMap)
                         switchedTileMap = false;
                 }
@@ -225,27 +248,50 @@ namespace LadyJava
                     motion = RightCollision(motion, collisions);
                     if (motion.X != movement)
                         collision = true;
+
                     if (switchedTileMap)
                         switchedTileMap = false;
                 }
-                if (!switchedTileMap && InputManager.IsKeyDown(Commands.Left) ||
-                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
+            }
+            if (!switchedTileMap && InputManager.IsKeyDown(Commands.Left) ||
+                (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
                 {
                     animation = Global.LEFT;
                     motion.X = -movement;
                     motion = LeftCollision(motion, collisions);
                     if (motion.X != -movement)
                         collision = true;
+
                     if (switchedTileMap)
                         switchedTileMap = false;
                 }
             
-                if (!collision && motion != Vector2.Zero)
-                {
-                    motion.Normalize();
-                    motion *= movement;
-                }
             
+
+            for (int i = 0; i < talkingRadii.Length; i++)
+            {
+                if (InputManager.HasKeyBeenUp(Commands.Execute) &&
+                   boundingBox.Intersects(talkingRadii[i]))
+                {
+                    talking = !talking;
+                    if (talking)
+                    {
+                        currentPlayState = Global.PlayStates.Message;
+                        talkingTo = i;
+                    }
+                    else
+                    {
+                        currentPlayState = Global.PlayStates.Playing;
+                    }
+                }
+            }
+
+            if (!collision && motion != Vector2.Zero)
+            {
+                motion.Normalize();
+                motion *= movement;
+            }
+
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
@@ -254,15 +300,25 @@ namespace LadyJava
             return entranceLocation;
         }
 
+        public void EndConversation()
+        {
+            talkingTo = Global.InvalidInt;
+        }
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
         }
 
-        public void SetPosition(Vector2 newPosition)
+        public void SetPosition(Vector2 newPosition, int tileWidth, int tileHeight, bool centreToTile, bool switchingTileMap)
         {
-            sprite.SetPosition(newPosition);
-            switchedTileMap = true;
+            Vector2 offsets = new Vector2(tileWidth / 2f - Width / 2f, tileHeight / 2f - Height / 2f);
+            if(centreToTile)
+                sprite.SetPosition(newPosition + offsets);
+            else
+                sprite.SetPosition(newPosition);
+
+            switchedTileMap = switchingTileMap;
         }
     }
 }
