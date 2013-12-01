@@ -44,7 +44,7 @@ namespace LadyJava
             spriteBatch = new SpriteBatch(GraphicsDevice);
             campus = new Dictionary<string, TileMap>();
             currentArea = "TileMaps\\overworld.map";
-            Texture2D[] image = { Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld") };
+            Texture2D image = Content.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld");
 
             //Adding the Title Screen
             //Services.AddService(typeof(SpriteBatch), spriteBatch);
@@ -84,7 +84,7 @@ namespace LadyJava
             ladyJ = new LadyJava(lady);
 
             //create a Amy (NPC)
-            Texture2D[] npcImage = { Content.Load<Texture2D>("Npc\\Amy\\sprite") };
+            Texture2D npcImage = Content.Load<Texture2D>("Npc\\Amy\\sprite");
             Sprite amy = new Sprite(npcImage, new Vector2(200, 200), 25, 50, 1.0f);
             npcAmy = new Npc(amy,"Amy");
 
