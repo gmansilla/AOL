@@ -1,5 +1,7 @@
 [Stage1]
 I saw a man dragged into the water by monsters.
+Where? Just up there...
+Why are you still talking to me, someone needs to save him!!!
 [Stage2]
 I saw a man dragged into the water by monsters.
 [Stage3]

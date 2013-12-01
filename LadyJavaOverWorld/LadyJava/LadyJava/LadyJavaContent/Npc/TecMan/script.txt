@@ -1,7 +1,9 @@
 [Stage1]
 I am Tech-Man, thank you for saving me Lady Java. I will be at the campus square if you need me.
 [Stage2]
+I am Tech-Man, thank you for saving me Lady Java. I will be at the campus square if you need me.
 [Stage3]
+I am Tech-Man, thank you for saving me Lady Java. I will be at the campus square if you need me.
 [Stage4]
 The scrum master is calling; please go down and save him. 
 [onCompleted]

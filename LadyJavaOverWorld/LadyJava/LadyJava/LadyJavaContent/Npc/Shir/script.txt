@@ -1,5 +1,7 @@
 [Stage1]
+I'm studying...
 [Stage2]
+I'm studying...
 [Stage3]
 Go away I need to study!!!
 I don't know where your friends are! Go away.

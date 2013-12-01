@@ -1,10 +1,15 @@
 [Stage1]
-Scrum is the meaning of life. Well… not that important, but important for efficient development. 
+Scrum is the meaning of life. Well... not that important, but important for efficient development. 
+The true meaning of life is 42 or so they say...
 [Stage2]
-Scrum is the meaning of life. Well… not that important, but important for efficient development. 
+Scrum is the meaning of life. Well... not that important, but important for efficient development. 
+The true meaning of life is 42 or so they say...
 [Stage3]
-Scrum is the meaning of life. Well… not that important, but important for efficient development. 
+Scrum is the meaning of life. Well... not that important, but important for efficient development. 
+The true meaning of life is 42 or so they say...
 [Stage4]
-Scrum is the meaning of life. Well… not that important, but important for efficient development. 
+Scrum is the meaning of life. Well... not that important, but important for efficient development. 
+The true meaning of life is 42 or so they say...
 [onCompleted]
-Scrum is the meaning of life. Well… not that important, but important for efficient development. 
+Scrum is the meaning of life. Well... not that important, but important for efficient development. 
+The true meaning of life is 42 or so they say...

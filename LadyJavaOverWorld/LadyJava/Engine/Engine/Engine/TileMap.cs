@@ -123,12 +123,12 @@ namespace Engine
             {
                 if (!npcs[i].MessageBoxVisible && playerTalkingTo == i)
                     npcs[i].ShowMessageBox();
-                else
+                else if (npcs[i].MessageBoxVisible)
                     if (playerPlayState == Global.PlayStates.Playing)
                     {
                         npcs[i].HideMessageBox();
-                        //ladyJ.EndConversation();
                         playerTalkingTo = Global.InvalidInt;
+                        npcs[i].ChangeMessage(playerCamera.Position);
                     }
 
                 npcs[i].Update(playerCamera, screenWidth, screenHeight, currentStoryState);

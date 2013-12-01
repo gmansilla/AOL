@@ -223,7 +223,7 @@ namespace LadyJava
                     motion.Y = -movement;
                     motion = UpCollision(motion, collisions);
                     if (motion.Y != -movement)
-                       collision = true;
+                        collision = true;
 
                     if (switchedTileMap)
                         switchedTileMap = false;
@@ -252,9 +252,8 @@ namespace LadyJava
                     if (switchedTileMap)
                         switchedTileMap = false;
                 }
-            }
-            if (!switchedTileMap && InputManager.IsKeyDown(Commands.Left) ||
-                (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
+                if (!switchedTileMap && InputManager.IsKeyDown(Commands.Left) ||
+                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
                 {
                     animation = Global.LEFT;
                     motion.X = -movement;
@@ -265,8 +264,7 @@ namespace LadyJava
                     if (switchedTileMap)
                         switchedTileMap = false;
                 }
-            
-            
+            }            
 
             for (int i = 0; i < talkingRadii.Length; i++)
             {

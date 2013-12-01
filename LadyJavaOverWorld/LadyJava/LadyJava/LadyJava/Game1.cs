@@ -20,16 +20,16 @@ namespace LadyJava
         SpriteBatch spriteBatch;
         LadyJava ladyJ;
         
-        //Npc npcAmy;
-        
         Camera camera;
         Texture2D collisionLayerImage;
-        TitleScreen titleScreen;
-        GameState state = GameState.TitleScreen;   //Set the starting screen
+        //TitleScreen titleScreen;
+        //GameState state = GameState.TitleScreen;   //Set the starting screen
         Global.StoryStates currentStoryState;
 
         Dictionary<string, TileMap> campus;
         string currentArea;
+
+        int talkingTo = Global.InvalidInt;
 
         public Game1()
         {
@@ -60,8 +60,8 @@ namespace LadyJava
 
             //Adding the Title Screen
             //Services.AddService(typeof(SpriteBatch), spriteBatch);
-            titleScreen = new TitleScreen(this, Content.Load<Texture2D>("Screens\\TitleScreen"), spriteBatch);
-            Components.Add(titleScreen);
+            //titleScreen = new TitleScreen(this, Content.Load<Texture2D>("Screens\\TitleScreen"), spriteBatch);
+            //Components.Add(titleScreen);
             
             collisionLayerImage = Content.Load<Texture2D>("tileSelector");
             camera = new Camera(screenWidth, screenHeigth);
@@ -103,42 +103,13 @@ namespace LadyJava
             MediaPlayer.IsRepeating = true;
             #endregion 
 
-            //create Amy (NPC)
-            //npcs.Add(new Npc("Amy", new Vector2(200, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speechText));
-
-            ////create Anna (NPC)
-            //npcs.Add(new Npc("Anna", new Vector2(328, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
-            ////create Han (NPC)
-            //npcs.Add(new Npc("Han", new Vector2(456, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
-            ////create Hugh (NPC)
-            //npcs.Add(new Npc("Hugh", new Vector2(520, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
-            ////create Josh (NPC)
-            //npcs.Add(new Npc("Josh", new Vector2(520, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
+ 
             ////create Nei (NPC)
             //npcs.Add(new Npc("Nei", new Vector2(712, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
-            ////create Rika (NPC)
-            //npcs.Add(new Npc("Rika", new Vector2(776, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
-            ////create Rolf (NPC)
-            //npcs.Add(new Npc("Rolf", new Vector2(840, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
-            ////creare Rudo (NPC)
-            //npcs.Add(new Npc("Rudo", new Vector2(904, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
-            ////create Rune (NPC)
-            //npcs.Add(new Npc("Rune", new Vector2(968, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
             ////create SeeHash (NPC)
             //npcs.Add(new Npc("SeeHash", new Vector2(1032, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
-            ////create Shir (NPC)
-            //npcs.Add(new Npc("Shir", new Vector2(1096, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
+ 
             ////create TecMan (NPC)
             //npcs.Add(new Npc("TecMan", new Vector2(1160, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
 
@@ -156,126 +127,65 @@ namespace LadyJava
             // TODO: Unload any non ContentManager content here
         }
 
-        int talkingTo = Global.InvalidInt;
         protected override void Update(GameTime gameTime)
         {
             InputManager.Update();
             
-
             if (InputManager.IsKeyDown(Commands.Exit))
                 this.Exit();
 
-            #region Game States
+            Vector2 entrancePixelLocation = ladyJ.Update(gameTime,
+                                                            talkingTo,
+                                                            campus[currentArea].PixelWidth,
+                                                            campus[currentArea].PixelHeight,
+                                                            campus[currentArea].CollisionLayer.ToEntranceBox,
+                                                            campus[currentArea].NPCTalkRadii,
+                                                            campus[currentArea].CollisionLayer.ToCollisionBox,
+                                                            campus[currentArea].NPCsToBoundingBox);
 
-            if (state == GameState.TitleScreen)
-            {
-                titleScreen.Show();
-                //Hide other screens here
-            }
-            if (state == GameState.Game)
-            {
-                titleScreen.Hide();
-                KeyboardState keyState = Keyboard.GetState();
-                #region Update Code
-                Vector2 entrancePixelLocation = ladyJ.Update(gameTime,
-                                                             talkingTo,
-                                                             campus[currentArea].PixelWidth,
-                                                             campus[currentArea].PixelHeight,
-                                                             campus[currentArea].CollisionLayer.ToEntranceBox,
-                                                             campus[currentArea].NPCTalkRadii,
-                                                             campus[currentArea].CollisionLayer.ToCollisionBox,
-                                                             campus[currentArea].NPCsToBoundingBox);
-
-                if (entrancePixelLocation != Global.InvalidVector2)
-                {
-                    campus[currentArea].SetLastPosition(ladyJ.PreviousPosition);
-                    Vector2 entranceLocation = new Vector2(entrancePixelLocation.X / campus[currentArea].TileWidth,
-                                                           entrancePixelLocation.Y / campus[currentArea].TileHeight);
-                    int currentIndex = campus[currentArea].CollisionLayer.GetCellIndex((int)entranceLocation.X, (int)entranceLocation.Y);
-                    currentArea = campus[currentArea].CollisionLayer.Entrances[currentIndex];
-                    if (campus[currentArea].LastPosition == Global.InvalidVector2)
-                        ladyJ.SetPosition(campus[currentArea].StartingPosition, 
-                                          campus[currentArea].TileWidth,
-                                          campus[currentArea].TileHeight, true, true);
-                    else
-                    {
-                        ladyJ.SetPosition(campus[currentArea].LastPosition,
-                                          campus[currentArea].TileWidth,
-                                          campus[currentArea].TileHeight, false, true);
-                        campus[currentArea].SetLastPosition(Global.InvalidVector2);
-                    }
-                    /*
-            Vector2 entrancePixelLocation = ladyJ.Update(gameTime, 
-                                                         talkingTo,
-                                                         campus[currentArea].PixelWidth, 
-                                                         campus[currentArea].PixelHeight, 
-                                                         campus[currentArea].CollisionLayer.ToEntranceBox,
-                                                         campus[currentArea].NPCTalkRadii,
-                                                         campus[currentArea].CollisionLayer.ToCollisionBox,
-                                                         campus[currentArea].NPCsToBoundingBox);
-            
             if (entrancePixelLocation != Global.InvalidVector2)
             {
                 campus[currentArea].SetLastPosition(ladyJ.PreviousPosition);
                 Vector2 entranceLocation = new Vector2(entrancePixelLocation.X / campus[currentArea].TileWidth,
-                                                       entrancePixelLocation.Y / campus[currentArea].TileHeight);
+                                                        entrancePixelLocation.Y / campus[currentArea].TileHeight);
                 int currentIndex = campus[currentArea].CollisionLayer.GetCellIndex((int)entranceLocation.X, (int)entranceLocation.Y);
                 currentArea = campus[currentArea].CollisionLayer.Entrances[currentIndex];
                 if (campus[currentArea].LastPosition == Global.InvalidVector2)
-                    ladyJ.SetPosition(campus[currentArea].StartingPosition);
+                    ladyJ.SetPosition(campus[currentArea].StartingPosition, 
+                                        campus[currentArea].TileWidth,
+                                        campus[currentArea].TileHeight, true, true);
                 else
                 {
-                    ladyJ.SetPosition(campus[currentArea].LastPosition);
+                    ladyJ.SetPosition(campus[currentArea].LastPosition,
+                                      campus[currentArea].TileWidth,
+                                      campus[currentArea].TileHeight, false, true);
                     campus[currentArea].SetLastPosition(Global.InvalidVector2);
-                     */
-//>>>>>>> npc
                 }
             }
 
-            #endregion
-            if (Keyboard.GetState().IsKeyDown(Keys.P))
-            {
-                state = GameState.TitleScreen;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-            {
-                state = GameState.Game;
-            }
-            #endregion
-
+            camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
 
             talkingTo = campus[currentArea].NPCUpdate(gameTime,
                                                       camera, ladyJ.CurrentPlayState, ladyJ.TalkingTo,
                                                       GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, currentStoryState);
 
-            camera.Update(gameTime, ladyJ.Position, ladyJ.Origin, campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            if (state == GameState.Game)
-            {
-                GraphicsDevice.Clear(Color.Black);
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
-                campus[currentArea].Draw(spriteBatch);
+            GraphicsDevice.Clear(Color.Black);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
+            campus[currentArea].Draw(spriteBatch);
                 
-                ladyJ.Draw(spriteBatch);
+            ladyJ.Draw(spriteBatch);
                 
-                //npcAmy.Draw(spriteBatch);
+            campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
                 
-                campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
+            foreach(Npc npc in campus[currentArea].NPCs)
+                npc.Draw(spriteBatch);
                 
-                foreach(Npc npc in campus[currentArea].NPCs)
-                    npc.Draw(spriteBatch);
-                
-                spriteBatch.End();
-            }
-            else if (state == GameState.TitleScreen)
-            {
-                titleScreen.Show();
-            }
-
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

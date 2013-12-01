@@ -1,5 +1,7 @@
 [Stage1]
+Thank you for saving me, I will meet you at the campus square for our scrum meeting.
 [Stage2]
+Thank you for saving me, I will meet you at the campus square for our scrum meeting.
 [Stage3]
 Thank you for saving me, I will meet you at the campus square for our scrum meeting.
 [Stage4]

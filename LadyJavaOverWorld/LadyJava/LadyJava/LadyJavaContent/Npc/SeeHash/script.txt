@@ -1,7 +1,9 @@
 [Stage1]
+Thank you for saving me, I was trapped down here. I will see you at the campus square so we can hold our scrum meeting.
 [Stage2]
 Thank you for saving me, I was trapped down here. I will see you at the campus square so we can hold our scrum meeting.
 [Stage3]
+Thank you for saving me, I was trapped down here. I will see you at the campus square so we can hold our scrum meeting.
 [Stage4]
 Use your strength, you can do it.
 [onCompleted]

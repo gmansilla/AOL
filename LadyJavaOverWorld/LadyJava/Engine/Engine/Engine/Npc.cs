@@ -164,11 +164,11 @@ namespace Engine
                 storyState = newStoryState;
                 currentMessage = 0;
 
-                processMessageToDraw();
+                processMessageToDraw(cameraPosition);
             }
         }
 
-        private void processMessageToDraw()
+        private void processMessageToDraw(Vector2 cameraPosition)
         {
             displayLines = new List<string>();
 
@@ -184,22 +184,29 @@ namespace Engine
                 Vector2 currentWordSize = speechText.MeasureString(words[i]);
 
                 //add to current line
-                if ((measureCurrentLine.X + currentWordSize.X) < (messageBoxWidth - textPosition.X) &&
+                if ((measureCurrentLine.X + currentWordSize.X) < (cameraPosition.X + messageBoxWidth - textPosition.X) &&
                     i < words.Length - 1)
                 {
                     line = line + words[i] + " ";
+                }
+                //next line
+                else if ((measureCurrentLine.X + currentWordSize.X) >= (cameraPosition.X + messageBoxWidth - textPosition.X))
+                {
+                    displayLines.Add(line);
+                    line = " " + words[i] + " ";
+
+                    //last word
+                    if (i == words.Length - 1)
+                    {
+                        displayLines.Add(line);
+                        line = " ";
+                    }
                 }
                 //last word
                 else if (i == words.Length - 1)
                 {
                     displayLines.Add(line + words[i]);
                     line = " ";
-                }
-                //next line
-                else
-                {
-                    displayLines.Add(line);
-                    line = " " + words[i] + " ";
                 }
             }
         }
@@ -214,6 +221,9 @@ namespace Engine
         
         public void Draw(SpriteBatch spriteBatch)
         {
+            //draw npc
+            sprite.Draw(spriteBatch);
+
             if (displayText)
             {
                 //draw messageBox
@@ -231,9 +241,6 @@ namespace Engine
                     textPosition.Y += textHeight;
                 }
             }
-
-            //draw npc
-            sprite.Draw(spriteBatch);
         }
 
         private void loadScript(string name)
@@ -318,10 +325,10 @@ namespace Engine
             displayText = false;
         }
 
-        public void ChangeMessage()
+        public void ChangeMessage(Vector2 cameraPosition)
         {
             currentMessage++;
-            processMessageToDraw();
+            processMessageToDraw(cameraPosition);
         }
 
         string getCurrentMessage(Global.StoryStates stage)

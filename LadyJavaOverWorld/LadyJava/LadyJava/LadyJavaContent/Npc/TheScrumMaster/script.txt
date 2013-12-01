@@ -1,5 +1,8 @@
 [Stage1]
+Hello Lady Java, you have proven yourself by rescuing us all. Now we can hold our scrum meeting. But keep in mind; I only moderate the scrum meeting. It is the responsibility of all the team members for completing their work for the sake agile development.
 [Stage2]
+Hello Lady Java, you have proven yourself by rescuing us all. Now we can hold our scrum meeting. But keep in mind; I only moderate the scrum meeting. It is the responsibility of all the team members for completing their work for the sake agile development.
 [Stage3]
+Hello Lady Java, you have proven yourself by rescuing us all. Now we can hold our scrum meeting. But keep in mind; I only moderate the scrum meeting. It is the responsibility of all the team members for completing their work for the sake agile development.
 [onCompleted]
 Hello Lady Java, you have proven yourself by rescuing us all. Now we can hold our scrum meeting. But keep in mind; I only moderate the scrum meeting. It is the responsibility of all the team members for completing their work for the sake agile development.
