@@ -10,12 +10,26 @@ using System.Collections.ObjectModel;
 
 namespace Engine
 {
+    public enum AreaType
+    {
+        Dungeon,
+        OverWorld
+    }
+
+    public struct TileMapUpdateInfo
+    {
+        public Vector2 PlayerPostion;
+        public Vector2 LastPosition;
+    }
+    
     public class TileMap
     {
         const string ContentPath = @"..\..\..\LadyJava\LadyJavaContent\";
         
         Vector2 startingPosition;
         Vector2 lastPosition;
+
+        AreaType areaType;
 
         List<TileLayer> tileMap;
         List<Tile> tiles = new List<Tile>();
@@ -26,6 +40,9 @@ namespace Engine
         List<Npc> npcs;
         BoundingBox[] npcBounds;
         BoundingSphere[] npcTalkRadii;
+
+        public AreaType CurrentAreaType
+        { get { return areaType; } }
 
         public List<Npc> NPCs
         { get { return npcs; } }
@@ -85,7 +102,6 @@ namespace Engine
                        int screenWidth, int screenHeight, SpriteFont newText) : this()
         {
             Load(titleMapLocation, null, graphicsDevice, screenWidth, screenHeight, newText);
-            //Load(titleMapLocation, graphicsDevice);
             startingPosition = GetStartingPosition();
             collectBounds();
         }
@@ -114,9 +130,23 @@ namespace Engine
             }
         }
 
-        public int NPCUpdate(GameTime gameTime, 
-                             Camera playerCamera, Global.PlayStates playerPlayState, int playerTalkingTo,
-                             int screenWidth, int screenHeight, Global.StoryStates currentStoryState)
+        public string Update(GameTime gameTime,
+                             Vector2 entrancePixelLocation, Vector2 PreviousPlayerPosition)
+                             //string previousArea, string currentArea)
+        {
+                SetLastPosition(PreviousPlayerPosition);
+                Vector2 entranceLocation = new Vector2(entrancePixelLocation.X / TileWidth,
+                                                       entrancePixelLocation.Y / TileHeight);
+
+                int newAreaIndex = CollisionLayer.GetCellIndex((int)entranceLocation.X, (int)entranceLocation.Y);
+                string newArea = CollisionLayer.Entrances[newAreaIndex];
+                
+                return newArea;
+        }
+
+        public int NPCUpdate(GameTime gameTime,
+                             Camera playerCamera, Global.PlayState playerPlayState, int playerTalkingTo,
+                             int screenWidth, int screenHeight, Global.StoryState currentStoryState)
         {
             
             for (int i = 0; i < npcs.Count; i++)
@@ -124,7 +154,7 @@ namespace Engine
                 if (!npcs[i].MessageBoxVisible && playerTalkingTo == i)
                     npcs[i].ShowMessageBox();
                 else if (npcs[i].MessageBoxVisible)
-                    if (playerPlayState == Global.PlayStates.Playing)
+                    if (playerPlayState == Global.PlayState.Playing)
                     {
                         npcs[i].HideMessageBox();
                         playerTalkingTo = Global.InvalidInt;
@@ -196,20 +226,6 @@ namespace Engine
         public Texture2D AddTexture(string newTexturePath, string newTextureName, int newWidth, int newHeight, GraphicsDevice graphicsDevice)
         {
             Texture2D newTexture = Global.LoadTexture(newTexturePath, graphicsDevice);
-            /*
-            foreach (string extension in imageExtensions)
-                if (File.Exists(newTexturePath + extension))
-                {
-                    newTexturePath += extension;
-                    break;
-                }
-
-            using (FileStream fileStream = new FileStream(newTexturePath, FileMode.Open, FileAccess.Read))
-            {
-                newTexture = Texture2D.FromStream(graphicsDevice, fileStream);
-                fileStream.Close();
-            }
-            */
             tiles.Add(new Tile(newTexture, newWidth, newHeight));
             textureNames.Add(newTextureName);
 
@@ -219,20 +235,6 @@ namespace Engine
         public Texture2D AddTexture(string newTexturePath, string newTextureName, GraphicsDevice graphicsDevice)
         {
             Texture2D newTexture = Global.LoadTexture(newTexturePath, graphicsDevice);
-            /*
-            foreach (string extension in imageExtensions)
-                if (File.Exists(newTexturePath + extension))
-                {
-                    newTexturePath += extension;
-                    break;
-                }
-
-            using (FileStream fileStream = new FileStream(newTexturePath, FileMode.Open, FileAccess.Read))
-            {
-                newTexture = Texture2D.FromStream(graphicsDevice, fileStream);
-                fileStream.Close();
-            }
-            */
             tiles.Add(new Tile(newTexture, TileWidth, TileHeight));
             textureNames.Add(newTextureName);
 
@@ -266,6 +268,7 @@ namespace Engine
         private void Load(String fileLocation, ContentManager gameContent, GraphicsDevice graphicsDevice,
                           int screenWidth, int screenHeight, SpriteFont newText)
         {
+            bool readingType = false;
             bool readingDemensions = false;
             bool readingTileDemensions = false;
             bool readingTextures = false;
@@ -298,43 +301,73 @@ namespace Engine
 
                     for (int y = 0; y < line.Length; y++)
                     {
-                        if (line[y].Trim() == "[TileDemensions]")
+                        if (line[y].Trim() == "[Type]")
                         {
+                            readingType = true;
+                        }
+                        else if (line[y].Trim() == "[Demensions]")
+                        {
+                            readingType = false;
+                            readingDemensions = true;
+                        }
+                        else if (line[y].Trim() == "[TileDemensions]")
+                        {
+                            readingDemensions = false;
                             readingTileDemensions = true;
                         }
                         else if (line[y].Trim() == "[Textures]")
                         {
+                            readingTileDemensions = false;
                             readingTextures = true;
-                        }
-                        else if (line[y].Trim() == "[Demensions]")
-                        {
-                            readingDemensions = true;
                         }
                         else if (line[y].Trim() == "[Entrances]")
                         {
+                            readingTextures = false;
                             readingEntrances = true;
+                        }
+                        else if (line[y].Trim() == "[NPCs]")
+                        {
+                            readingEntrances = false;
+                            readingNPCs = true;
                         }
                         else if (line[y].Trim() == "[TileLayer]")
                         {
+                            readingEntrances = false;
+                            readingNPCs = false;
+
                             readingTileMap = true;
                             currentRow = 0;
                             tileLayer = new int[height, width];
                         }
                         else if (line[y].Trim() == "[CollisionLayer]")
                         {
+                            readingTileMap = false;
                             readingCollisionLayer = true;
                             currentRow = 0;
                             tileLayer = new int[height, width];
                         }
-                        else if (line[y].Trim() == "[NPCs]")
-                        {
-                            readingNPCs = true;
-                            currentRow = 0;
-                        }
                         else if (line[y].Trim() == "[NPCLayer]")
                         {
+                            readingCollisionLayer = false;
                             readingNPCLayer = true;
                             currentRow = 0;
+                        }
+                        else if (readingType)
+                        {
+                            if (line[y].Trim() != "")
+                            {
+                                areaType = (AreaType)Enum.Parse(typeof(AreaType), line[y].Trim());
+                            }
+                        }
+                        else if (readingDemensions)
+                        {
+                            if (line[y].Trim() != "")
+                            {
+                                string[] dimensions = line[y].Trim().Split(new Char[] { 'x' });
+
+                                width = int.Parse(dimensions[0]);
+                                height = int.Parse(dimensions[1]);
+                            }
                         }
                         else if (readingTileDemensions)
                         {
@@ -345,8 +378,6 @@ namespace Engine
                                 tileWidth = int.Parse(dimensions[0]);
                                 tileHeight = int.Parse(dimensions[1]);
                             }
-                            else
-                                readingTileDemensions = false;
                         }
                         else if (readingTextures)
                         {
@@ -364,30 +395,12 @@ namespace Engine
                                                textureWidth, textureHeight,
                                                graphicsDevice);
                             }
-                            else
-                                readingTextures = false;
 
-                        }
-                        else if (readingDemensions)
-                        {
-                            if (line[y].Trim() != "")
-                            {
-                                string[] dimensions = line[y].Trim().Split(new Char[] { 'x' });
-
-                                width = int.Parse(dimensions[0]);
-                                height = int.Parse(dimensions[1]);
-                            }
-                            else
-                                readingDemensions = false;
                         }
                         else if (readingEntrances)
                         {
                             if (line[y].Trim() != "")
-                            {
                                 entrances.Add(line[y].Trim());
-                            }
-                            else
-                                readingEntrances = false;
                         }
                         else if (readingNPCs)
                         {
@@ -397,19 +410,19 @@ namespace Engine
                                 const int NPCTilePosition = 1;
                                 const int NPCWidth = 2;
                                 const int NPCHeight = 3;
-                                
+
                                 string[] npcVariables = line[y].Trim().Split(new Char[] { ' ' });
 
-                                if(graphicsDevice == null)
-                                    npcs.Add(new Npc(npcVariables[NPCName], 
+                                if (graphicsDevice == null)
+                                    npcs.Add(new Npc(npcVariables[NPCName],
                                                      Vector2.Zero,
                                                      npcVariables[NPCTilePosition],
                                                      int.Parse(npcVariables[NPCWidth]),
-                                                     int.Parse(npcVariables[NPCHeight]), 
-                                                     gameContent, 
+                                                     int.Parse(npcVariables[NPCHeight]),
+                                                     gameContent,
                                                      tileWidth,
-                                                     screenWidth, 
-                                                     screenHeight, 
+                                                     screenWidth,
+                                                     screenHeight,
                                                      newText));
                                 else
                                     npcs.Add(new Npc(npcVariables[NPCName],
@@ -425,8 +438,36 @@ namespace Engine
                                                      newText));
 
                             }
+                        }
+                        else if (readingTileMap)
+                        {
+                            if (line[y].Trim() != "")
+                            {
+                                string[] tiles = line[y].Trim().Split(new Char[] { '|' });
+
+                                for (int i = 0; i < tiles.Length; i++)
+                                {
+                                    tileLayer[currentRow, i] = int.Parse(tiles[i]);
+                                }
+                                currentRow++;
+                            }
                             else
-                                readingNPCs = false;
+                                tileMap.Add(new TileLayer(tileLayer, tileWidth, tileHeight));
+                        }
+                        else if (readingCollisionLayer)
+                        {
+                            if (line[y].Trim() != "")
+                            {
+                                string[] tiles = line[y].Trim().Split(new Char[] { '|' });
+
+                                for (int i = 0; i < tiles.Length; i++)
+                                {
+                                    tileLayer[currentRow, i] = int.Parse(tiles[i]);
+                                }
+                                currentRow++;
+                            }
+                            else
+                                collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
                         }
                         else if (readingNPCLayer)
                         {
@@ -437,59 +478,17 @@ namespace Engine
                                 for (int i = 0; i < tiles.Length; i++)
                                 {
                                     int npc = int.Parse(tiles[i]);
-                                    if(npc > Global.InvalidInt)
+                                    if (npc > Global.InvalidInt)
                                         npcs[npc].SetPosition(new Vector2(i * tileWidth, currentRow * tileHeight), tileWidth);
                                 }
                                 currentRow++;
                             }
-                            else
-                            {
-                                readingNPCLayer = false;
-                            }
-                        }
-                        else if (readingTileMap)
-                        {
-                            if (line[y].Trim() != "")
-                            {
-                                string[] tiles = line[y].Trim().Split(new Char[] { '|' });
-
-                                for (int i = 0; i < tiles.Length; i++)
-                                {
-                                    tileLayer[currentRow, i] = int.Parse(tiles[i]);
-                                }
-                                currentRow++;
-                            }
-                            else
-                            {
-                                tileMap.Add(new TileLayer(tileLayer, tileWidth, tileHeight));
-                                readingTileMap = false;
-                            }
-                        }
-                        else if (readingCollisionLayer)
-                        {
-                            if (line[y].Trim() != "")
-                            {
-                                string[] tiles = line[y].Trim().Split(new Char[] { '|' });
-
-                                for (int i = 0; i < tiles.Length; i++)
-                                {
-                                    tileLayer[currentRow, i] = int.Parse(tiles[i]);
-                                }
-                                currentRow++;
-                            }
-                            else
-                            {
-                                collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
-                                readingCollisionLayer = false;
-                            }
                         }
                     }
 
                     //add the collision layer if there is no blank line at end of file
-                    if (readingCollisionLayer)
-                    {
-                        collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
-                    }
+                    //if (readingCollisionLayer)
+                    //    collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
                 }
             }
             catch (Exception e)
@@ -499,170 +498,14 @@ namespace Engine
             }
         }
 
-        /*
-        private void Load(String fileLocation, GraphicsDevice graphicsDevice)
-        {
-            bool readingDemensions = false;
-            bool readingTileDemensions = false;
-            bool readingTextures = false;
-            bool readingEntrances = false;
-            bool readingTileMap = false;
-            bool readingCollisionLayer = false;
-
-            List<string> entrances = new List<string>();
-            int currentRow = 0;
-            //int layersCount = 0;
-            int width = 0;
-            int height = 0;
-            int tileWidth = 0;
-            int tileHeight = 0;
-
-            int[,] tileLayer = new int[height, width]; ;
-            //int[,] collisionLayer = new int[width, height]; ;
-
-            try
-            {
-                using (StreamReader sr = new StreamReader(fileLocation))
-                {
-                    string lines = sr.ReadToEnd();
-                    string[] line = lines.Split(new Char[] { '\n' });
-
-                    for (int y = 0; y < line.Length; y++)
-                    {
-                        if (line[y].Trim() == "[TileDemensions]")
-                        {
-                            readingTileDemensions = true;
-                        }
-                        else if (line[y].Trim() == "[Textures]")
-                        {
-                            readingTextures = true;
-                        }
-                        else if (line[y].Trim() == "[Demensions]")
-                        {
-                            readingDemensions = true;
-                        }
-                        else if (line[y].Trim() == "[Entrances]")
-                        {
-                            readingEntrances = true;
-                        }
-                        else if (line[y].Trim() == "[TileLayer]")
-                        {
-                            readingTileMap = true;
-                            currentRow = 0;
-                            tileLayer = new int[height, width];
-                        }
-                        else if (line[y].Trim() == "[CollisionLayer]")
-                        {
-                            readingCollisionLayer = true;
-                            currentRow = 0;
-                            tileLayer = new int[height, width];
-                        }
-                        else if (readingTileDemensions)
-                        {
-                            if (line[y].Trim() != "")
-                            {
-                                string[] dimensions = line[y].Trim().Split(new Char[] { 'x' });
-
-                                tileWidth = int.Parse(dimensions[0]);
-                                tileHeight = int.Parse(dimensions[1]);
-                            }
-                            else
-                                readingTileDemensions = false;
-                        }
-                        else if (readingEntrances)
-                        {
-                            if (line[y].Trim() != "")
-                            {
-                                entrances.Add(line[y].Trim());
-                            }
-                            else
-                                readingEntrances = false;
-                        }
-                        else if (readingTextures)
-                        {
-                            if (line[y].Trim() != "")
-                            {
-                                string[] textureInfo = line[y].Split(' ');
-                                string textureName = textureInfo[0].Trim();
-                                int textureWidth = int.Parse(textureInfo[1].Trim());
-                                int textureHeight = int.Parse(textureInfo[2].Trim());
-
-                                AddTexture(@"..\..\..\LadyJava\LadyJavaContent\" + textureName, textureName, 
-                                           textureWidth, textureHeight, 
-                                           graphicsDevice);
-                            }
-                            else
-                                readingTextures = false;
-
-                        }
-                        else if (readingDemensions)
-                        {
-                            if (line[y].Trim() != "")
-                            {
-                                string[] dimensions = line[y].Trim().Split(new Char[] { 'x' });
-
-                                width = int.Parse(dimensions[0]);
-                                height = int.Parse(dimensions[1]);
-                            }
-                            else
-                                readingDemensions = false;
-                        }
-                        else if (readingTileMap)
-                        {
-                            if (line[y].Trim() != "")
-                            {
-                                string[] tiles = line[y].Trim().Split(new Char[] { '|' });
-
-                                for (int i = 0; i < tiles.Length; i++)
-                                {
-                                    tileLayer[currentRow, i] = int.Parse(tiles[i]);
-                                }
-                                currentRow++;
-                            }
-                            else
-                            {
-                                tileMap.Add(new TileLayer(tileLayer, tileWidth, tileHeight));
-                                readingTileMap = false;
-                            }
-                        }
-                        else if (readingCollisionLayer)
-                        {
-                            if (line[y].Trim() != "")
-                            {
-                                string[] tiles = line[y].Trim().Split(new Char[] { '|' });
-
-                                for (int i = 0; i < tiles.Length; i++)
-                                {
-                                    tileLayer[currentRow, i] = int.Parse(tiles[i]);
-                                }
-                                currentRow++;
-                            }
-                            else
-                            {
-                                collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
-                                readingCollisionLayer = false;
-                            }
-                        }
-                    }
-
-                    //add the collision layer if there is no blank line at end of file
-                    if (readingCollisionLayer)
-                    {
-                        collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e.Message);
-            }
-        }
-        */
         public void Save(String fileLocation)
         {
             using (StreamWriter writer = new StreamWriter(fileLocation))
             {
+                writer.WriteLine("[Type]");
+                writer.WriteLine(areaType.ToString());
+                writer.WriteLine();
+
                 writer.WriteLine("[Demensions]");
                 writer.WriteLine(Width + "x" + Height);
                 writer.WriteLine();

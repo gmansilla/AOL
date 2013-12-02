@@ -139,7 +139,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpeechFont.spritefont">
+    <Compile Include="Fonts\SpeechFont.spritefont">
       <Name>SpeechFont</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
@@ -216,6 +216,11 @@
       <Name>ShirsStudy</Name>
       <Processor>PassThroughProcessor</Processor>
     </None>
+    <Compile Include="Fonts\TitleText.spritefont">
+      <Name>TitleText</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Inside\Books\Book1.png">
@@ -700,6 +705,13 @@
   <ItemGroup>
     <Compile Include="Npc\blank.png">
       <Name>blank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ladyJavaDungeon.png">
+      <Name>ladyJavaDungeon</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

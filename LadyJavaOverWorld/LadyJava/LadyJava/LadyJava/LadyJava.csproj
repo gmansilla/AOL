@@ -72,17 +72,18 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrawMode.cs" />
-    <Compile Include="GameScene.cs" />
-    <Compile Include="GameState.cs" />
-    <Compile Include="ImageComponent.cs" />
-    <Compile Include="LadyJava.cs" />
-    <Compile Include="OptionScreen.cs" />
-    <Compile Include="PauseScreen.cs" />
+    <Compile Include="GameStateManager\DisplayText.cs" />
+    <Compile Include="GameStateManager\GameState.cs" />
+    <Compile Include="GameStateManager\GameStateManager.cs" />
+    <Compile Include="GameStates\OptionsState.cs" />
+    <Compile Include="GameStates\GamePlayState.cs" />
+    <Compile Include="GameStates\TitleScreenState.cs" />
+    <Compile Include="OverWorldPlayer.cs" />
+    <Compile Include="DungeonPlayer.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="TitleScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

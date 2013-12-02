@@ -10,8 +10,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
 
-using Engine;
-
 namespace Engine
 {
     public class Npc
@@ -31,8 +29,8 @@ namespace Engine
 
         int currentMessage;
         List<string> displayLines;
-        Global.StoryStates storyState;
-        Dictionary<Global.StoryStates, List<string>> dialog;
+        Global.StoryState storyState;
+        Dictionary<Global.StoryState, List<string>> dialog;
 
         bool displayText;
 
@@ -115,8 +113,8 @@ namespace Engine
                 headshot = Global.LoadTexture(contentPath + "Npc\\" + name + "\\headshot", newGraphicsDevice);
             }
 
-            dialog = new Dictionary<Global.StoryStates, List<string>>();
-            foreach (Global.StoryStates stage in (Global.StoryStates[])Enum.GetValues(typeof(Global.StoryStates)))
+            dialog = new Dictionary<Global.StoryState, List<string>>();
+            foreach (Global.StoryState stage in (Global.StoryState[])Enum.GetValues(typeof(Global.StoryState)))
                 dialog.Add(stage, new List<String>());
 
             loadScript(newName);
@@ -148,7 +146,7 @@ namespace Engine
             messageBoxHeight = (int)(newHeight / 6.5);
         }
 
-        public void Update(Camera playerCam, int newScreenWidth, int newScreenHeight, Global.StoryStates newStoryState)
+        public void Update(Camera playerCam, int newScreenWidth, int newScreenHeight, Global.StoryState newStoryState)
         {
             cameraPosition = playerCam.Position;
 
@@ -280,25 +278,25 @@ namespace Engine
                             break;
                             default:
                                 if (readingStage1 == true) {
-                                    dialog[Global.StoryStates.Stage1].Add(line[y].Trim());
+                                    dialog[Global.StoryState.Stage1].Add(line[y].Trim());
                                 }
                                 else if (readingStage2 == true) {
                                     readingStage1 = false;
-                                    dialog[Global.StoryStates.Stage2].Add(line[y].Trim());
+                                    dialog[Global.StoryState.Stage2].Add(line[y].Trim());
                                 }
                                 else if (readingStage3 == true)
                                 {
-                                    dialog[Global.StoryStates.Stage3].Add(line[y].Trim());
+                                    dialog[Global.StoryState.Stage3].Add(line[y].Trim());
                                     readingStage2 = false;
                                 }
                                 else if (readingStage4 == true)
                                 {
-                                    dialog[Global.StoryStates.Stage4].Add(line[y].Trim());
+                                    dialog[Global.StoryState.Stage4].Add(line[y].Trim());
                                     readingStage3 = false;
                                 }
                                 else if (readingOnCompleted == true)
                                 {
-                                    dialog[Global.StoryStates.Completed].Add(line[y].Trim());
+                                    dialog[Global.StoryState.Completed].Add(line[y].Trim());
                                 }
                             break;
                         }
@@ -331,7 +329,7 @@ namespace Engine
             processMessageToDraw(cameraPosition);
         }
 
-        string getCurrentMessage(Global.StoryStates stage)
+        string getCurrentMessage(Global.StoryState stage)
         {
             if (currentMessage >= dialog[stage].Count)
                 currentMessage = 0;

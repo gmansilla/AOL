@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
+using Engine;
+using System.Collections.ObjectModel;
+
+namespace LadyJava
+{
+    class OverWorldPlayer : Player
+    {
+        private float movement = 10.4f;
+
+        public OverWorldPlayer(Sprite newSprite, int tileWidth, int tileHeight)
+        {
+            animation = Global.STILL;
+            sprite = newSprite;
+            SetPosition(Position, tileWidth, tileHeight, true, false);
+            
+            switchedTileMap = false;
+            
+            talkingTo = Global.InvalidInt;
+            //talking = false;
+
+            UpdateBounds(Position, Width, Height);
+        }
+        
+        public override Vector2 Update(GameTime gameTime, 
+                                       int newNPC, //npc index
+                                       int levelWidth, int levelHeight, 
+                                       BoundingBox[] entrances, BoundingSphere[] talkingRadii,
+                                       params Object[] collisionObjects)
+        {
+            Vector2 entranceLocation = Global.InvalidVector2;
+            Vector2 motion = Vector2.Zero;
+            Vector2 position = sprite.Position;
+            previousPosition = sprite.Position;
+
+            talkingTo = newNPC;
+
+            bool collision = false;
+            BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
+
+            animation = Global.STILL;
+            if (currentPlayState == Global.PlayState.Playing)
+            {
+                if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Up)) ||
+                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Up)))
+                {
+                    animation = Global.UP;
+                    motion.Y = -movement;
+                    motion = UpCollision(motion, collisions);
+                    if (motion.Y != -movement)
+                        collision = true;
+
+                    if (switchedTileMap)
+                        switchedTileMap = false;
+                }
+                if (!switchedTileMap && InputManager.IsKeyDown(Commands.Down) ||
+                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Down)))
+                {
+                    animation = Global.DOWN;
+                    motion.Y = movement;
+                    motion = DownCollision(motion, collisions);
+                    if (motion.Y != movement)
+                        collision = true;
+
+                    if (switchedTileMap)
+                        switchedTileMap = false;
+                }
+                if (!switchedTileMap && InputManager.IsKeyDown(Commands.Right) ||
+                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Right)))
+                {
+                    animation = Global.RIGHT;
+                    motion.X = movement;
+                    motion = RightCollision(motion, collisions);
+                    if (motion.X != movement)
+                        collision = true;
+
+                    if (switchedTileMap)
+                        switchedTileMap = false;
+                }
+                if (!switchedTileMap && InputManager.IsKeyDown(Commands.Left) ||
+                    (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
+                {
+                    animation = Global.LEFT;
+                    motion.X = -movement;
+                    motion = LeftCollision(motion, collisions);
+                    if (motion.X != -movement)
+                        collision = true;
+
+                    if (switchedTileMap)
+                        switchedTileMap = false;
+                }
+            }            
+
+            for (int i = 0; i < talkingRadii.Length; i++)
+            {
+                if (InputManager.HasKeyBeenUp(Commands.Execute) &&
+                   boundingBox.Intersects(talkingRadii[i]))
+                {
+                    //talking = !talking;
+                    //if (talking)
+                    if(talkingTo == Global.InvalidInt)
+                    {
+                        currentPlayState = Global.PlayState.Message;
+                        talkingTo = i;
+                    }
+                    else
+                    {
+                        currentPlayState = Global.PlayState.Playing;
+                    }
+                }
+            }
+
+            if (!collision && motion != Vector2.Zero)
+            {
+                motion.Normalize();
+                motion *= movement;
+            }
+
+            position += motion;
+            position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
+            entranceLocation = EntranceCollision(motion, entrances);
+            sprite.Update(gameTime, animation, position);
+
+            return entranceLocation;
+        }
+
+        /*public void EndConversation()
+        {
+            talkingTo = Global.InvalidInt;
+        }*/
+        
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            sprite.Draw(spriteBatch);
+        }
+    }
+}

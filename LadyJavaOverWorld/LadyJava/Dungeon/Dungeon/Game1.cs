@@ -61,11 +61,10 @@ namespace Dungeon
                                      graphics.GraphicsDevice.Viewport.Height, 
                                      Content.Load<SpriteFont>("speechFont")));
 
-            Texture2D playerImage = Content.Load<Texture2D>("player");
-
-            AnimationInfo[] animationInfo = { new AnimationInfo(Global.STILL, 50, 100, 1, 0),
-                                              new AnimationInfo(Global.RIGHT, 50, 100, 2, 100),
-                                              new AnimationInfo(Global.LEFT, 50, 100, 2, 100) };
+            Texture2D playerImage = Content.Load<Texture2D>("ladyJavaDungeon");
+            AnimationInfo[] animationInfo = { new AnimationInfo(Global.STILL, 30, 47, 1, 0),
+                                              new AnimationInfo(Global.RIGHT, 30, 48, 8, 100),
+                                              new AnimationInfo(Global.LEFT, 30, 48, 8, 100) };
 
             player = new Player(new Sprite(playerImage, dungeons[currentDungeon].StartingPosition, animationInfo, 1f));
 

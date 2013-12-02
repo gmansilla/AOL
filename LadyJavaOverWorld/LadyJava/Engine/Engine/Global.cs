@@ -21,6 +21,7 @@ namespace Engine
         public const string UP = "Up";
         public const string STILL = "Idle";
 
+        public const string MainArea = "TileMaps\\overworld.map";
         public const string ContentPath = "..\\..\\..\\..\\LadyJavaContent\\";
         public const string DungeonContentPath = "..\\..\\..\\..\\..\\LadyJava\\LadyJavaContent\\";
 
@@ -36,7 +37,7 @@ namespace Engine
             Left
         }
 
-        public enum StoryStates
+        public enum StoryState
         {
             Completed,
             Stage1,
@@ -45,7 +46,7 @@ namespace Engine
             Stage4
         }
 
-        public enum PlayStates
+        public enum PlayState
         {
             Playing,
             Message
