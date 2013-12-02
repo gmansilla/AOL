@@ -94,8 +94,9 @@ namespace Engine
             List<BoundingBox> surrounding = new List<BoundingBox>();
 
             Point playerCell = new Point((int)(playerPosition.X / tileWidth), (int)(playerPosition.Y / tileHeight));
-            for (int y = Math.Max(0, playerCell.Y - 1); y < Math.Max(0, playerCell.Y - 1) + YRange; y++)
-                for (int x = Math.Max(0, playerCell.X - 1); x < Math.Max(0, playerCell.X - 1) + XRange; x++)
+
+            for (int y = Math.Max(0, playerCell.Y - 1); y < Math.Min(playerCell.Y - 1 + YRange, Height); y++)
+                for (int x = Math.Max(0, playerCell.X - 1); x < Math.Min(playerCell.X - 1 + XRange, Width); x++)
                     if (collisionBoxLayer[y, x] != new BoundingBox(Vector3.Zero, Vector3.Zero))
                         surrounding.Add(collisionBoxLayer[y, x]);
             

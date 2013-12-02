@@ -71,7 +71,7 @@ namespace Engine
 
         static public Command Attack = new Command(Keys.Space, Buttons.RightTrigger);
         
-        static public Command Jump = new Command(Keys.Space, Buttons.A);
+        static public Command Jump = new Command(Keys.Up, Buttons.DPadUp);
 
         static public Command Execute = new Command(Keys.Space, Buttons.A);
 
