@@ -29,7 +29,7 @@ namespace LadyJava
 
         State selected;
 
-        public TitleScreenState(ContentManager newContent, GraphicsDevice newGraphicsDevice)
+        public TitleScreenState(ContentManager newContent, GraphicsDevice newGraphicsDevice, string StartMsg)
         {
             id = State.TitleScreen;
             selected = State.GamePlay;
@@ -52,7 +52,7 @@ namespace LadyJava
 
             position = new Vector2(width / 2, height / 2);
 
-            actionText.Add(selected, new DisplayText(position, "Start", normalText, selectedColor));
+            actionText.Add(selected, new DisplayText(position, StartMsg, normalText, selectedColor));
             actionText.Add(State.Options, new DisplayText(position, "Options", normalText, unSelectedColor));
             actionText.Add(State.Quit, new DisplayText(position, "Quit", normalText, unSelectedColor));
 

@@ -19,8 +19,6 @@ namespace LadyJava
                                        BoundingBox[] entrances, BoundingSphere[] talkingRadii,
                                        params Object[] collisionObjects);
 
-        const float BUFFER = 0.01f;
-        
         protected Sprite sprite;
         protected string animation;
         protected bool switchedTileMap;
@@ -28,14 +26,11 @@ namespace LadyJava
         protected bool jumpDone;
 
         protected BoundingBox boundingBox;
-        public BoundingBox ToBoundingBox
-        { get { return boundingBox; } }
         
         protected Vector2 previousPosition;
         public Vector2 PreviousPosition
         { get { return previousPosition; } }
 
-        //bool talking;
         protected int talkingTo;
         public int TalkingTo
         { get { return talkingTo; } }
@@ -56,12 +51,6 @@ namespace LadyJava
         public int Height
         { get { return sprite.Height; } }
 
-        protected void UpdateBounds(Vector2 newPosition, int width, int height)
-        {
-            boundingBox = new BoundingBox(new Vector3(newPosition.X, newPosition.Y, 0f),
-                                          new Vector3(newPosition.X + width, newPosition.Y + height, 0f));
-        }
-
         protected Vector2 EntranceCollision(Vector2 newMotion, BoundingBox[] newEntrances)
         {
             UpdateBounds(Position + newMotion, Width, Height);
@@ -74,83 +63,6 @@ namespace LadyJava
                 }
             }
             return Global.InvalidVector2;
-        }
-
-        protected Vector2 DownCollision(Vector2 newMotion, BoundingBox[] collisions)
-        {
-            UpdateBounds(Position + newMotion, Width, Height);
-            for (int i = 0; i < collisions.Length; i++)
-            {
-                if (boundingBox.Intersects(collisions[i]))
-                {
-                    if (newMotion.Y > 0f)
-                    {
-                        if (boundingBox.Max.Y > collisions[i].Min.Y &&
-                            boundingBox.Max.Y < collisions[i].Max.Y)
-                        {
-                            newMotion.Y = collisions[i].Min.Y - BUFFER - Position.Y - Height;
-                        }
-                    }
-                }
-            }
-
-            return newMotion;
-        }
-
-        protected Vector2 UpCollision(Vector2 newMotion, BoundingBox[] collisions)
-        {
-            UpdateBounds(Position + newMotion, Width, Height);
-            for (int i = 0; i < collisions.Length; i++)
-            {
-                if (boundingBox.Intersects(collisions[i]))
-                {
-                    if (boundingBox.Min.Y < collisions[i].Max.Y &&
-                        boundingBox.Min.Y > collisions[i].Min.Y)
-                    {
-                        jumpDone = true;
-                        newMotion.Y = collisions[i].Max.Y + Global.Buffer - Position.Y;
-                    }
-                }
-            }
-
-            return newMotion;
-        }
-
-        protected Vector2 RightCollision(Vector2 newMotion, BoundingBox[] collisions)
-        {
-
-            UpdateBounds(Position + newMotion, Width, Height);
-            for (int i = 0; i < collisions.Length; i++)
-            {
-                if (boundingBox.Intersects(collisions[i]))
-                {
-                    if (boundingBox.Max.X > collisions[i].Min.X &&
-                        boundingBox.Max.X < collisions[i].Max.X)
-                    {
-                        newMotion.X = collisions[i].Min.X - BUFFER - Position.X - Width;
-                    }
-                }
-            }
-
-            return newMotion;
-        }
-
-        protected Vector2 LeftCollision(Vector2 newMotion, BoundingBox[] collisions)
-        {
-            UpdateBounds(Position + newMotion, Width, Height);
-            for (int i = 0; i < collisions.Length; i++)
-            {
-                if (boundingBox.Intersects(collisions[i]))
-                {
-                    if (boundingBox.Min.X < collisions[i].Max.X &&
-                        boundingBox.Min.X > collisions[i].Min.X)
-                    {
-                        newMotion.X = collisions[i].Max.X + BUFFER - Position.X;
-                    }
-                }
-            }
-
-            return newMotion;
         }
 
         protected Vector2 LockToLevel(int width, int height, Vector2 position, int levelW, int levelH)
@@ -191,6 +103,66 @@ namespace LadyJava
                 sprite.SetPosition(newPosition);
 
             switchedTileMap = switchingTileMap;
+        }
+
+        protected bool NoCollision(BoundingBox bounds, BoundingBox[] collisions)
+        {
+            foreach (BoundingBox collision in collisions)
+                if (collision.Intersects(bounds))
+                    return false;
+
+            return true;
+        }
+
+        protected Vector2 AdjustForCollision(Vector2 position, Vector2 newMotion,
+                                             int width, int height,
+                                             BoundingBox[] collisions)
+        {
+            Vector2 newPosition = position;
+            int incrementCount = (int)(newMotion.Length() * 2) + 1;
+            Vector2 increment = newMotion / incrementCount;
+
+            for (int i = 1; i <= incrementCount; i++)
+            {
+                Vector2 adjustedPosition = position + increment * i;
+                BoundingBox newBounds = UpdateBounds(adjustedPosition, width, height);
+
+                if (NoCollision(newBounds, collisions))
+                {
+                    newPosition = adjustedPosition;
+                }
+                else
+                {
+                    bool isDiagonalMove = newMotion.X != 0 && newMotion.Y != 0;
+                    if (isDiagonalMove)
+                    {
+                        int stepsLeft = incrementCount - (i - 1);
+
+                        Vector2 newMotionX = increment.X * Vector2.UnitX * stepsLeft;
+                        Vector2 newPositionX =
+                            AdjustForCollision(newPosition, newMotionX, width, height, collisions);
+                        newPosition += newPositionX;
+
+                        Vector2 newMotionY = increment.Y * Vector2.UnitY * stepsLeft;
+                        Vector2 newPositionY =
+                            AdjustForCollision(newPosition, newMotionY, width, height, collisions);
+                        newPosition += newPositionY;
+
+                    }
+                    if ((newPosition - position).Y > newMotion.Y)
+                        jumpDone = true;
+                    break;
+                }
+            }
+
+            return newPosition - position;
+        }
+
+        protected BoundingBox UpdateBounds(Vector2 newPosition, int width, int height)
+        {
+            boundingBox = new BoundingBox(new Vector3(newPosition, 0f),
+                                   new Vector3(newPosition.X + width, newPosition.Y + height, 0f));
+            return boundingBox;
         }
     }
 }

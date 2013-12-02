@@ -14,6 +14,7 @@ namespace Engine
         static public int StartingCell = -3;
 
         BoundingBox[] collisionBoxes;
+        BoundingBox[,] collisionBoxLayer;
         BoundingBox[] entranceBoxes;
 
         int[,] collisionLayer;
@@ -66,13 +67,16 @@ namespace Engine
             collisionBoxes = new BoundingBox[boxCount];
             entranceBoxes = new BoundingBox[entranceCount];
 
+            collisionBoxLayer = new BoundingBox[Height, Width];
+
             boxCount = 0;
             entranceCount = 0;
             for (int y = 0; y < Height; y++)
                 for (int x = 0; x < Width; x++)
                     if (collisionLayer[y, x] == CollisionCell)
                     {
-
+                        collisionBoxLayer[y, x] = new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
+                                                                  new Vector3(x * tileWidth + tileWidth, y * tileHeight + tileHeight, 0f));
                         collisionBoxes[boxCount++] = new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
                                                                      new Vector3(x * tileWidth + tileWidth, y * tileHeight + tileHeight, 0f));
                     }
@@ -81,6 +85,21 @@ namespace Engine
                         entranceBoxes[entranceCount++] = new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
                                                                           new Vector3(x * tileWidth + tileWidth, y * tileHeight + tileHeight, 0f));
                     }
+        }
+
+        public BoundingBox[] GetSurroundingBoundingBoxes(Vector2 playerPosition, int tileWidth, int tileHeight)
+        {
+            const int YRange = 3;
+            const int XRange = 3;
+            List<BoundingBox> surrounding = new List<BoundingBox>();
+
+            Point playerCell = new Point((int)(playerPosition.X / tileWidth), (int)(playerPosition.Y / tileHeight));
+            for (int y = Math.Max(0, playerCell.Y - 1); y < Math.Max(0, playerCell.Y - 1) + YRange; y++)
+                for (int x = Math.Max(0, playerCell.X - 1); x < Math.Max(0, playerCell.X - 1) + XRange; x++)
+                    if (collisionBoxLayer[y, x] != new BoundingBox(Vector3.Zero, Vector3.Zero))
+                        surrounding.Add(collisionBoxLayer[y, x]);
+            
+            return surrounding.ToArray();
         }
 
         public int GetCellIndex(int x, int y)

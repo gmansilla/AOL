@@ -615,11 +615,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\LadyJavaBigOverWorldOld.png">
-      <Name>LadyJavaBigOverWorldOld</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Npc\TheOracle\NPC_TheOracle_Trapped.png">
@@ -710,7 +705,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ladyJavaDungeon.png">
+    <Compile Include="Sprites\ladyJavaDungeon.png">
       <Name>ladyJavaDungeon</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

@@ -67,7 +67,12 @@ namespace LadyJava
             if (state == State.GamePlay && !gameStateManager.Contains(State.GamePlay))
                 gameStateManager.AddState(new GamePlayState(Content, GraphicsDevice));
             else if (state == State.TitleScreen && !gameStateManager.Contains(State.TitleScreen))
-                gameStateManager.AddState(new TitleScreenState(Content, GraphicsDevice));
+            {
+                if (!gameStateManager.Contains(State.GamePlay))
+                    gameStateManager.AddState(new TitleScreenState(Content, GraphicsDevice, "Start"));
+                else
+                    gameStateManager.AddState(new TitleScreenState(Content, GraphicsDevice, "Resume"));
+            }
             else if (state == State.Options && !gameStateManager.Contains(State.Options))
                 gameStateManager.AddState(new OptionsState(Content, GraphicsDevice));
 

@@ -57,7 +57,7 @@ namespace LadyJava
                 {
                     animation = Global.UP;
                     motion.Y = -movement;
-                    motion = UpCollision(motion, collisions);
+                    //motion = UpCollision(motion, collisions);
                     if (motion.Y != -movement)
                         collision = true;
 
@@ -69,7 +69,7 @@ namespace LadyJava
                 {
                     animation = Global.DOWN;
                     motion.Y = movement;
-                    motion = DownCollision(motion, collisions);
+                    //motion = DownCollision(motion, collisions);
                     if (motion.Y != movement)
                         collision = true;
 
@@ -81,7 +81,7 @@ namespace LadyJava
                 {
                     animation = Global.RIGHT;
                     motion.X = movement;
-                    motion = RightCollision(motion, collisions);
+                    //motion = RightCollision(motion, collisions);
                     if (motion.X != movement)
                         collision = true;
 
@@ -93,7 +93,7 @@ namespace LadyJava
                 {
                     animation = Global.LEFT;
                     motion.X = -movement;
-                    motion = LeftCollision(motion, collisions);
+                    //motion = LeftCollision(motion, collisions);
                     if (motion.X != -movement)
                         collision = true;
 
@@ -126,6 +126,8 @@ namespace LadyJava
                 motion.Normalize();
                 motion *= movement;
             }
+
+            motion = AdjustForCollision(position, motion, Width, Height, collisions);
 
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);

@@ -73,8 +73,8 @@ namespace LadyJava
                        new OverWorldPlayer(new Sprite(overworldImage, campus[currentArea].StartingPosition, overworldAnimations, 1.0f), 
                                            campus[currentArea].TileWidth, campus[currentArea].TileHeight));
 
-            Texture2D dungeonImage = newContent.Load<Texture2D>("LadyJavaDungeon");
-            AnimationInfo[] dungeonAnimations = { new AnimationInfo(Global.STILL, 30, 47, 1, 0),
+            Texture2D dungeonImage = newContent.Load<Texture2D>("Sprites\\LadyJavaDungeon");
+            AnimationInfo[] dungeonAnimations = { new AnimationInfo(Global.STILL, 30, 48, 1, 0),
                                                   new AnimationInfo(Global.RIGHT, 30, 48, 8, 100),
                                                   new AnimationInfo(Global.LEFT, 30, 48, 8, 100) };
             player.Add(AreaType.Dungeon,
@@ -105,7 +105,12 @@ namespace LadyJava
                                                           campus[currentArea].PixelHeight,
                                                           campus[currentArea].CollisionLayer.ToEntranceBox,
                                                           campus[currentArea].NPCTalkRadii,
-                                                          campus[currentArea].CollisionLayer.ToCollisionBox,
+                                                          campus[currentArea].CollisionLayer.
+                                                            GetSurroundingBoundingBoxes(
+                                                                player[campus[currentArea].CurrentAreaType].Position,
+                                                                campus[currentArea].TileWidth,
+                                                                campus[currentArea].TileHeight),
+                                                          //campus[currentArea].CollisionLayer.ToCollisionBox,
                                                           campus[currentArea].NPCsToBoundingBox);
 
             if (entrancePixelLocation != Global.InvalidVector2)
