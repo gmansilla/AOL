@@ -36,7 +36,7 @@ namespace LadyJava
         public override Vector2 Update(GameTime gameTime, 
                                        int newNPC, //npc index
                                        int levelWidth, int levelHeight, 
-                                       BoundingBox[] entrances, BoundingSphere[] talkingRadii,
+                                       BoundingBox[] entrances, BoundingBox[] talkingRadii,
                                        params Object[] collisionObjects)
         {
             Vector2 entranceLocation = Global.InvalidVector2;
@@ -113,6 +113,7 @@ namespace LadyJava
                     {
                         currentPlayState = Global.PlayState.Message;
                         talkingTo = i;
+                        break;
                     }
                     else
                     {

@@ -16,7 +16,7 @@ namespace LadyJava
         public abstract Vector2 Update(GameTime gameTime,
                                        int newNPC, //npc index
                                        int levelWidth, int levelHeight,
-                                       BoundingBox[] entrances, BoundingSphere[] talkingRadii,
+                                       BoundingBox[] entrances, BoundingBox[] talkingRadii,
                                        params Object[] collisionObjects);
 
         protected Sprite sprite;

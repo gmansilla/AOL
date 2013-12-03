@@ -25,7 +25,9 @@ namespace Engine
     public class TileMap
     {
         const string ContentPath = @"..\..\..\LadyJava\LadyJavaContent\";
-        
+
+        string name;
+
         Vector2 startingPosition;
         Vector2 lastPosition;
 
@@ -35,11 +37,13 @@ namespace Engine
         List<Tile> tiles = new List<Tile>();
         List<string> textureNames = new List<String>();
 
+        Dictionary<string, bool> toBeRescued;
+
         CollisionLayer collisionLayer;
 
         List<Npc> npcs;
         BoundingBox[] npcBounds;
-        BoundingSphere[] npcTalkRadii;
+        BoundingBox[] npcTalkRadii;
 
         public AreaType CurrentAreaType
         { get { return areaType; } }
@@ -49,7 +53,7 @@ namespace Engine
 
         public BoundingBox[] NPCsToBoundingBox
         { get { return npcBounds; } }
-        public BoundingSphere[] NPCTalkRadii
+        public BoundingBox[] NPCTalkRadii
         { get { return npcTalkRadii; } }
 
         public Vector2 StartingPosition
@@ -90,18 +94,20 @@ namespace Engine
             tileMap = new List<TileLayer>();
         }
 
-        public TileMap(string titleMapLocation, ContentManager gameContent, 
+        public TileMap(string tileMapPath, string tileMapName, ContentManager gameContent, 
                        int screenWidth, int screenHeight, SpriteFont newText) : this()
         {
-            Load(titleMapLocation, gameContent, null, screenWidth, screenHeight, newText);
+            name = tileMapName;
+            toBeRescued = new Dictionary<string, bool>();
+            Load(tileMapPath + name, gameContent, null, screenWidth, screenHeight, newText);
             startingPosition = GetStartingPosition();
             collectBounds();
         }
 
-        public TileMap(string titleMapLocation, GraphicsDevice graphicsDevice, 
+        public TileMap(string tileMapLocation, GraphicsDevice graphicsDevice, 
                        int screenWidth, int screenHeight, SpriteFont newText) : this()
         {
-            Load(titleMapLocation, null, graphicsDevice, screenWidth, screenHeight, newText);
+            Load(tileMapLocation, null, graphicsDevice, screenWidth, screenHeight, newText);
             startingPosition = GetStartingPosition();
             collectBounds();
         }
@@ -120,7 +126,7 @@ namespace Engine
             if (npcs.Count > 0)
             {
                 npcBounds = new BoundingBox[npcs.Count];
-                npcTalkRadii = new BoundingSphere[npcs.Count];
+                npcTalkRadii = new BoundingBox[npcs.Count];
 
                 for (int i = 0; i < npcs.Count; i++)
                 {
@@ -131,17 +137,23 @@ namespace Engine
         }
 
         public string Update(GameTime gameTime,
-                             Vector2 entrancePixelLocation, Vector2 PreviousPlayerPosition)
+                             Vector2 entrancePixelLocation, 
+                             Vector2 PreviousPlayerPosition)
                              //string previousArea, string currentArea)
         {
-                SetLastPosition(PreviousPlayerPosition);
-                Vector2 entranceLocation = new Vector2(entrancePixelLocation.X / TileWidth,
-                                                       entrancePixelLocation.Y / TileHeight);
+            SetLastPosition(PreviousPlayerPosition);
+            Vector2 entranceLocation = new Vector2(entrancePixelLocation.X / TileWidth,
+                                                    entrancePixelLocation.Y / TileHeight);
 
-                int newAreaIndex = CollisionLayer.GetCellIndex((int)entranceLocation.X, (int)entranceLocation.Y);
-                string newArea = CollisionLayer.Entrances[newAreaIndex];
+            int newAreaIndex = CollisionLayer.GetCellIndex((int)entranceLocation.X, (int)entranceLocation.Y);
+            string newArea = CollisionLayer.Entrances[newAreaIndex];
                 
-                return newArea;
+            return newArea;
+        }
+
+        public void UpdateRescueList(Dictionary<string, bool> updateRescueList)
+        {
+            toBeRescued = updateRescueList;
         }
 
         public int NPCUpdate(GameTime gameTime,
@@ -282,7 +294,7 @@ namespace Engine
             
             npcs = new List<Npc>();
             npcBounds = new BoundingBox[0];
-            npcTalkRadii = new BoundingSphere[0];
+            npcTalkRadii = new BoundingBox[0];
 
             int currentRow = 0;
             int width = 0;
@@ -603,6 +615,28 @@ namespace Engine
         {
             foreach (TileLayer layer in tileMap)
                 layer.Draw(spriteBatch, tiles);
+
+            foreach (Npc npc in npcs)
+                if (name == Global.MainArea)
+                {
+                    if (toBeRescued.ContainsKey(npc.Name))
+                    {
+                        if (!toBeRescued[npc.Name])
+                            npc.Draw(spriteBatch);
+                    }
+                    else
+                        npc.Draw(spriteBatch);
+                }
+                else //in dungeon area
+                {
+                    if (toBeRescued.ContainsKey(npc.Name))
+                    {
+                        if (toBeRescued[npc.Name])
+                            npc.Draw(spriteBatch);
+                    }
+                    else
+                        npc.Draw(spriteBatch);
+                }
         }
     }
 }

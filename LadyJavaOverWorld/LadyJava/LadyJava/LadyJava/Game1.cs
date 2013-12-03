@@ -35,22 +35,9 @@ namespace LadyJava
 
         protected override void LoadContent()
         {
-            gameStateManager = new GameStateManager(State.TitleScreen);//.GamePlay);
+            gameStateManager = new GameStateManager(State.GamePlay);//.TitleScreen);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            ////create SeeHash (NPC)
-            //npcs.Add(new Npc("SeeHash", new Vector2(1032, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
- 
-            ////create TecMan (NPC)
-            //npcs.Add(new Npc("TecMan", new Vector2(1160, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
-            ////create TheOracle (NPC)
-            //npcs.Add(new Npc("TheOracle", new Vector2(1224, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-
-            ////create TheScrumMaster (NPC)
-            //npcs.Add(new Npc("TheScrumMaster", new Vector2(1288, 200), 25, 50, 1.0f, Content, screenWidth, screenHeigth, speachText));
-            
         }
 
         protected override void UnloadContent()

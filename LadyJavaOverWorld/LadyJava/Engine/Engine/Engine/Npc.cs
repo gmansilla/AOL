@@ -25,7 +25,7 @@ namespace Engine
         Global.TilePosition tilePosition;
 
         BoundingBox boundingBox;
-        BoundingSphere talkRadius;
+        BoundingBox talkRadius;
 
         int currentMessage;
         List<string> displayLines;
@@ -63,7 +63,7 @@ namespace Engine
         public BoundingBox ToBoundingBox
         { get { return boundingBox; } }
 
-        public BoundingSphere TalkRadius
+        public BoundingBox TalkRadius
         { get { return talkRadius; } }
 
         public Npc(Sprite newSprite, string newName, ContentManager newContent, string newTilePosition, int tileWidth, int newScreenWidth, int newScreenHeight, SpriteFont newSpeechText)
@@ -343,11 +343,12 @@ namespace Engine
 
             sprite.SetPosition(newPosition + offsets);
 
+            Vector3 talkRange = new Vector3(5f, 5f, 0f);
+
             boundingBox = new BoundingBox(new Vector3(Position, 0f),
                                           new Vector3(Position + new Vector2(Width, Height), 0f));
 
-            talkRadius = new BoundingSphere(boundingBox.Min + new Vector3(Width / 2f, Height / 2f, 0f),
-                                            sprite.Height);
+            talkRadius = new BoundingBox(boundingBox.Min - talkRange, boundingBox.Max + talkRange);
         }
 
     }

@@ -12,7 +12,10 @@ namespace Engine
     {
         public const float GravityAccelation = 9.807f;
         public const float PixelsToMeter = 0.018f;
-        public const float GroundFriction = 0.75f;
+
+        public const float GroundFriction = 0.70f;
+        public const float AirFriction = 0.90f;
+        
         public const float Buffer = 0.01f;
 
         public const string DOWN = "Down";
@@ -29,7 +32,8 @@ namespace Engine
         public static Vector2 InvalidVector2 = new Vector2(-1, -1); //Must be static
 
         public static string[] imageExtensions = { ".jpg", ".png", ".tga" };
-
+        public static string[] ToBeRecused = { "TecMan", "SeeHash", "TheOracle", "TheScrumMaster" };
+        
         public enum TilePosition
         {
             Centre,

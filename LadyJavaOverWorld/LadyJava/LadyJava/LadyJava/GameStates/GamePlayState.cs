@@ -15,6 +15,7 @@ namespace LadyJava
     {
         Camera camera;
         Dictionary<AreaType, Player> player;
+        Dictionary<string, bool> toBeRescued;
         //OverWorldPlayer overworldPlayer;
         //DungeonPlayer dungeonPlayer;
         int talkingTo = Global.InvalidInt;
@@ -41,23 +42,23 @@ namespace LadyJava
             currentArea = Global.MainArea;
             campus = new Dictionary<string, TileMap>();
 
-            campus.Add("TileMaps\\overworld.map", new TileMap(Global.ContentPath + "TileMaps\\overworld.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\house1.map", new TileMap(Global.ContentPath + "TileMaps\\house1.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\house2.map", new TileMap(Global.ContentPath + "TileMaps\\house2.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\house3.map", new TileMap(Global.ContentPath + "TileMaps\\house3.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\house4.map", new TileMap(Global.ContentPath + "TileMaps\\house4.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\PC.map", new TileMap(Global.ContentPath + "TileMaps\\PC.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\ShirsStudy.map", new TileMap(Global.ContentPath + "TileMaps\\ShirsStudy.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\Gym.map", new TileMap(Global.ContentPath + "TileMaps\\Gym.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\BoatHouse.map", new TileMap(Global.ContentPath + "TileMaps\\BoatHouse.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\D1Water.map", new TileMap(Global.ContentPath + "TileMaps\\D1Water.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\D2Basement.map", new TileMap(Global.ContentPath + "TileMaps\\D2Basement.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\D3Tree.map", new TileMap(Global.ContentPath + "TileMaps\\D3Tree.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\D4Final.map", new TileMap(Global.ContentPath + "TileMaps\\D4Final.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\D1End.map", new TileMap(Global.ContentPath + "TileMaps\\D1End.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\D2End.map", new TileMap(Global.ContentPath + "TileMaps\\D2End.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\D3End.map", new TileMap(Global.ContentPath + "TileMaps\\D3End.map", newContent, screenWidth, screenHeight, speechText));
-            campus.Add("TileMaps\\D4End.map", new TileMap(Global.ContentPath + "TileMaps\\D4End.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\overworld.map", new TileMap(Global.ContentPath, "TileMaps\\overworld.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\house1.map", new TileMap(Global.ContentPath, "TileMaps\\house1.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\house2.map", new TileMap(Global.ContentPath, "TileMaps\\house2.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\house3.map", new TileMap(Global.ContentPath, "TileMaps\\house3.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\house4.map", new TileMap(Global.ContentPath, "TileMaps\\house4.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\PC.map", new TileMap(Global.ContentPath, "TileMaps\\PC.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\ShirsStudy.map", new TileMap(Global.ContentPath, "TileMaps\\ShirsStudy.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\Gym.map", new TileMap(Global.ContentPath, "TileMaps\\Gym.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\BoatHouse.map", new TileMap(Global.ContentPath, "TileMaps\\BoatHouse.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\D1Water.map", new TileMap(Global.ContentPath, "TileMaps\\D1Water.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\D2Basement.map", new TileMap(Global.ContentPath, "TileMaps\\D2Basement.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\D3Tree.map", new TileMap(Global.ContentPath, "TileMaps\\D3Tree.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\D4Final.map", new TileMap(Global.ContentPath, "TileMaps\\D4Final.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\D1End.map", new TileMap(Global.ContentPath, "TileMaps\\D1End.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\D2End.map", new TileMap(Global.ContentPath, "TileMaps\\D2End.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\D3End.map", new TileMap(Global.ContentPath, "TileMaps\\D3End.map", newContent, screenWidth, screenHeight, speechText));
+            campus.Add("TileMaps\\D4End.map", new TileMap(Global.ContentPath, "TileMaps\\D4End.map", newContent, screenWidth, screenHeight, speechText));
 
             camera = new Camera(screenWidth, screenHeight);
             
@@ -83,10 +84,9 @@ namespace LadyJava
             currentStoryState = Global.StoryState.Stage1;
             collisionLayerImage = newContent.Load<Texture2D>("tileSelector");
 
-            //Sprite lady = new Sprite(image, campus[currentArea].StartingPosition, animations, 1.0f);
-            //overworldPlayer = new OverWorldPlayer(lady, campus[currentArea].TileWidth, campus[currentArea].TileHeight);
-            //dungeonPlayer = new DungeonPlayer(new Sprite(playerImage, Vector2.Zero, animationInfo, 1f));
-            //camera = new Camera(graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
+            toBeRescued = new Dictionary<string, bool>();
+            foreach (string name in Global.ToBeRecused)
+                toBeRescued.Add(name, true);
         }
 
         public override State Update(GameTime gameTime, int screenWidth, int screenHeight)
@@ -110,8 +110,9 @@ namespace LadyJava
                                                                 player[campus[currentArea].CurrentAreaType].Position,
                                                                 campus[currentArea].TileWidth,
                                                                 campus[currentArea].TileHeight),
-                                                          //campus[currentArea].CollisionLayer.ToCollisionBox,
                                                           campus[currentArea].NPCsToBoundingBox);
+
+            campus[currentArea].UpdateRescueList(toBeRescued);
 
             if (entrancePixelLocation != Global.InvalidVector2)
             {
@@ -119,13 +120,14 @@ namespace LadyJava
                                                             entrancePixelLocation,
                                                             player[campus[currentArea].CurrentAreaType].PreviousPosition);
 
+
                 //clear out the last position if the user doesn't reenter the same previous location
                 if (previousArea != Global.MainArea && previousArea != null && previousArea != newArea)
                     campus[previousArea].SetLastPosition(Global.InvalidVector2);
-                
+
                 previousArea = currentArea;
                 currentArea = newArea;
-                
+
                 if (campus[currentArea].LastPosition == Global.InvalidVector2)
                     player[campus[currentArea].CurrentAreaType].SetPosition(campus[currentArea].StartingPosition,
                                                 campus[currentArea].TileWidth,
@@ -160,9 +162,6 @@ namespace LadyJava
             player[campus[currentArea].CurrentAreaType].Draw(spriteBatch);
 
             campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
-
-            foreach (Npc npc in campus[currentArea].NPCs)
-                npc.Draw(spriteBatch);
 
             spriteBatch.End();
         }
