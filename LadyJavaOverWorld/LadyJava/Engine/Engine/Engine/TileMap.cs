@@ -37,7 +37,7 @@ namespace Engine
         List<Tile> tiles = new List<Tile>();
         List<string> textureNames = new List<String>();
 
-        Dictionary<string, RescueInfo> toBeRescued;
+        //Dictionary<string, RescueInfo> toBeRescued;
 
         CollisionLayer collisionLayer;
 
@@ -100,7 +100,7 @@ namespace Engine
                        int screenWidth, int screenHeight, SpriteFont newText) : this()
         {
             name = tileMapName;
-            toBeRescued = new Dictionary<string, RescueInfo>();
+            //toBeRescued = new Dictionary<string, RescueInfo>();
             Load(tileMapPath + name, gameContent, null, screenWidth, screenHeight, newText);
             startingPosition = GetStartingPosition();
 
@@ -158,10 +158,10 @@ namespace Engine
         }
 
         public void UpdateRescueList
-            (Dictionary<string, RescueInfo> updateRescueList)
+            (Dictionary<string, RescueInfo> toBeRescued)
         {
             activeNPCs.Clear();
-            toBeRescued = updateRescueList;
+            //toBeRescued = updateRescueList;
 
             for (int i = 0; i < npcs.Count; i++)
                 if (name == Global.MainArea)
@@ -187,7 +187,7 @@ namespace Engine
         }
 
 
-        public int NPCUpdate(GameTime gameTime,
+        public int NPCUpdate(GameTime gameTime, Dictionary<string, RescueInfo> toBeRescued,
                       Camera playerCamera, Global.PlayState playerPlayState, int playerTalkingTo,
                       int screenWidth, int screenHeight)
         {
@@ -204,7 +204,7 @@ namespace Engine
                         activeNPCs[i].ChangeMessage(playerCamera.Position);
                     }
 
-                activeNPCs[i].Update(playerCamera, screenWidth, screenHeight);
+                activeNPCs[i].Update(playerCamera, screenWidth, screenHeight, toBeRescued);
             }
 
             return playerTalkingTo;

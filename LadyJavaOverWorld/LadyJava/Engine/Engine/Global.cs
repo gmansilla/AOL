@@ -33,6 +33,11 @@ namespace Engine
         public static Vector2 InvalidVector2 = new Vector2(-1, -1); //Must be static
 
         public static string[] imageExtensions = { ".jpg", ".png", ".tga" };
+
+        public const int TecMan = 0;
+        public const int SeeHash = 1;
+        public const int TheOracle = 2;
+        public const int TheScrumMaster = 3;
         public static string[] ToBeRecused = { "TecMan", "SeeHash", "TheOracle", "TheScrumMaster" };
         public static string[] RecuseAreas = { "TileMaps\\D1End.map", "TileMaps\\D2End.map", "TileMaps\\D3End.map", "TileMaps\\D4End.map" };
 
@@ -45,6 +50,7 @@ namespace Engine
 
         public enum StoryState
         {
+            None,
             Default,
             TecManSaved,
             SeeHashSaved,

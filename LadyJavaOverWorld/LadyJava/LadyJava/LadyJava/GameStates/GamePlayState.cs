@@ -153,7 +153,7 @@ namespace LadyJava
                           player[campus[currentArea].CurrentAreaType].Origin, 
                           campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
 
-            talkingTo = campus[currentArea].NPCUpdate(gameTime, camera,
+            talkingTo = campus[currentArea].NPCUpdate(gameTime, toBeRescued, camera,
                                                       player[campus[currentArea].CurrentAreaType].CurrentPlayState,
                                                       player[campus[currentArea].CurrentAreaType].TalkingTo,
                                                       screenWidth, screenHeight);

@@ -30,7 +30,7 @@ namespace Engine
         int currentMessage;
         List<string> displayLines;
         
-        //Global.StoryState storyState;
+        Global.StoryState storyState;
         
         Dictionary<Global.StoryState, List<string>> dialog;
 
@@ -72,7 +72,7 @@ namespace Engine
         {
             SetupNPC(newSprite, newName, newContent, null, null, newTilePosition, tileWidth, newScreenWidth, newScreenHeight, newSpeechText);
         }
-
+        
         public Npc(string name, 
                    Vector2 position, string newTilePosition, 
                    int newWidth, int newHeight, 
@@ -83,7 +83,7 @@ namespace Engine
                                name, content, newTilePosition, 
                                tileWidth, newScreenWidth, newScreenHeight, newSpeachText)
         { }
-
+        
         public Npc(string name,
                    Vector2 position, string newTilePosition,
                    int newWidth, int newHeight,
@@ -104,6 +104,8 @@ namespace Engine
             sprite = newSprite;
             name = newName;
 
+            storyState = Global.StoryState.None;
+
             if (newGraphicsDevice == null)
             {
                 blank = newContent.Load<Texture2D>("Npc\\blank");
@@ -116,8 +118,7 @@ namespace Engine
             }
 
             dialog = new Dictionary<Global.StoryState, List<string>>();
-            foreach (Global.StoryState stage in (Global.StoryState[])Enum.GetValues(typeof(Global.StoryState)))
-                dialog.Add(stage, new List<String>());
+            //foreach (Global.StoryState stage in (Global.StoryState[])Enum.GetValues(typeof(Global.StoryState)))
 
             loadScript(newName);
 
@@ -148,7 +149,7 @@ namespace Engine
             messageBoxHeight = (int)(newHeight / 6.5);
         }
 
-        public void Update(Camera playerCam, int newScreenWidth, int newScreenHeight)
+        public void Update(Camera playerCam, int newScreenWidth, int newScreenHeight, Dictionary<string, RescueInfo> toBeRescued)
         {
             cameraPosition = playerCam.Position;
 
@@ -159,20 +160,45 @@ namespace Engine
             headshotPosition = messageBoxPosition;
             textPosition = headshotPosition + new Vector2(headshot.Width, 0);
 
-            //if (storyState != newStoryState)
-            //{
-            //    storyState = newStoryState;
+            Global.StoryState newStoryState = findCurrentStoryState(toBeRescued);
+
+            if (storyState != newStoryState)
+            {
+                storyState = newStoryState;
                 currentMessage = 0;
 
                 processMessageToDraw(cameraPosition);
-            //}
+            }
+        }
+
+        private Global.StoryState findCurrentStoryState(Dictionary<string, RescueInfo> rescueList)
+        {
+                if (dialog.ContainsKey(Global.StoryState.TheScrumMasterSaved) &&
+                    rescueList[Global.ToBeRecused[Global.TheScrumMaster]].IsRescued)
+                    return Global.StoryState.TheScrumMasterSaved;
+                else if (dialog.ContainsKey(Global.StoryState.AllSaved) &&
+                         rescueList[Global.ToBeRecused[Global.TheOracle]].IsRescued &&
+                         rescueList[Global.ToBeRecused[Global.TecMan]].IsRescued &&
+                         rescueList[Global.ToBeRecused[Global.SeeHash]].IsRescued)
+                    return Global.StoryState.AllSaved;
+                else if (dialog.ContainsKey(Global.StoryState.TheOrcaleSaved) && 
+                         rescueList[Global.ToBeRecused[Global.TheOracle]].IsRescued)
+                    return Global.StoryState.TheOrcaleSaved;
+                else if (dialog.ContainsKey(Global.StoryState.SeeHashSaved) &&
+                         rescueList[Global.ToBeRecused[Global.SeeHash]].IsRescued)
+                    return Global.StoryState.SeeHashSaved;
+                else if (dialog.ContainsKey(Global.StoryState.TecManSaved) &&
+                         rescueList[Global.ToBeRecused[Global.TecMan]].IsRescued)
+                    return Global.StoryState.TecManSaved;
+
+            return Global.StoryState.Default;
         }
 
         private void processMessageToDraw(Vector2 cameraPosition)
         {
             displayLines = new List<string>();
 
-            String message = "";// getCurrentMessage(storyState);
+            String message = getCurrentMessage(storyState);
 
             string[] words = message.Trim().Split(' ');
             string line = " ";
@@ -265,29 +291,35 @@ namespace Engine
                         switch (line[y].Trim()) { 
                             case "[Default]":
                                 readingDefault = true;
+                                dialog.Add(Global.StoryState.Default, new List<String>());
                             break;
                             case "[TecManSaved]":
                                 readingTecManSaved = true;
+                                dialog.Add(Global.StoryState.TecManSaved, new List<String>());
                                 readingDefault = readingSeeHashSaved = readingAllSaved = 
                                 readingTOSaved = readingTSMSaved = false;
                             break;
                             case "[SeehashSaved]":
                                 readingSeeHashSaved = true;
+                                dialog.Add(Global.StoryState.SeeHashSaved, new List<String>());
                                 readingDefault = readingTecManSaved = readingAllSaved = 
                                 readingTOSaved = readingTSMSaved = false;
                             break;
                             case "[TheOracleSaved]":
                                 readingTOSaved = true;
+                                dialog.Add(Global.StoryState.TheOrcaleSaved, new List<String>());
                                 readingDefault = readingSeeHashSaved = readingAllSaved = 
                                 readingTecManSaved = readingTSMSaved = false;
                             break;
                             case "[TheScrumMasterSaved]":
                                 readingTSMSaved = true;
+                                dialog.Add(Global.StoryState.TheScrumMasterSaved, new List<String>());
                                 readingDefault = readingSeeHashSaved = readingAllSaved = 
                                 readingTOSaved = readingTecManSaved = false;
                             break;
                             case "[AllSaved]":
                                 readingAllSaved = true;
+                                dialog.Add(Global.StoryState.AllSaved, new List<String>());
                                 readingDefault = readingSeeHashSaved = readingTSMSaved = 
                                 readingTOSaved = readingTecManSaved = false;
                             break;
