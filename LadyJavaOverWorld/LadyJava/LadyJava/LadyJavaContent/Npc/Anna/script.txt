@@ -1,10 +1,4 @@
-[Stage1]
+[Default]
 See Hash? I saw him go into the basement for some reason.
-[Stage2]
-See Hash? I saw him go into the basement for some reason.
-[Stage3]
-See Hash? I saw him go into the basement for some reason.
-[Stage4]
-See Hash? I saw him go into the basement for some reason.
-[onCompleted]
+[SeehashSaved]
 How can a scrum master be both a servant and a leader?

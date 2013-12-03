@@ -29,7 +29,9 @@ namespace Engine
 
         int currentMessage;
         List<string> displayLines;
-        Global.StoryState storyState;
+        
+        //Global.StoryState storyState;
+        
         Dictionary<Global.StoryState, List<string>> dialog;
 
         bool displayText;
@@ -146,7 +148,7 @@ namespace Engine
             messageBoxHeight = (int)(newHeight / 6.5);
         }
 
-        public void Update(Camera playerCam, int newScreenWidth, int newScreenHeight, Global.StoryState newStoryState)
+        public void Update(Camera playerCam, int newScreenWidth, int newScreenHeight)
         {
             cameraPosition = playerCam.Position;
 
@@ -157,20 +159,20 @@ namespace Engine
             headshotPosition = messageBoxPosition;
             textPosition = headshotPosition + new Vector2(headshot.Width, 0);
 
-            if (storyState != newStoryState)
-            {
-                storyState = newStoryState;
+            //if (storyState != newStoryState)
+            //{
+            //    storyState = newStoryState;
                 currentMessage = 0;
 
                 processMessageToDraw(cameraPosition);
-            }
+            //}
         }
 
         private void processMessageToDraw(Vector2 cameraPosition)
         {
             displayLines = new List<string>();
 
-            String message = getCurrentMessage(storyState);
+            String message = "";// getCurrentMessage(storyState);
 
             string[] words = message.Trim().Split(' ');
             string line = " ";
@@ -243,9 +245,14 @@ namespace Engine
 
         private void loadScript(string name)
         {
-           
-            bool readingStage1, readingStage2, readingStage3, readingStage4, readingOnCompleted;
-            readingStage1 = readingStage2 = readingStage3 = readingStage4 = readingOnCompleted = false; 
+
+            bool readingDefault = false;
+            bool readingTecManSaved = false;
+            bool readingSeeHashSaved = false;
+            bool readingTOSaved = false;
+            bool readingAllSaved = false;
+            bool readingTSMSaved = false;
+
             string fileLocation = Global.ContentPath + "\\NPC\\" + name + "\\script.txt";
             try
             {
@@ -256,47 +263,80 @@ namespace Engine
                     for (int y = 0; y < line.Length; y++)
                     {
                         switch (line[y].Trim()) { 
-                            case "[Stage1]":
-                                readingStage1 = true;
-                                readingStage2 = readingStage3 = readingStage4 = readingOnCompleted = false;
+                            case "[Default]":
+                                readingDefault = true;
                             break;
-                            case "[Stage2]":
-                                readingStage2 = true;
-                                readingStage1 = readingStage3 = readingStage4 = readingOnCompleted = false;
+                            case "[TecManSaved]":
+                                readingTecManSaved = true;
+                                readingDefault = readingSeeHashSaved = readingAllSaved = 
+                                readingTOSaved = readingTSMSaved = false;
                             break;
-                            case "[Stage3]":
-                                readingStage3 = true;
-                                readingStage2 = readingStage1 = readingStage4 = readingOnCompleted = false;
+                            case "[SeehashSaved]":
+                                readingSeeHashSaved = true;
+                                readingDefault = readingTecManSaved = readingAllSaved = 
+                                readingTOSaved = readingTSMSaved = false;
                             break;
-                            case "[Stage4]":
-                                readingStage4 = true;
-                                readingStage2 = readingStage3 = readingStage1 = readingOnCompleted = false;
+                            case "[TheOracleSaved]":
+                                readingTOSaved = true;
+                                readingDefault = readingSeeHashSaved = readingAllSaved = 
+                                readingTecManSaved = readingTSMSaved = false;
                             break;
-                            case "[onCompleted]":
-                                readingOnCompleted = true;
-                                readingStage2 = readingStage3 = readingStage1 = readingStage4 = false;
+                            case "[TheScrumMasterSaved]":
+                                readingTSMSaved = true;
+                                readingDefault = readingSeeHashSaved = readingAllSaved = 
+                                readingTOSaved = readingTecManSaved = false;
+                            break;
+                            case "[AllSaved]":
+                                readingAllSaved = true;
+                                readingDefault = readingSeeHashSaved = readingTSMSaved = 
+                                readingTOSaved = readingTecManSaved = false;
                             break;
                             default:
-                                if (readingStage1 == true) {
-                                    dialog[Global.StoryState.Stage1].Add(line[y].Trim());
-                                }
-                                else if (readingStage2 == true) {
-                                    readingStage1 = false;
-                                    dialog[Global.StoryState.Stage2].Add(line[y].Trim());
-                                }
-                                else if (readingStage3 == true)
+                                if (readingDefault == true)
                                 {
-                                    dialog[Global.StoryState.Stage3].Add(line[y].Trim());
-                                    readingStage2 = false;
+                                    if(line[y].Trim() != "")
+                                        dialog[Global.StoryState.Default].Add(line[y].Trim());
                                 }
-                                else if (readingStage4 == true)
+                                else if (readingTecManSaved == true)
                                 {
-                                    dialog[Global.StoryState.Stage4].Add(line[y].Trim());
-                                    readingStage3 = false;
+                                    //readingDefault = readingSeeHashSaved = readingAllSaved =
+                                    //readingTOSaved = readingTSMSaved = false;
+
+                                    if (line[y].Trim() != "")
+                                        dialog[Global.StoryState.TecManSaved].Add(line[y].Trim());
                                 }
-                                else if (readingOnCompleted == true)
+                                else if (readingSeeHashSaved == true)
                                 {
-                                    dialog[Global.StoryState.Completed].Add(line[y].Trim());
+                                    //readingDefault = readingTSMSaved = readingAllSaved =
+                                    //readingTOSaved = readingTecManSaved = false;
+
+                                    if (line[y].Trim() != "")
+                                        if (line[y].Trim() != "")
+                                            dialog[Global.StoryState.SeeHashSaved].Add(line[y].Trim());
+                                }
+                                else if (readingTOSaved == true)
+                                {
+                                    //readingDefault = readingSeeHashSaved = readingAllSaved =
+                                    //readingTSMSaved = readingTecManSaved = false;
+
+                                    if (line[y].Trim() != "")
+                                        dialog[Global.StoryState.TheOrcaleSaved].Add(line[y].Trim());
+                                }
+                                else if (readingTSMSaved == true)
+                                {
+                                    //readingDefault = readingSeeHashSaved = readingAllSaved =
+                                    //readingTOSaved = readingTecManSaved = false;
+
+                                    if (line[y].Trim() != "")
+                                        dialog[Global.StoryState.TheScrumMasterSaved].Add(line[y].Trim());
+                                }
+                                else if (readingAllSaved == true)
+                                {
+                                    //readingDefault = readingSeeHashSaved = readingTSMSaved =
+                                    //readingTOSaved = readingTecManSaved = false;
+
+                                    if (line[y].Trim() != "")
+                                        dialog[Global.StoryState.AllSaved].Add(line[y].Trim());
                                 }
                             break;
                         }

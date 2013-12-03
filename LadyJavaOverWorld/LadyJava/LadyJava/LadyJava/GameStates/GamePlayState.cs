@@ -15,14 +15,16 @@ namespace LadyJava
     {
         Camera camera;
         Dictionary<AreaType, Player> player;
-        Dictionary<string, bool> toBeRescued;
         //OverWorldPlayer overworldPlayer;
         //DungeonPlayer dungeonPlayer;
         int talkingTo = Global.InvalidInt;
 
+        Dictionary<string, RescueInfo> toBeRescued;
+
+
         Texture2D collisionLayerImage;
         
-        Global.StoryState currentStoryState;
+        //Global.StoryState currentStoryState;
 
         Dictionary<string, TileMap> campus;
         string currentArea;
@@ -81,12 +83,13 @@ namespace LadyJava
             player.Add(AreaType.Dungeon,
                        new DungeonPlayer(new Sprite(dungeonImage, Vector2.Zero, dungeonAnimations, 1f)));
 
-            currentStoryState = Global.StoryState.Stage1;
+            //currentStoryState = Global.StoryState.Stage1;
             collisionLayerImage = newContent.Load<Texture2D>("tileSelector");
 
-            toBeRescued = new Dictionary<string, bool>();
-            foreach (string name in Global.ToBeRecused)
-                toBeRescued.Add(name, true);
+            toBeRescued = new Dictionary<string, RescueInfo>();
+            RescueInfo[] rescueInfo = new RescueInfo[Global.ToBeRecused.Length];
+            for(int i = 0; i < Global.ToBeRecused.Length; i++)
+                toBeRescued.Add(Global.ToBeRecused[i], new RescueInfo(Global.RecuseAreas[i]));
         }
 
         public override State Update(GameTime gameTime, int screenWidth, int screenHeight)
@@ -97,6 +100,8 @@ namespace LadyJava
                 ChangeStatus(Status.Paused);
                 return State.TitleScreen;
             }
+
+            campus[currentArea].UpdateRescueList(toBeRescued);
 
             Vector2 entrancePixelLocation = player[campus[currentArea].CurrentAreaType]
                                                   .Update(gameTime,
@@ -112,7 +117,6 @@ namespace LadyJava
                                                                 campus[currentArea].TileHeight),
                                                           campus[currentArea].NPCsToBoundingBox);
 
-            campus[currentArea].UpdateRescueList(toBeRescued);
 
             if (entrancePixelLocation != Global.InvalidVector2)
             {
@@ -127,6 +131,10 @@ namespace LadyJava
 
                 previousArea = currentArea;
                 currentArea = newArea;
+
+                foreach (KeyValuePair<string, RescueInfo> npc in toBeRescued)
+                    if (previousArea == npc.Value.RescueArea)
+                        npc.Value.Rescue();
 
                 if (campus[currentArea].LastPosition == Global.InvalidVector2)
                     player[campus[currentArea].CurrentAreaType].SetPosition(campus[currentArea].StartingPosition,
@@ -148,7 +156,7 @@ namespace LadyJava
             talkingTo = campus[currentArea].NPCUpdate(gameTime, camera,
                                                       player[campus[currentArea].CurrentAreaType].CurrentPlayState,
                                                       player[campus[currentArea].CurrentAreaType].TalkingTo,
-                                                      screenWidth, screenHeight, currentStoryState);
+                                                      screenWidth, screenHeight);
 
 
             return State.GamePlay;
@@ -165,6 +173,5 @@ namespace LadyJava
 
             spriteBatch.End();
         }
-
     }
 }

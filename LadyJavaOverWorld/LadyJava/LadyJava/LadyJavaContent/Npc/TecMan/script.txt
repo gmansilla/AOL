@@ -1,10 +1,8 @@
-[Stage1]
+[Default]
 I am Tech-Man, thank you for saving me Lady Java. I will be at the campus square if you need me.
-[Stage2]
-I am Tech-Man, thank you for saving me Lady Java. I will be at the campus square if you need me.
-[Stage3]
-I am Tech-Man, thank you for saving me Lady Java. I will be at the campus square if you need me.
-[Stage4]
+[TecManSaved]
+Thanks again for saving me. I will wait here until we being our meeting.
+[AllSaved]
 The scrum master is calling; please go down and save him. 
-[onCompleted]
+[TheScrumMasterSaved]
 The scum master has no authority over the team members, but he does over the process.

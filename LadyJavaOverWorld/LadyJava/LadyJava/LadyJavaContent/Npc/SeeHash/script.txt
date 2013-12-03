@@ -1,10 +1,8 @@
-[Stage1]
+[Default]
 Thank you for saving me, I was trapped down here. I will see you at the campus square so we can hold our scrum meeting.
-[Stage2]
-Thank you for saving me, I was trapped down here. I will see you at the campus square so we can hold our scrum meeting.
-[Stage3]
-Thank you for saving me, I was trapped down here. I will see you at the campus square so we can hold our scrum meeting.
-[Stage4]
+[SeehashSaved]
+Thats the last time I ever exercise again.  Beer and pizza for me from now on, Cheers!!
+[AllSaved]
 Use your strength, you can do it.
-[onCompleted]
+[TheScrumMasterSaved]
 The scrum master is like a trainer; he keeps us in check, but also motivates us.

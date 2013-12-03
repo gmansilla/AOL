@@ -1,10 +1,2 @@
-[Stage1]
-A sprint is between one week and one month. I prefer two weeks
-[Stage2]
-A sprint is between one week and one month. I prefer two weeks
-[Stage3]
-A sprint is between one week and one month. I prefer two weeks
-[Stage4]
-A sprint is between one week and one month. I prefer two weeks
-[onCompleted]
+[Default]
 A sprint is between one week and one month. I prefer two weeks

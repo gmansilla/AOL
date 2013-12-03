@@ -1,10 +1,4 @@
-[Stage1]
+[Default]
 The basement is very dangerous.
-[Stage2]
-The basement is very dangerous.
-[Stage3]
-The basement is very dangerous.
-[Stage4]
-The basement is very dangerous.
-[onCompleted]
+[SeehashSaved]
 Do you even code?

@@ -37,11 +37,12 @@ namespace Engine
         List<Tile> tiles = new List<Tile>();
         List<string> textureNames = new List<String>();
 
-        Dictionary<string, bool> toBeRescued;
+        Dictionary<string, RescueInfo> toBeRescued;
 
         CollisionLayer collisionLayer;
 
         List<Npc> npcs;
+        List<Npc> activeNPCs;
         BoundingBox[] npcBounds;
         BoundingBox[] npcTalkRadii;
 
@@ -94,44 +95,49 @@ namespace Engine
             tileMap = new List<TileLayer>();
         }
 
+        //loading a tilemap for the game
         public TileMap(string tileMapPath, string tileMapName, ContentManager gameContent, 
                        int screenWidth, int screenHeight, SpriteFont newText) : this()
         {
             name = tileMapName;
-            toBeRescued = new Dictionary<string, bool>();
+            toBeRescued = new Dictionary<string, RescueInfo>();
             Load(tileMapPath + name, gameContent, null, screenWidth, screenHeight, newText);
             startingPosition = GetStartingPosition();
+
+            activeNPCs = new List<Npc>();
             collectBounds();
         }
 
+        //loading a tilemap for the editor
         public TileMap(string tileMapLocation, GraphicsDevice graphicsDevice, 
                        int screenWidth, int screenHeight, SpriteFont newText) : this()
         {
             Load(tileMapLocation, null, graphicsDevice, screenWidth, screenHeight, newText);
             startingPosition = GetStartingPosition();
-            collectBounds();
+
+            //collectBounds();
         }
 
+        //creating a blank tilemap for the editor
         public TileMap(int newWidth, int newHeight, int newTileWidth, int newTileHeight) : this()
         {
             tileMap.Add(new TileLayer(newWidth, newHeight, newTileWidth, newTileHeight));
             collisionLayer = new CollisionLayer(newWidth, newHeight, newTileWidth, newTileHeight);
 
             startingPosition = GetStartingPosition();
-            collectBounds();
         }
 
         void collectBounds()
         {
-            if (npcs.Count > 0)
+            if (activeNPCs.Count > 0)
             {
-                npcBounds = new BoundingBox[npcs.Count];
-                npcTalkRadii = new BoundingBox[npcs.Count];
+                npcBounds = new BoundingBox[activeNPCs.Count];
+                npcTalkRadii = new BoundingBox[activeNPCs.Count];
 
-                for (int i = 0; i < npcs.Count; i++)
+                for (int i = 0; i < activeNPCs.Count; i++)
                 {
-                    npcBounds[i] = npcs[i].ToBoundingBox;
-                    npcTalkRadii[i] = npcs[i].TalkRadius;
+                    npcBounds[i] = activeNPCs[i].ToBoundingBox;
+                    npcTalkRadii[i] = activeNPCs[i].TalkRadius;
                 }
             }
         }
@@ -151,29 +157,54 @@ namespace Engine
             return newArea;
         }
 
-        public void UpdateRescueList(Dictionary<string, bool> updateRescueList)
+        public void UpdateRescueList
+            (Dictionary<string, RescueInfo> updateRescueList)
         {
+            activeNPCs.Clear();
             toBeRescued = updateRescueList;
+
+            for (int i = 0; i < npcs.Count; i++)
+                if (name == Global.MainArea)
+                {
+                    if (toBeRescued.ContainsKey(npcs[i].Name))
+                    {
+                        if (toBeRescued[npcs[i].Name].IsRescued)
+                            activeNPCs.Add(npcs[i]);
+                    }
+                    else
+                        activeNPCs.Add(npcs[i]);
+                }
+                else //in dungeon area
+                    if (toBeRescued.ContainsKey(npcs[i].Name))
+                    {
+                        if (!toBeRescued[npcs[i].Name].IsRescued)
+                            activeNPCs.Add(npcs[i]);
+                    }
+                    else
+                        activeNPCs.Add(npcs[i]);
+
+            collectBounds();
         }
 
+
         public int NPCUpdate(GameTime gameTime,
-                             Camera playerCamera, Global.PlayState playerPlayState, int playerTalkingTo,
-                             int screenWidth, int screenHeight, Global.StoryState currentStoryState)
+                      Camera playerCamera, Global.PlayState playerPlayState, int playerTalkingTo,
+                      int screenWidth, int screenHeight)
         {
             
-            for (int i = 0; i < npcs.Count; i++)
+            for (int i = 0; i < activeNPCs.Count; i++)
             {
-                if (!npcs[i].MessageBoxVisible && playerTalkingTo == i)
-                    npcs[i].ShowMessageBox();
-                else if (npcs[i].MessageBoxVisible)
+                if (!activeNPCs[i].MessageBoxVisible && playerTalkingTo == i)
+                    activeNPCs[i].ShowMessageBox();
+                else if (activeNPCs[i].MessageBoxVisible)
                     if (playerPlayState == Global.PlayState.Playing)
                     {
-                        npcs[i].HideMessageBox();
+                        activeNPCs[i].HideMessageBox();
                         playerTalkingTo = Global.InvalidInt;
-                        npcs[i].ChangeMessage(playerCamera.Position);
+                        activeNPCs[i].ChangeMessage(playerCamera.Position);
                     }
 
-                npcs[i].Update(playerCamera, screenWidth, screenHeight, currentStoryState);
+                activeNPCs[i].Update(playerCamera, screenWidth, screenHeight);
             }
 
             return playerTalkingTo;
@@ -616,27 +647,8 @@ namespace Engine
             foreach (TileLayer layer in tileMap)
                 layer.Draw(spriteBatch, tiles);
 
-            foreach (Npc npc in npcs)
-                if (name == Global.MainArea)
-                {
-                    if (toBeRescued.ContainsKey(npc.Name))
-                    {
-                        if (!toBeRescued[npc.Name])
-                            npc.Draw(spriteBatch);
-                    }
-                    else
-                        npc.Draw(spriteBatch);
-                }
-                else //in dungeon area
-                {
-                    if (toBeRescued.ContainsKey(npc.Name))
-                    {
-                        if (toBeRescued[npc.Name])
-                            npc.Draw(spriteBatch);
-                    }
-                    else
-                        npc.Draw(spriteBatch);
-                }
+            foreach (Npc npc in activeNPCs)
+                npc.Draw(spriteBatch);
         }
     }
 }

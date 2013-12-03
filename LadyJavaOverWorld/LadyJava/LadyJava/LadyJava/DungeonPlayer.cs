@@ -141,9 +141,8 @@ namespace LadyJava
                 animation = Global.LEFT;
             }
 
-            if(isMovingOppositeDirection)
-            //if ((movingRight && !InputManager.IsKeyDown(Commands.Right)) ||
-            //    (movingLeft && !InputManager.IsKeyDown(Commands.Left)))
+            if ((movingRight && !InputManager.IsKeyDown(Commands.Right)) ||
+                (movingLeft && !InputManager.IsKeyDown(Commands.Left)))
             {
                 if (movingRight && InputManager.IsKeyDown(Commands.Left))
                     animation = Global.LEFT;

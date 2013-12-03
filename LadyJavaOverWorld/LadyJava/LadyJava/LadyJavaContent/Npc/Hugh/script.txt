@@ -1,10 +1,4 @@
-[Stage1]
+[Default]
 Here at the Gym we practice Extreme Programming, coding while working out. See Hash? Yeah I saw him here.
-[Stage2]
-Here at the Gym we practice Extreme Programming, coding while working out. See Hash? Yeah I saw him here.
-[Stage3]
-Here at the Gym we practice Extreme Programming, coding while working out. See Hash? Yeah I saw him here.
-[Stage4]
-Here at the Gym we practice Extreme Programming, coding while working out. See Hash? Yeah I saw him here.
-[onCompleted]
+[SeehashSaved]
 I'm joking; Extreme Programming does not involve working out.

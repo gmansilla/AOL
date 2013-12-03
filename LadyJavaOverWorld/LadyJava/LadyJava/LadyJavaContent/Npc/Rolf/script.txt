@@ -1,10 +1,2 @@
-[Stage1]
-The scrum master enforces the rules of scrum.
-[Stage2]
-The scrum master enforces the rules of scrum.
-[Stage3]
-The scrum master enforces the rules of scrum.
-[Stage4]
-The scrum master enforces the rules of scrum.
-[onCompleted]
+[Default]
 The scrum master enforces the rules of scrum.

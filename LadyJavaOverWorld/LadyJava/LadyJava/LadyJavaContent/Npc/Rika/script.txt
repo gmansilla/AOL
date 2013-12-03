@@ -1,10 +1,2 @@
-[Stage1]
-Scrum should be held every day.
-[Stage2]
-Scrum should be held every day.
-[Stage3]
-Scrum should be held every day.
-[Stage4]
-Scrum should be held every day.
-[onCompleted]
+[Default]
 Scrum should be held every day.

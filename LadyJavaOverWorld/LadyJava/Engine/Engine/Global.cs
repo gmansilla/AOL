@@ -18,13 +18,14 @@ namespace Engine
         
         public const float Buffer = 0.01f;
 
+        public const string UP = "Up";
         public const string DOWN = "Down";
         public const string LEFT = "Left";
         public const string RIGHT = "Right";
-        public const string UP = "Up";
         public const string STILL = "Idle";
 
         public const string MainArea = "TileMaps\\overworld.map";
+  
         public const string ContentPath = "..\\..\\..\\..\\LadyJavaContent\\";
         public const string DungeonContentPath = "..\\..\\..\\..\\..\\LadyJava\\LadyJavaContent\\";
 
@@ -33,7 +34,8 @@ namespace Engine
 
         public static string[] imageExtensions = { ".jpg", ".png", ".tga" };
         public static string[] ToBeRecused = { "TecMan", "SeeHash", "TheOracle", "TheScrumMaster" };
-        
+        public static string[] RecuseAreas = { "TileMaps\\D1End.map", "TileMaps\\D2End.map", "TileMaps\\D3End.map", "TileMaps\\D4End.map" };
+
         public enum TilePosition
         {
             Centre,
@@ -43,11 +45,12 @@ namespace Engine
 
         public enum StoryState
         {
-            Completed,
-            Stage1,
-            Stage2,
-            Stage3,
-            Stage4
+            Default,
+            TecManSaved,
+            SeeHashSaved,
+            TheOrcaleSaved,
+            AllSaved,
+            TheScrumMasterSaved
         }
 
         public enum PlayState
