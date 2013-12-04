@@ -3,4 +3,4 @@ Thank you for saving me, I will meet you at the campus square for our scrum meet
 [TheOracleSaved]
 Our scrum can never be without our scrum master.
 [TheScrumMasterSaved]
-A sprint is an iteration of work; scum development is composed of many of these. 
+A sprint is an iteration of work; scrum development is composed of many of these. 
