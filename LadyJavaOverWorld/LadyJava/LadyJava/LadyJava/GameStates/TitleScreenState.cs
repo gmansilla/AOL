@@ -98,7 +98,7 @@ namespace LadyJava
                         selected = State.Quit;
                     else if (selected == State.Quit)
                     {
-                        if (actionText[0].Text == Global.Start)
+                        if(actionText.ContainsKey(State.InitialStory))
                             selected = State.InitialStory;
                         else
                             selected = State.GamePlay;
@@ -116,7 +116,7 @@ namespace LadyJava
                         selected = State.Quit;
                     else if (selected == State.Options)
                     {
-                        if (actionText[0].Text == Global.Start)
+                        if (actionText.ContainsKey(State.InitialStory))
                             selected = State.InitialStory;
                         else
                             selected = State.GamePlay;

@@ -46,7 +46,7 @@ namespace LadyJava
 
             normalText = newContent.Load<SpriteFont>("Fonts\\TitleText");
 
-            selectedColor = Color.Red;
+            selectedColor = Color.SteelBlue;
             unSelectedColor = Color.MintCream;
             actionText = new Dictionary<State, DisplayText>(); //new DisplayText[State.Quit + 1];
 
