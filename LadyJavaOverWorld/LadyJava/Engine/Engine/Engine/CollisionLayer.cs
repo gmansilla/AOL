@@ -15,7 +15,7 @@ namespace Engine
 
         BoundingBox[] collisionBoxes;
         BoundingBox[,] collisionBoxLayer;
-        BoundingBox[] entranceBoxes;
+        Dictionary<string, BoundingBox> entranceBoxes;
 
         int[,] collisionLayer;
         
@@ -27,7 +27,7 @@ namespace Engine
         public BoundingBox[] ToCollisionBox
         { get { return collisionBoxes; } }
 
-        public BoundingBox[] ToEntranceBox
+        public Dictionary<string, BoundingBox> ToEntranceBox
         { get { return entranceBoxes; } }
 
         public int Width
@@ -65,7 +65,7 @@ namespace Engine
                         entranceCount++;
 
             collisionBoxes = new BoundingBox[boxCount];
-            entranceBoxes = new BoundingBox[entranceCount];
+            entranceBoxes = new Dictionary<string, BoundingBox>(); // new BoundingBox[entranceCount];
 
             collisionBoxLayer = new BoundingBox[Height, Width];
 
@@ -80,10 +80,13 @@ namespace Engine
                         collisionBoxes[boxCount++] = new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
                                                                      new Vector3(x * tileWidth + tileWidth, y * tileHeight + tileHeight, 0f));
                     }
-                    else if ((collisionLayer[y, x] >= 0))
+                    else if (collisionLayer[y, x] >= 0)
                     {
-                        entranceBoxes[entranceCount++] = new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
-                                                                          new Vector3(x * tileWidth + tileWidth, y * tileHeight + tileHeight, 0f));
+                        string key = entrances[collisionLayer[y, x]];
+                        if(entranceBoxes.ContainsKey(key))
+                            key += "1";
+                        entranceBoxes.Add(key, new BoundingBox(new Vector3(x * tileWidth, y * tileHeight, 0f),
+                                                               new Vector3(x * tileWidth + tileWidth, y * tileHeight + tileHeight, 0f)));
                     }
         }
 
@@ -151,12 +154,13 @@ namespace Engine
                                                (int)collisionBoxes[i].Max.Y - (int)collisionBoxes[i].Min.Y),
                                  Color.Red);
 
-            for (int i = 0; i < entranceBoxes.Length; i++)
+            foreach(KeyValuePair<string, BoundingBox> entrance in entranceBoxes)
+            //for (int i = 0; i < entranceBoxes.Length; i++)
                 spriteBatch.Draw(texture,
-                                 new Rectangle((int)entranceBoxes[i].Min.X,
-                                               (int)entranceBoxes[i].Min.Y,
-                                               (int)entranceBoxes[i].Max.X - (int)entranceBoxes[i].Min.X,
-                                               (int)entranceBoxes[i].Max.Y - (int)entranceBoxes[i].Min.Y),
+                                 new Rectangle((int)entrance.Value.Min.X,
+                                               (int)entrance.Value.Min.Y,
+                                               (int)entrance.Value.Max.X - (int)entrance.Value.Min.X,
+                                               (int)entrance.Value.Max.Y - (int)entrance.Value.Min.Y),
                                  Color.Green);
 
         }

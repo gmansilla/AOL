@@ -75,6 +75,9 @@
     <Compile Include="GameStateManager\DisplayText.cs" />
     <Compile Include="GameStateManager\GameState.cs" />
     <Compile Include="GameStateManager\GameStateManager.cs" />
+    <Compile Include="GameStates\CreditsState.cs" />
+    <Compile Include="GameStates\InitialStoryState.cs" />
+    <Compile Include="GameStates\FinalStoryState.cs" />
     <Compile Include="GameStates\OptionsState.cs" />
     <Compile Include="GameStates\GamePlayState.cs" />
     <Compile Include="GameStates\TitleScreenState.cs" />

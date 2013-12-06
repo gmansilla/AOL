@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace LadyJava
 {
-    class OptionsState : GameState
+    class FinalStoryState : GameState
     {
         SpriteFont normalText;
 
@@ -29,10 +29,10 @@ namespace LadyJava
 
         State selected;
 
-        public OptionsState(ContentManager newContent, GraphicsDevice newGraphicsDevice)
+        public FinalStoryState(ContentManager newContent, GraphicsDevice newGraphicsDevice)
         {
-            id = State.Options;
-            selected = State.TitleScreen;
+            id = State.FinalStory;
+            selected = State.Credits;
 
             scale = 1f;
 
@@ -41,7 +41,7 @@ namespace LadyJava
             width = newGraphicsDevice.Viewport.Width;
             height = newGraphicsDevice.Viewport.Height;
 
-            background = newContent.Load<Texture2D>("Screens\\Options");
+            background = newContent.Load<Texture2D>("Screens\\FinalStory");
             bgSong = newContent.Load<Song>("Music\\Chandelier");
 
             normalText = newContent.Load<SpriteFont>("Fonts\\TitleText");
@@ -74,8 +74,8 @@ namespace LadyJava
             if (InputManager.HasKeyBeenUp(Commands.Down) || InputManager.HasLeftStickChangedDriection(Commands.ThumbStick.Down))
             {
                 actionText[selected].ChangeColor(unSelectedColor);
-                if (selected == State.TitleScreen)
-                    selected = State.TitleScreen;
+                if (selected == State.Credits)
+                    selected = State.Credits;
                 //else if (selected == State.Options)
                 //    selected = State.Quit;
                 actionText[selected].ChangeColor(selectedColor);
@@ -84,8 +84,8 @@ namespace LadyJava
             {
                 actionText[selected].ChangeColor(unSelectedColor);
 
-                if (selected == State.TitleScreen)
-                    selected = State.TitleScreen;
+                if (selected == State.Credits)
+                    selected = State.Credits;
                 //else if (selected == State.Options)
                 //    selected = State.GamePlay;
                 
@@ -97,7 +97,7 @@ namespace LadyJava
                 return selected;
             }
 
-            return State.Options;
+            return State.FinalStory;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

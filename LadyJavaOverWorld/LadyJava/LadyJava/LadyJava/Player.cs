@@ -15,6 +15,7 @@ namespace LadyJava
 
         public abstract Vector2 Update(GameTime gameTime,
                                        int newNPC, //npc index
+                                       int finalNPC,  //final npc index
                                        int levelWidth, int levelHeight,
                                        BoundingBox[] entrances, BoundingBox[] talkingRadii,
                                        params Object[] collisionObjects);
@@ -26,7 +27,14 @@ namespace LadyJava
         protected bool jumpDone;
 
         protected BoundingBox boundingBox;
-        
+
+        protected bool speakingToFinalNPC;
+        protected bool finishedTalkingToFinalNPC;
+
+        public bool SpokeWithFinalNPC
+        { get { return finishedTalkingToFinalNPC; } }
+
+
         protected Vector2 previousPosition;
         public Vector2 PreviousPosition
         { get { return previousPosition; } }

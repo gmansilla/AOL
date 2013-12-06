@@ -21,7 +21,10 @@ namespace LadyJava
     {
         None,
         TitleScreen,
+        InitialStory,
         GamePlay,
+        FinalStory,
+        Credits,
         Options,
         Quit
     }
