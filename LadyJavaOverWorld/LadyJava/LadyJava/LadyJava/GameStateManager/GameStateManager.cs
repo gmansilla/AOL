@@ -54,10 +54,16 @@ namespace LadyJava
             //This code is depend on the current game
             if (newState is TitleScreenState)//.GetType() == typeof(TitleScreen))
                 gameStates.Add((TitleScreenState)newState);
-            else if (newState is GamePlayState)
-                gameStates.Add((GamePlayState)newState);
             else if (newState is OptionsState)
                 gameStates.Add((OptionsState)newState);
+            else if (newState is InitialStoryState)
+                gameStates.Add((InitialStoryState)newState);
+            else if (newState is GamePlayState)
+                gameStates.Add((GamePlayState)newState);
+            else if (newState is FinalStoryState)
+                gameStates.Add((FinalStoryState)newState);
+            else if (newState is CreditsState)
+                gameStates.Add((CreditsState)newState);
         }
 
         public void UnloadContent()

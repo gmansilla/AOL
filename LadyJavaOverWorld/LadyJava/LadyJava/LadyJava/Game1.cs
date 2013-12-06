@@ -35,7 +35,7 @@ namespace LadyJava
 
         protected override void LoadContent()
         {
-            gameStateManager = new GameStateManager(State.GamePlay);//.TitleScreen);
+            gameStateManager = new GameStateManager(State.GamePlay);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
@@ -51,17 +51,23 @@ namespace LadyJava
             
             State state = gameStateManager.Update(gameTime, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
-            if (state == State.GamePlay && !gameStateManager.Contains(State.GamePlay))
-                gameStateManager.AddState(new GamePlayState(Content, GraphicsDevice));
-            else if (state == State.TitleScreen && !gameStateManager.Contains(State.TitleScreen))
+            if (state == State.TitleScreen && !gameStateManager.Contains(State.TitleScreen))
             {
                 if (!gameStateManager.Contains(State.GamePlay))
-                    gameStateManager.AddState(new TitleScreenState(Content, GraphicsDevice, "Start"));
+                    gameStateManager.AddState(new TitleScreenState(Content, GraphicsDevice, Global.Start));
                 else
-                    gameStateManager.AddState(new TitleScreenState(Content, GraphicsDevice, "Resume"));
+                    gameStateManager.AddState(new TitleScreenState(Content, GraphicsDevice, Global.Resume));
             }
             else if (state == State.Options && !gameStateManager.Contains(State.Options))
                 gameStateManager.AddState(new OptionsState(Content, GraphicsDevice));
+            else if (state == State.InitialStory && !gameStateManager.Contains(State.Options))
+                gameStateManager.AddState(new InitialStoryState(Content, GraphicsDevice));
+            else if (state == State.GamePlay && !gameStateManager.Contains(State.GamePlay))
+                gameStateManager.AddState(new GamePlayState(Content, GraphicsDevice));
+            else if (state == State.FinalStory && !gameStateManager.Contains(State.Options))
+                gameStateManager.AddState(new FinalStoryState(Content, GraphicsDevice));
+            else if (state == State.Credits && !gameStateManager.Contains(State.Options))
+                gameStateManager.AddState(new CreditsState(Content, GraphicsDevice));
 
             // Allows the game to exit
             if (gameStateManager.CurrentState == State.Quit)

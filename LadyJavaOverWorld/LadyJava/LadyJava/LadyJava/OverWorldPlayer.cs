@@ -21,20 +21,23 @@ namespace LadyJava
 
         public OverWorldPlayer(Sprite newSprite, int tileWidth, int tileHeight)
         {
-            animation = Global.STILL;
+            animation = Global.Still;
             sprite = newSprite;
             SetPosition(Position, tileWidth, tileHeight, true, false);
             
             switchedTileMap = false;
             
             talkingTo = Global.InvalidInt;
-            //talking = false;
+            speakingToFinalNPC = false;
+            finishedTalkingToFinalNPC = false;
+            
 
             UpdateBounds(Position, Width, Height);
         }
         
         public override Vector2 Update(GameTime gameTime, 
                                        int newNPC, //npc index
+                                       int finalNPC, //final npc index
                                        int levelWidth, int levelHeight, 
                                        BoundingBox[] entrances, BoundingBox[] talkingRadii,
                                        params Object[] collisionObjects)
@@ -49,13 +52,13 @@ namespace LadyJava
             bool collision = false;
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
-            animation = Global.STILL;
+            animation = Global.Still;
             if (currentPlayState == Global.PlayState.Playing)
             {
                 if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Up)) ||
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Up)))
                 {
-                    animation = Global.UP;
+                    animation = Global.Up;
                     motion.Y = -movement;
                     //motion = UpCollision(motion, collisions);
                     if (motion.Y != -movement)
@@ -67,7 +70,7 @@ namespace LadyJava
                 if (!switchedTileMap && InputManager.IsKeyDown(Commands.Down) ||
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Down)))
                 {
-                    animation = Global.DOWN;
+                    animation = Global.Down;
                     motion.Y = movement;
                     //motion = DownCollision(motion, collisions);
                     if (motion.Y != movement)
@@ -79,7 +82,7 @@ namespace LadyJava
                 if (!switchedTileMap && InputManager.IsKeyDown(Commands.Right) ||
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Right)))
                 {
-                    animation = Global.RIGHT;
+                    animation = Global.Right;
                     motion.X = movement;
                     //motion = RightCollision(motion, collisions);
                     if (motion.X != movement)
@@ -91,7 +94,7 @@ namespace LadyJava
                 if (!switchedTileMap && InputManager.IsKeyDown(Commands.Left) ||
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
                 {
-                    animation = Global.LEFT;
+                    animation = Global.Left;
                     motion.X = -movement;
                     //motion = LeftCollision(motion, collisions);
                     if (motion.X != -movement)
@@ -113,10 +116,14 @@ namespace LadyJava
                     {
                         currentPlayState = Global.PlayState.Message;
                         talkingTo = i;
+                        if (talkingTo == finalNPC)
+                            speakingToFinalNPC = true;
                         break;
                     }
                     else
                     {
+                        if (speakingToFinalNPC)
+                            finishedTalkingToFinalNPC = true;
                         currentPlayState = Global.PlayState.Playing;
                     }
                 }
