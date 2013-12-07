@@ -15,12 +15,15 @@ namespace LadyJava
     {
         SpriteFont normalText;
 
+        DisplayText startText;
         Dictionary<State, DisplayText> actionText;
 
         Color selectedColor;
         Color unSelectedColor;
 
         Texture2D background;
+
+        bool displayStartText;
 
         float scale;
 
@@ -32,8 +35,12 @@ namespace LadyJava
         public TitleScreenState(ContentManager newContent, GraphicsDevice newGraphicsDevice, string StartMsg)
         {
             id = State.TitleScreen;
-            selected = State.GamePlay;
-
+            
+            if(StartMsg == Global.Start)
+                selected = State.InitialStory;
+            else
+                selected = State.GamePlay;
+    
             scale = 1f;
 
             Vector2 position;
@@ -52,16 +59,22 @@ namespace LadyJava
 
             position = new Vector2(width / 2, height / 2);
 
+            string info = "Press the [SpaceBar] to Continue";
+            if (StartMsg == Global.Start)
+                displayStartText = true;
+            startText = new DisplayText(position, info, normalText, selectedColor);
+            startText.MoveText(new Vector2(-startText.Width / 2f, startText.Height));
+
             actionText.Add(selected, new DisplayText(position, StartMsg, normalText, selectedColor));
             actionText.Add(State.Options, new DisplayText(position, "Options", normalText, unSelectedColor));
             actionText.Add(State.Quit, new DisplayText(position, "Quit", normalText, unSelectedColor));
 
-            position = new Vector2(width / 2, height);
+            //position = new Vector2(width / 2f, height);
 
             float menusHeight = 0f;
             foreach (KeyValuePair<State, DisplayText> text in actionText)
             {
-                text.Value.MoveText(new Vector2(-text.Value.Width / 2, menusHeight));
+                text.Value.MoveText(new Vector2(-text.Value.Width / 2f, menusHeight));
                 menusHeight += text.Value.Height;
             }
 
@@ -72,38 +85,58 @@ namespace LadyJava
             width = newScreenWidth;
             height = newScreenHeight;
 
-            if (InputManager.HasKeyBeenUp(Commands.Down) || InputManager.HasLeftStickChangedDriection(Commands.ThumbStick.Down))
+            if (!displayStartText)
             {
-                actionText[selected].ChangeColor(unSelectedColor);
-                if (selected == State.GamePlay)
-                    selected = State.Options;
-                else if (selected == State.Options)
-                    selected = State.Quit;
-                else if (selected == State.Quit)
-                    selected = State.GamePlay;
-                actionText[selected].ChangeColor(selectedColor);
-            }
-            else if (InputManager.HasKeyBeenUp(Commands.Up) || InputManager.HasLeftStickChangedDriection(Commands.ThumbStick.Up))
-            {
-                actionText[selected].ChangeColor(unSelectedColor);
+                if (InputManager.HasKeyBeenUp(Commands.Down) || InputManager.HasLeftStickChangedDriection(Commands.ThumbStick.Down))
+                {
+                    actionText[selected].ChangeColor(unSelectedColor);
+                    if (selected == State.GamePlay)
+                        selected = State.Options;
+                    else if (selected == State.InitialStory)
+                        selected = State.Options;
+                    else if (selected == State.Options)
+                        selected = State.Quit;
+                    else if (selected == State.Quit)
+                    {
+                        if(actionText.ContainsKey(State.InitialStory))
+                            selected = State.InitialStory;
+                        else
+                            selected = State.GamePlay;
+                    }
+                    
+                    actionText[selected].ChangeColor(selectedColor);
+                }
+                else if (InputManager.HasKeyBeenUp(Commands.Up) || InputManager.HasLeftStickChangedDriection(Commands.ThumbStick.Up))
+                {
+                    actionText[selected].ChangeColor(unSelectedColor);
 
-                if (selected == State.GamePlay)
-                    selected = State.Quit;
-                else if (selected == State.Options)
-                    selected = State.GamePlay;
-                else if (selected == State.Quit)
-                    selected = State.Options;
-                
-                actionText[selected].ChangeColor(selectedColor);
+                    if (selected == State.GamePlay)
+                        selected = State.Quit;
+                    else if (selected == State.InitialStory)
+                        selected = State.Quit;
+                    else if (selected == State.Options)
+                    {
+                        if (actionText.ContainsKey(State.InitialStory))
+                            selected = State.InitialStory;
+                        else
+                            selected = State.GamePlay;
+                    }
+                    else if (selected == State.Quit)
+                        selected = State.Options;
+
+                    actionText[selected].ChangeColor(selectedColor);
+                }
+                else if (InputManager.HasKeyBeenUp(Commands.Execute))
+                {
+                    status = Status.Off;
+                    if (selected == State.Options)
+                        status = Status.Paused;
+
+                    return selected;
+                }
             }
             else if (InputManager.HasKeyBeenUp(Commands.Execute))
-            {
-                status = Status.Off;
-                if (selected == State.Options)
-                    status = Status.Paused;
-                
-                return selected;
-            }
+                displayStartText = false;
 
             return State.TitleScreen;
         }
@@ -114,10 +147,11 @@ namespace LadyJava
 
             spriteBatch.Draw(background, Vector2.Zero, new Rectangle(0, 0, width, height), new Color(255f, 255f, 255f, 0.5f));
 
-            foreach (KeyValuePair<State, DisplayText> text in actionText)
-            {
-                text.Value.DrawString(spriteBatch);
-            }
+            if(displayStartText)
+                startText.DrawString(spriteBatch);
+            else
+                foreach (KeyValuePair<State, DisplayText> text in actionText)
+                    text.Value.DrawString(spriteBatch);
 
             spriteBatch.End();
         }

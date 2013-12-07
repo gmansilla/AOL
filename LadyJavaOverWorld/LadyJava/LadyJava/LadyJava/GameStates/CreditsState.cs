@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace LadyJava
 {
-    class OptionsState : GameState
+    class CreditsState : GameState
     {
         SpriteFont normalText;
 
@@ -29,9 +29,9 @@ namespace LadyJava
 
         State selected;
 
-        public OptionsState(ContentManager newContent, GraphicsDevice newGraphicsDevice)
+        public CreditsState(ContentManager newContent, GraphicsDevice newGraphicsDevice)
         {
-            id = State.Options;
+            id = State.Credits;
             selected = State.TitleScreen;
 
             scale = 1f;
@@ -41,12 +41,12 @@ namespace LadyJava
             width = newGraphicsDevice.Viewport.Width;
             height = newGraphicsDevice.Viewport.Height;
 
-            background = newContent.Load<Texture2D>("Screens\\Options");
+            background = newContent.Load<Texture2D>("Screens\\Credits");
             bgSong = newContent.Load<Song>("Music\\Chandelier");
 
             normalText = newContent.Load<SpriteFont>("Fonts\\TitleText");
 
-            selectedColor = Color.SteelBlue;
+            selectedColor = Color.WhiteSmoke;
             unSelectedColor = Color.MintCream;
             actionText = new Dictionary<State, DisplayText>(); //new DisplayText[State.Quit + 1];
 
@@ -97,7 +97,7 @@ namespace LadyJava
                 return selected;
             }
 
-            return State.Options;
+            return State.Credits;
         }
 
         public override void Draw(SpriteBatch spriteBatch)

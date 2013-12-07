@@ -22,6 +22,9 @@ namespace Engine
         Texture2D headshot;
         SpriteFont speechText;
 
+        bool finalDialogProcessed;
+        string finalDialog;
+
         Global.TilePosition tilePosition;
 
         BoundingBox boundingBox;
@@ -58,6 +61,9 @@ namespace Engine
 
         public bool MessageBoxVisible
         { get { return displayText; } }
+
+        public bool FinalDialogProcessed
+        { get { return finalDialogProcessed; } }
         
         Vector2 Position
         { get { return sprite.Position; } }
@@ -103,6 +109,8 @@ namespace Engine
         {
             sprite = newSprite;
             name = newName;
+
+            finalDialogProcessed = false;
 
             storyState = Global.StoryState.None;
 
@@ -199,7 +207,7 @@ namespace Engine
             displayLines = new List<string>();
 
             String message = getCurrentMessage(storyState);
-
+            
             string[] words = message.Trim().Split(' ');
             string line = " ";
             Vector2 measureCurrentLine;
@@ -235,6 +243,10 @@ namespace Engine
                     line = " ";
                 }
             }
+
+            //start process for openning the ending tile
+            if (message == finalDialog)
+                finalDialogProcessed = true;
         }
 
         public Vector2 GetCellPosition(int tileWidth, int tileHeight)
@@ -271,13 +283,14 @@ namespace Engine
 
         private void loadScript(string name)
         {
-
             bool readingDefault = false;
             bool readingTecManSaved = false;
             bool readingSeeHashSaved = false;
             bool readingTOSaved = false;
             bool readingAllSaved = false;
             bool readingTSMSaved = false;
+
+            finalDialog = "";
 
             string fileLocation = Global.ContentPath + "\\NPC\\" + name + "\\script.txt";
             try
@@ -360,7 +373,13 @@ namespace Engine
                                     //readingTOSaved = readingTecManSaved = false;
 
                                     if (line[y].Trim() != "")
-                                        dialog[Global.StoryState.TheScrumMasterSaved].Add(line[y].Trim());
+                                    {
+                                        if (line[y-1].Trim() == "<FinalDialog>")
+                                            finalDialog = line[y].Trim();
+
+                                        if (line[y].Trim() != "<FinalDialog>")
+                                            dialog[Global.StoryState.TheScrumMasterSaved].Add(line[y].Trim());
+                                    }
                                 }
                                 else if (readingAllSaved == true)
                                 {

@@ -15,18 +15,30 @@ namespace LadyJava
 
         public abstract Vector2 Update(GameTime gameTime,
                                        int newNPC, //npc index
+                                       int finalNPC,  //final npc index
                                        int levelWidth, int levelHeight,
                                        BoundingBox[] entrances, BoundingBox[] talkingRadii,
                                        params Object[] collisionObjects);
 
+        protected Vector2 motion;
+
         protected Sprite sprite;
         protected string animation;
         protected bool switchedTileMap;
-        
+
+        protected bool rightCollide;
+
         protected bool jumpDone;
 
         protected BoundingBox boundingBox;
-        
+
+        protected bool speakingToFinalNPC;
+        protected bool finishedTalkingToFinalNPC;
+
+        public bool SpokeWithFinalNPC
+        { get { return finishedTalkingToFinalNPC; } }
+
+
         protected Vector2 previousPosition;
         public Vector2 PreviousPosition
         { get { return previousPosition; } }
@@ -50,6 +62,12 @@ namespace LadyJava
 
         public int Height
         { get { return sprite.Height; } }
+
+        public Vector2 Motion
+        { get { return motion; } }
+
+        public Vector2 CameraOffsets
+        { get { return sprite.CameraOffsets; } }
 
         protected Vector2 EntranceCollision(Vector2 newMotion, BoundingBox[] newEntrances)
         {
@@ -155,7 +173,14 @@ namespace LadyJava
                 }
             }
 
-            return newPosition - position;
+            Vector2 adjustedMotion = newPosition - position;
+            if (adjustedMotion.X == 0 && newMotion.X > 0)
+                rightCollide = true;
+            else
+                rightCollide = false;
+
+
+            return adjustedMotion;
         }
 
         protected BoundingBox UpdateBounds(Vector2 newPosition, int width, int height)

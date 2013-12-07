@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Engine;
+using Microsoft.Xna.Framework.Input;
 
 namespace LadyJava
 {
@@ -24,11 +25,11 @@ namespace LadyJava
 
         Texture2D collisionLayerImage;
         
-        //Global.StoryState currentStoryState;
-
         Dictionary<string, TileMap> campus;
         string currentArea;
         string previousArea;
+
+        bool drawCollision = false;
 
         public GamePlayState(ContentManager newContent, GraphicsDevice newGraphicsDevice)
         {
@@ -62,13 +63,11 @@ namespace LadyJava
             campus.Add("TileMaps\\D3End.map", new TileMap(Global.ContentPath, "TileMaps\\D3End.map", newContent, screenWidth, screenHeight, speechText));
             campus.Add("TileMaps\\D4End.map", new TileMap(Global.ContentPath, "TileMaps\\D4End.map", newContent, screenWidth, screenHeight, speechText));
 
-            camera = new Camera(screenWidth, screenHeight);
-            
-            AnimationInfo[] overworldAnimations = { new AnimationInfo(Global.STILL, 32, 46, 1, 0),
-                                                    new AnimationInfo(Global.DOWN, 32, 46, 4, 100),
-                                                    new AnimationInfo(Global.LEFT, 32, 46, 4, 100),
-                                                    new AnimationInfo(Global.RIGHT, 32, 46, 4, 100),
-                                                    new AnimationInfo(Global.UP, 32, 46, 4, 100) };
+            AnimationInfo[] overworldAnimations = { new AnimationInfo(Global.Still, 32, 46, 1, 0),
+                                                    new AnimationInfo(Global.Down, 32, 46, 4, 100),
+                                                    new AnimationInfo(Global.Left, 32, 46, 4, 100),
+                                                    new AnimationInfo(Global.Right, 32, 46, 4, 100),
+                                                    new AnimationInfo(Global.Up, 32, 46, 4, 100) };
 
             player = new Dictionary<AreaType, Player>();
             Texture2D overworldImage = newContent.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld");
@@ -76,14 +75,18 @@ namespace LadyJava
                        new OverWorldPlayer(new Sprite(overworldImage, campus[currentArea].StartingPosition, overworldAnimations, 1.0f), 
                                            campus[currentArea].TileWidth, campus[currentArea].TileHeight));
 
+            camera = new Camera(screenWidth, screenHeight);
+            
             Texture2D dungeonImage = newContent.Load<Texture2D>("Sprites\\LadyJavaDungeon");
-            AnimationInfo[] dungeonAnimations = { new AnimationInfo(Global.STILL, 30, 48, 1, 0),
-                                                  new AnimationInfo(Global.RIGHT, 30, 48, 8, 100),
-                                                  new AnimationInfo(Global.LEFT, 30, 48, 8, 100) };
+            AnimationInfo[] dungeonAnimations = { new AnimationInfo(Global.Still, 16, 48, 1, 0),
+                                                  new AnimationInfo(Global.Right, 30, 48, 8, 100),
+                                                  new AnimationInfo(Global.Left, 30, 48, 8, 100),
+                                                  new AnimationInfo(Global.StartingAttack, 27, 64, 3, 100),
+                                                  new AnimationInfo(Global.Attacking, 61, 60, 4, 100),
+                                                  new AnimationInfo(Global.Dying, 32, 47, 9, 100) };
             player.Add(AreaType.Dungeon,
                        new DungeonPlayer(new Sprite(dungeonImage, Vector2.Zero, dungeonAnimations, 1f)));
 
-            //currentStoryState = Global.StoryState.Stage1;
             collisionLayerImage = newContent.Load<Texture2D>("tileSelector");
 
             toBeRescued = new Dictionary<string, RescueInfo>();
@@ -100,15 +103,18 @@ namespace LadyJava
                 ChangeStatus(Status.Paused);
                 return State.TitleScreen;
             }
+            else if (InputManager.HasKeyBeenUp(new Command(Microsoft.Xna.Framework.Input.Keys.C, Buttons.LeftShoulder)))
+                drawCollision = !drawCollision;
 
             campus[currentArea].UpdateRescueList(toBeRescued);
 
             Vector2 entrancePixelLocation = player[campus[currentArea].CurrentAreaType]
                                                   .Update(gameTime,
                                                           talkingTo,
+                                                          campus[currentArea].FinalNPCIndex,
                                                           campus[currentArea].PixelWidth,
                                                           campus[currentArea].PixelHeight,
-                                                          campus[currentArea].CollisionLayer.ToEntranceBox,
+                                                          campus[currentArea].ToEntranceBox,
                                                           campus[currentArea].NPCTalkRadii,
                                                           campus[currentArea].CollisionLayer.
                                                             GetSurroundingBoundingBoxes(
@@ -124,7 +130,11 @@ namespace LadyJava
                                                             entrancePixelLocation,
                                                             player[campus[currentArea].CurrentAreaType].PreviousPosition);
 
-
+                if (newArea == Global.EndOfTheGame)
+                {
+                    status = Status.Off; 
+                    return State.FinalStory;
+                }
                 //clear out the last position if the user doesn't reenter the same previous location
                 if (previousArea != Global.MainArea && previousArea != null && previousArea != newArea)
                     campus[previousArea].SetLastPosition(Global.InvalidVector2);
@@ -132,6 +142,7 @@ namespace LadyJava
                 previousArea = currentArea;
                 currentArea = newArea;
 
+                //make Main Npc's Visible on overworld.map and not in the dungeon anymore
                 foreach (KeyValuePair<string, RescueInfo> npc in toBeRescued)
                     if (previousArea == npc.Value.RescueArea)
                         npc.Value.Rescue();
@@ -148,6 +159,7 @@ namespace LadyJava
                     campus[currentArea].SetLastPosition(Global.InvalidVector2);
                 }
             }
+
             camera.Update(gameTime,
                           player[campus[currentArea].CurrentAreaType].Position,
                           player[campus[currentArea].CurrentAreaType].Origin, 
@@ -156,8 +168,8 @@ namespace LadyJava
             talkingTo = campus[currentArea].NPCUpdate(gameTime, toBeRescued, camera,
                                                       player[campus[currentArea].CurrentAreaType].CurrentPlayState,
                                                       player[campus[currentArea].CurrentAreaType].TalkingTo,
+                                                      player[campus[currentArea].CurrentAreaType].SpokeWithFinalNPC,
                                                       screenWidth, screenHeight);
-
 
             return State.GamePlay;
         }
@@ -169,7 +181,8 @@ namespace LadyJava
 
             player[campus[currentArea].CurrentAreaType].Draw(spriteBatch);
 
-            campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
+            if(drawCollision)
+                campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);
 
             spriteBatch.End();
         }

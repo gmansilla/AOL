@@ -20,20 +20,21 @@ namespace LadyJava
         const int RightDirection = 1;
         const int LeftDirection = -1;
 
-        bool delayJump;
+        //bool delayJump;
         bool isJumping;
         bool isFalling;
+        bool facingRight;
 
         int jumpTime;
-        int delayJumpTime;
+        //int delayJumpTime;
 
         const int jumpHeight = 15;
         const int delayJumpTimer = 350; //msecs
         const int jumpTimer = 400; //msecs
 
-        Vector2 motion;
+        //Vector2 motion;
 
-        private float movement = 3.7f;
+        private float movement = 3.7f;//3.7
 
         bool movingRight
         { get { return motion.X > 0; } }
@@ -49,19 +50,22 @@ namespace LadyJava
         {
             motion = Vector2.Zero; 
             
-            animation = Global.STILL;
+            animation = Global.Still;
             sprite = newSprite;
 
             jumpDone = true;
-            delayJump = false;
+            //delayJump = false;
             isJumping = false;
             isFalling = false;
+            facingRight = true;
+            rightCollide = false;
 
             UpdateBounds(Position, Width, Height);
         }
         
         public override Vector2 Update(GameTime gameTime,
                                int newNPC, //npc index
+                               int finalNPC,  //final npc index
                                int levelWidth, int levelHeight,
                                BoundingBox[] entrances, BoundingBox[] talkingRadii,
                                params Object[] collisionObjects)
@@ -72,46 +76,68 @@ namespace LadyJava
 
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
+            motion = UpdateMotion(gameTime, position, motion, collisions);
+
+            position += motion;
+            position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
+            entranceLocation = EntranceCollision(motion, entrances);
+            sprite.Update(gameTime, animation, position, rightCollide);
+
+            return entranceLocation;
+        }
+
+        private Vector2 UpdateMotion(GameTime gameTime, 
+                                     Vector2 currentPosition, Vector2 newMotion, 
+                                     BoundingBox[] collisions)
+        {
             if (switchedTileMap)
-                motion = Vector2.Zero;
+                newMotion = Vector2.Zero;
 
-            motion.Y = (Global.GravityAccelation / Global.PixelsToMeter) * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            newMotion.Y = (Global.GravityAccelation / Global.PixelsToMeter) * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (InputManager.IsKeyDown(Commands.Jump) && 
+            if ((!switchedTileMap && InputManager.HasKeyBeenUp(Commands.Jump) ||
+                 switchedTileMap && InputManager.HasKeyBeenUp(Commands.Jump))
+                &&
                 !isMovingOppositeDirection &&
-                jumpDone && !isJumping && !isFalling && !delayJump)
+                jumpDone && !isJumping && !isFalling)// && !delayJump)
             {
                 jumpTime = 0;
                 jumpDone = false;
                 isJumping = true;
+                
+                switchedTileMap = false;
             }
             else if (!jumpDone)
             {
-                motion = Jump(gameTime, motion, collisions);
+                newMotion = Jump(gameTime, newMotion, collisions);
             }
-            else  if (motion.X == 0)
+            else if (newMotion.X == 0)
             {
-                motion = initialMovement(motion, collisions);
+                newMotion = initialMovement(newMotion, collisions);
             }
             else
             {
-                motion = continuousMotion(motion, collisions);
+                newMotion = continuousMotion(newMotion, collisions);
             }
 
-            motion = AdjustForCollision(position, motion, Width, Height, collisions);
+            newMotion = AdjustForCollision(currentPosition, newMotion, Width, Height, collisions);
 
-            if (motion.Y != 0f)
+            if (newMotion.Y != 0f)
                 isFalling = true;
             else
             {
                 isFalling = false;
+                isJumping = false; //remove if delayJump is added back in
+                /*
                 if (!delayJump && jumpDone && isJumping)
                 {
                     delayJump = true;
                     delayJumpTime = 0;
                 }
+                */
             }
 
+            /*
             if (delayJump)
             {
                 delayJumpTime += gameTime.ElapsedGameTime.Milliseconds;
@@ -121,35 +147,31 @@ namespace LadyJava
                     delayJump = false;
                 }
             }
+            */
 
-            position += motion;
-            position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
-            entranceLocation = EntranceCollision(motion, entrances);
-            sprite.Update(gameTime, animation, position);
-
-            return entranceLocation;
+            return newMotion;
         }
 
         #region movement
         private Vector2 continuousMotion(Vector2 newMotion, BoundingBox[] collisions)
         {
             int direction = RightDirection;
-            animation = Global.RIGHT;
+            animation = Global.Right;
             if (movingLeft)
             {
                 direction = LeftDirection; 
-                animation = Global.LEFT;
+                animation = Global.Left;
             }
 
             if ((movingRight && !InputManager.IsKeyDown(Commands.Right)) ||
                 (movingLeft && !InputManager.IsKeyDown(Commands.Left)))
             {
                 if (movingRight && InputManager.IsKeyDown(Commands.Left))
-                    animation = Global.LEFT;
+                    animation = Global.Left;
                 else if (movingLeft && InputManager.IsKeyDown(Commands.Right))
-                    animation = Global.RIGHT;
+                    animation = Global.Right;
                 else if (!isJumping)
-                    animation = Global.STILL;
+                    animation = Global.Still;
 
                 if (!isJumping || !isFalling)
                 {
@@ -172,11 +194,11 @@ namespace LadyJava
 
         private Vector2 initialMovement(Vector2 newMotion, BoundingBox[] collisions)
         {
-            animation = Global.STILL;
+            animation = Global.Still;
             if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Right)) ||
                 (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Right)))
             {
-                animation = Global.RIGHT;
+                animation = Global.Right;
                 newMotion.X = movement;
 
                 if (switchedTileMap)
@@ -185,7 +207,7 @@ namespace LadyJava
             else if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Left)) ||
                      (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
             {
-                animation = Global.LEFT;
+                animation = Global.Left;
                 newMotion.X = -movement;
 
                 if (switchedTileMap)

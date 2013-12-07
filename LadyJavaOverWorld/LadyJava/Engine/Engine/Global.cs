@@ -18,13 +18,21 @@ namespace Engine
         
         public const float Buffer = 0.01f;
 
-        public const string UP = "Up";
-        public const string DOWN = "Down";
-        public const string LEFT = "Left";
-        public const string RIGHT = "Right";
-        public const string STILL = "Idle";
+        public const string Up = "Up";
+        public const string Down = "Down";
+        public const string Left = "Left";
+        public const string Right = "Right";
+        public const string Still = "Idle";
+        public const string StartingAttack = "StartingAttack";
+        public const string Attacking = "Attacking";
+        public const string Dying = "Dying";
+
+        public const string Start = "Start";
+        public const string Resume = "Resume";
 
         public const string MainArea = "TileMaps\\overworld.map";
+        public const string FinalDungeon = "TileMaps\\D4Final.map";
+        public const string EndOfTheGame = "EndOfTheGame";
   
         public const string ContentPath = "..\\..\\..\\..\\LadyJavaContent\\";
         public const string DungeonContentPath = "..\\..\\..\\..\\..\\LadyJava\\LadyJavaContent\\";

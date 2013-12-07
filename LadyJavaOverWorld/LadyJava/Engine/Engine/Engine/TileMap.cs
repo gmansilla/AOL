@@ -37,14 +37,25 @@ namespace Engine
         List<Tile> tiles = new List<Tile>();
         List<string> textureNames = new List<String>();
 
-        //Dictionary<string, RescueInfo> toBeRescued;
-
         CollisionLayer collisionLayer;
 
         List<Npc> npcs;
         List<Npc> activeNPCs;
         BoundingBox[] npcBounds;
         BoundingBox[] npcTalkRadii;
+        int finalNPCIndex;
+        bool allSaved;
+        //bool openEndOfTheGame;
+
+        public List<string> Entrances
+        { get { return collisionLayer.Entrances; } }
+
+        List<BoundingBox> activeEntrances;
+        public BoundingBox[] ToEntranceBox
+        { get { return activeEntrances.ToArray(); } }
+
+        public int FinalNPCIndex
+        { get { return finalNPCIndex; } }
 
         public AreaType CurrentAreaType
         { get { return areaType; } }
@@ -106,6 +117,13 @@ namespace Engine
 
             activeNPCs = new List<Npc>();
             collectBounds();
+
+            //it will be set after the the final dialog message has been processed
+            finalNPCIndex = Global.InvalidInt;
+            allSaved = false;
+            //openEndOfTheGame = false;
+
+            processActiveEntrances(false);
         }
 
         //loading a tilemap for the editor
@@ -139,6 +157,27 @@ namespace Engine
                     npcBounds[i] = activeNPCs[i].ToBoundingBox;
                     npcTalkRadii[i] = activeNPCs[i].TalkRadius;
                 }
+            }
+        }
+
+        void processActiveEntrances(bool openEndOfTheGame)
+        {
+            activeEntrances = new List<BoundingBox>();
+            foreach (KeyValuePair<string, BoundingBox> entranceBox in collisionLayer.ToEntranceBox)
+            {
+                
+                if (entranceBox.Key == Global.EndOfTheGame)
+                {
+                    if (openEndOfTheGame)
+                        activeEntrances.Add(entranceBox.Value);
+                }
+                else if (entranceBox.Key == Global.FinalDungeon)
+                {
+                    if (allSaved)
+                        activeEntrances.Add(entranceBox.Value);
+                }
+                else
+                    activeEntrances.Add(entranceBox.Value);
             }
         }
 
@@ -184,11 +223,30 @@ namespace Engine
                         activeNPCs.Add(npcs[i]);
 
             collectBounds();
+
+            if (!allSaved)
+            {
+                foreach (string name in Global.ToBeRecused)
+                {
+                    if (name != Global.ToBeRecused[Global.TheScrumMaster])
+                    {
+                        if (toBeRescued[name].IsRescued)
+                            allSaved = true;
+                        else
+                        {
+                            allSaved = false;
+                            break;
+                        }
+                    }
+                }
+                if (allSaved)
+                    processActiveEntrances(false);
+            }
         }
 
 
         public int NPCUpdate(GameTime gameTime, Dictionary<string, RescueInfo> toBeRescued,
-                      Camera playerCamera, Global.PlayState playerPlayState, int playerTalkingTo,
+                      Camera playerCamera, Global.PlayState playerPlayState, int playerTalkingTo, bool endGame,
                       int screenWidth, int screenHeight)
         {
             
@@ -205,7 +263,13 @@ namespace Engine
                     }
 
                 activeNPCs[i].Update(playerCamera, screenWidth, screenHeight, toBeRescued);
+                //set final npc index if the dialog has been processed
+                if (activeNPCs[i].FinalDialogProcessed)
+                    finalNPCIndex = i;
             }
+
+            if (endGame)
+                processActiveEntrances(endGame);
 
             return playerTalkingTo;
         }
@@ -644,8 +708,16 @@ namespace Engine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (TileLayer layer in tileMap)
-                layer.Draw(spriteBatch, tiles);
+            for (int i = 0; i < tileMap.Count; i++)
+                if (name == Global.MainArea)
+                {
+                    if (!allSaved && i < tileMap.Count - 1)
+                        tileMap[i].Draw(spriteBatch, tiles);
+                    else if (allSaved)
+                        tileMap[i].Draw(spriteBatch, tiles);
+                }
+                else
+                    tileMap[i].Draw(spriteBatch, tiles);
 
             foreach (Npc npc in activeNPCs)
                 npc.Draw(spriteBatch);
