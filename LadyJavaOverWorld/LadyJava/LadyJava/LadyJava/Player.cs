@@ -20,10 +20,14 @@ namespace LadyJava
                                        BoundingBox[] entrances, BoundingBox[] talkingRadii,
                                        params Object[] collisionObjects);
 
+        protected Vector2 motion;
+
         protected Sprite sprite;
         protected string animation;
         protected bool switchedTileMap;
-        
+
+        protected bool rightCollide;
+
         protected bool jumpDone;
 
         protected BoundingBox boundingBox;
@@ -58,6 +62,12 @@ namespace LadyJava
 
         public int Height
         { get { return sprite.Height; } }
+
+        public Vector2 Motion
+        { get { return motion; } }
+
+        public Vector2 CameraOffsets
+        { get { return sprite.CameraOffsets; } }
 
         protected Vector2 EntranceCollision(Vector2 newMotion, BoundingBox[] newEntrances)
         {
@@ -163,7 +173,11 @@ namespace LadyJava
                 }
             }
 
-            return newPosition - position;
+            Vector2 adjustedMotion = newPosition - position;
+            if(adjustedMotion.X == 0 && newMotion.X > 0)
+                rightCollide = true;
+
+            return adjustedMotion;
         }
 
         protected BoundingBox UpdateBounds(Vector2 newPosition, int width, int height)

@@ -32,7 +32,7 @@ namespace LadyJava
         const int delayJumpTimer = 350; //msecs
         const int jumpTimer = 400; //msecs
 
-        Vector2 motion;
+        //Vector2 motion;
 
         private float movement = 3.7f;//3.7
 
@@ -58,6 +58,7 @@ namespace LadyJava
             isJumping = false;
             isFalling = false;
             facingRight = true;
+            rightCollide = false;
 
             UpdateBounds(Position, Width, Height);
         }
@@ -80,7 +81,7 @@ namespace LadyJava
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
-            sprite.Update(gameTime, animation, position);
+            sprite.Update(gameTime, animation, position, rightCollide);
 
             return entranceLocation;
         }

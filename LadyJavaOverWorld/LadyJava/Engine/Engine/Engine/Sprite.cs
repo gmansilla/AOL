@@ -14,6 +14,7 @@ namespace Engine
         private Dictionary<string, Animation> animations;
         //private int currentImage;
         private string currentAnimation;
+        private string previousAnimation;
         private string defaultAnimation;
 
         private float scale;
@@ -31,6 +32,9 @@ namespace Engine
         public Vector2 Position
         { get { return position; } }
 
+        public Vector2 CameraOffsets
+        { get { return new Vector2(100f, 25f); } }
+        
         public Vector2 Origin
         { get { return animations[currentAnimation].Origin; } }
         
@@ -39,6 +43,9 @@ namespace Engine
 
         public Animation CurrentAnimation
         { get { return animations[currentAnimation]; } }
+
+        public Animation PreviousAnimation
+        { get { return animations[previousAnimation]; } }
 
         public int Width
         { get { return CurrentAnimation.Width; } }
@@ -155,13 +162,31 @@ namespace Engine
             animations[currentAnimation].Update(gameTime);//, animationType);
         }
 
-        public void Update(GameTime gameTime, string animationType, Vector2 newPosition)
+        public void Update(GameTime gameTime, string animationType, Vector2 newPosition, bool rightCollide)
         {
+            bool animationChanged = false;
             position = newPosition;
+
+            if(animationType != currentAnimation)
+            {
+                previousAnimation = currentAnimation;
+                animationChanged = true;
+            }
 
             //based on time elapsed change current frame
             currentAnimation = animationType;
             animations[currentAnimation].Update(gameTime);//, animationType);
+
+            if (animationChanged)
+            {
+                if (rightCollide)
+                {
+                    if (CurrentAnimation.Width > animations[previousAnimation].Width)
+                        position.X -= Math.Abs(CurrentAnimation.Width - animations[previousAnimation].Width);
+                    //else if (CurrentAnimation.Width > animations[previousAnimation].Width)
+                    //    position.X -= Math.Abs(CurrentAnimation.Width - animations[previousAnimation].Width);
+                }
+            }
         }
 
         public void Update(GameTime gameTime, string animationType, Vector2 newPosition, float newRotation)
