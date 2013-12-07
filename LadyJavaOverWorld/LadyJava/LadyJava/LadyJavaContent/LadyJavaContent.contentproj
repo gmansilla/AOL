@@ -738,11 +738,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Content Include="Screens\InitialStory.png">
+    <Compile Include="Screens\InitialStory.png">
       <Name>InitialStory</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Content>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Background\TreeDungeon.png">

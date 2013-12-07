@@ -174,8 +174,11 @@ namespace LadyJava
             }
 
             Vector2 adjustedMotion = newPosition - position;
-            if(adjustedMotion.X == 0 && newMotion.X > 0)
+            if (adjustedMotion.X == 0 && newMotion.X > 0)
                 rightCollide = true;
+            else
+                rightCollide = false;
+
 
             return adjustedMotion;
         }
