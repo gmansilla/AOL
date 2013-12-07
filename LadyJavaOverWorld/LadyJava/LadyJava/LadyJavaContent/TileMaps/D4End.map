@@ -11,6 +11,7 @@ OverWorld
 Inside\Floors\Tile_Grey 64 64
 Background\Dirt 64 64
 Background\Water 64 64
+Dungeon\DungeonDoor 64 64
 
 [Entrances]
 TileMaps\overworld.map
@@ -26,6 +27,15 @@ TheScrumMaster Centre 25 50
 02|01|01|00|01|01|02
 02|02|01|00|01|02|02
 02|02|01|00|01|02|02
+
+[TileLayer]
+-1|-1|-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1|03|-1
+-1|-1|-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1|-1|-1
 
 [CollisionLayer]
 -2|-2|-2|-2|-2|-2|-2

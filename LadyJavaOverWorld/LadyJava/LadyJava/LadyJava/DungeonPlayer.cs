@@ -34,7 +34,7 @@ namespace LadyJava
 
         Vector2 motion;
 
-        private float movement = 3.7f;
+        private float movement = 3.7f;//3.7
 
         bool movingRight
         { get { return motion.X > 0; } }
