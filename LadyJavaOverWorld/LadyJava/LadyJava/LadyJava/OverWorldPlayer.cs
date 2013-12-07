@@ -43,7 +43,7 @@ namespace LadyJava
                                        params Object[] collisionObjects)
         {
             Vector2 entranceLocation = Global.InvalidVector2;
-            Vector2 motion = Vector2.Zero;
+            motion = Vector2.Zero;
             Vector2 position = sprite.Position;
             previousPosition = sprite.Position;
 
@@ -140,7 +140,7 @@ namespace LadyJava
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
-            sprite.Update(gameTime, animation, position);
+            sprite.Update(gameTime, animation, position, false);
 
             return entranceLocation;
         }

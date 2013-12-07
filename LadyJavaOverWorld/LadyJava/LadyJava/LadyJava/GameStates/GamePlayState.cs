@@ -63,8 +63,6 @@ namespace LadyJava
             campus.Add("TileMaps\\D3End.map", new TileMap(Global.ContentPath, "TileMaps\\D3End.map", newContent, screenWidth, screenHeight, speechText));
             campus.Add("TileMaps\\D4End.map", new TileMap(Global.ContentPath, "TileMaps\\D4End.map", newContent, screenWidth, screenHeight, speechText));
 
-            camera = new Camera(screenWidth, screenHeight);
-            
             AnimationInfo[] overworldAnimations = { new AnimationInfo(Global.Still, 32, 46, 1, 0),
                                                     new AnimationInfo(Global.Down, 32, 46, 4, 100),
                                                     new AnimationInfo(Global.Left, 32, 46, 4, 100),
@@ -77,6 +75,8 @@ namespace LadyJava
                        new OverWorldPlayer(new Sprite(overworldImage, campus[currentArea].StartingPosition, overworldAnimations, 1.0f), 
                                            campus[currentArea].TileWidth, campus[currentArea].TileHeight));
 
+            camera = new Camera(screenWidth, screenHeight);
+            
             Texture2D dungeonImage = newContent.Load<Texture2D>("Sprites\\LadyJavaDungeon");
             AnimationInfo[] dungeonAnimations = { new AnimationInfo(Global.Still, 16, 48, 1, 0),
                                                   new AnimationInfo(Global.Right, 30, 48, 8, 100),
@@ -159,6 +159,7 @@ namespace LadyJava
                     campus[currentArea].SetLastPosition(Global.InvalidVector2);
                 }
             }
+
             camera.Update(gameTime,
                           player[campus[currentArea].CurrentAreaType].Position,
                           player[campus[currentArea].CurrentAreaType].Origin, 

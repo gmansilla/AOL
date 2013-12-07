@@ -49,14 +49,16 @@ namespace Engine
             screenWidth = newScreenWidth;
             screenHeight = newScreenHeight;
             scale = newScale;
-
             origin = new Vector2(screenWidth / 2, screenHeight / 2f) * scale;
         }
 
-        public void Update(GameTime gameTime, Vector2 playerPosition, Vector2 playerOrigin, int levelWidth, int levelHeight)
+        public void Update(GameTime gameTime, Vector2 playerPosition, 
+                           Vector2 playerOrigin, 
+                           int levelWidth, int levelHeight)
         {
-            position.X = playerPosition.X + playerOrigin.X - origin.X;
-            position.Y = playerPosition.Y + playerOrigin.Y - origin.Y;
+            //position += playerMotion;// -origin.X;// +playerOrigin.X;
+           
+            position = playerPosition + playerOrigin - origin;
 
             LockToLevel(levelWidth, levelHeight);
 
