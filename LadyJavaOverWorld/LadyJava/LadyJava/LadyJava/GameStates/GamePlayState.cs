@@ -60,11 +60,11 @@ namespace LadyJava
             campus.Add("TileMaps\\D3End.map", new TileMap(Global.ContentPath, "TileMaps\\D3End.map", newContent, screenWidth, screenHeight, speechText));
             campus.Add("TileMaps\\D4End.map", new TileMap(Global.ContentPath, "TileMaps\\D4End.map", newContent, screenWidth, screenHeight, speechText));
 
-            AnimationInfo[] overworldAnimations = { new AnimationInfo(Global.Still, 32, 46, 1, 0),
-                                                    new AnimationInfo(Global.Down, 32, 46, 4, 100),
-                                                    new AnimationInfo(Global.Left, 32, 46, 4, 100),
-                                                    new AnimationInfo(Global.Right, 32, 46, 4, 100),
-                                                    new AnimationInfo(Global.Up, 32, 46, 4, 100) };
+            AnimationInfo[] overworldAnimations = { new AnimationInfo(Global.Still, 32, 46, 1, 0, Global.None),
+                                                    new AnimationInfo(Global.Down, 32, 46, 4, 100, Global.None),
+                                                    new AnimationInfo(Global.Moving, 32, 46, 4, 100, Global.None),
+                                                    //new AnimationInfo(Global.Right, 32, 46, 4, 100),
+                                                    new AnimationInfo(Global.Up, 32, 46, 4, 100, Global.None) };
 
             player = new Dictionary<AreaType, Player>();
             Texture2D overworldImage = newContent.Load<Texture2D>("Sprites\\LadyJavaBigOverWorld");
@@ -75,12 +75,12 @@ namespace LadyJava
             camera = new Camera(screenWidth, screenHeight);
             
             Texture2D dungeonImage = newContent.Load<Texture2D>("Sprites\\LadyJavaDungeon");
-            AnimationInfo[] dungeonAnimations = { new AnimationInfo(Global.Still, 16, 48, 1, 0),
-                                                  new AnimationInfo(Global.Right, 30, 48, 8, 100),
-                                                  new AnimationInfo(Global.Left, 30, 48, 8, 100),
-                                                  new AnimationInfo(Global.StartingAttack, 27, 64, 3, 100),
-                                                  new AnimationInfo(Global.Attacking, 61, 60, 4, 100),
-                                                  new AnimationInfo(Global.Dying, 32, 47, 9, 100) };
+            AnimationInfo[] dungeonAnimations = { new AnimationInfo(Global.Still, 16, 48, 1, 0, Global.None),
+                                                  new AnimationInfo(Global.Moving, 30, 48, 8, 100, Global.None),
+                                                  //new AnimationInfo(Global.Left, 30, 48, 8, 100),
+                                                  new AnimationInfo(Global.StartingAttack, 27, 64, 3, 100, Global.Attacking),
+                                                  new AnimationInfo(Global.Attacking, 61, 60, 4, 100, Global.None),
+                                                  new AnimationInfo(Global.Dying, 32, 47, 9, 100, Global.None) };
             player.Add(AreaType.Dungeon,
                        new DungeonPlayer(new Sprite(dungeonImage, Vector2.Zero, dungeonAnimations, 1f)));
 

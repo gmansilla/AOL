@@ -11,16 +11,12 @@ namespace LadyJava
 {
     abstract class Player
     {
-        protected enum Direction
-        {
-            Right = 1,
-            Left = -1
-        }
-
         //protected const int FacingRight = 1;
         //protected const int FacingLeft = -1;
 
         protected const float movement = 3.7f;
+
+        protected Global.Direction facingDirection;
 
         public abstract void Draw(SpriteBatch spriteBatch);
 

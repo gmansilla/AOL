@@ -53,6 +53,7 @@ namespace LadyJava
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
             animation = Global.Still;
+            facingDirection = Global.Direction.Right;
             if (currentPlayState == Global.PlayState.Playing)
             {
                 if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Up)) ||
@@ -82,7 +83,9 @@ namespace LadyJava
                 if (!switchedTileMap && InputManager.IsKeyDown(Commands.Right) ||
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Right)))
                 {
-                    animation = Global.Right;
+                    animation = Global.Moving;
+                    facingDirection = Global.Direction.Right;
+
                     motion.X = movement;
                     //motion = RightCollision(motion, collisions);
                     if (motion.X != movement)
@@ -94,7 +97,8 @@ namespace LadyJava
                 if (!switchedTileMap && InputManager.IsKeyDown(Commands.Left) ||
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
                 {
-                    animation = Global.Left;
+                    animation = Global.Moving;
+                    facingDirection = Global.Direction.Left;
                     motion.X = -movement;
                     //motion = LeftCollision(motion, collisions);
                     if (motion.X != -movement)
@@ -140,7 +144,7 @@ namespace LadyJava
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
-            sprite.Update(gameTime, animation, position);
+            sprite.Update(gameTime, animation, position, facingDirection);
 
             return entranceLocation;
         }

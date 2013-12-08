@@ -20,8 +20,9 @@ namespace Engine
 
         public const string Up = "Up";
         public const string Down = "Down";
-        public const string Left = "Left";
-        public const string Right = "Right";
+        //public const string Left = "Left";
+        public const string Moving = "Moving";
+        public const string None = "None";
         public const string Still = "Idle";
         public const string StartingAttack = "StartingAttack";
         public const string Attacking = "Attacking";
@@ -74,6 +75,12 @@ namespace Engine
         {
             Playing,
             Message
+        }
+
+        public enum Direction
+        {
+            Right = 1,
+            Left = -1
         }
 
         static public Texture2D LoadTexture(string newTexturePath, GraphicsDevice graphicsDevice)

@@ -21,7 +21,6 @@ namespace LadyJava
         //bool delayJump;
         bool isJumping;
         bool isFalling;
-        Direction facingDirection;
 
         int jumpTime;
         //int delayJumpTime;
@@ -51,8 +50,8 @@ namespace LadyJava
             //delayJump = false;
             isJumping = false;
             isFalling = false;
-            
-            facingDirection = Direction.Right;
+
+            facingDirection = Global.Direction.Right;
             rightCollision = false;
 
             UpdateBounds(Position, Width, Height);
@@ -76,7 +75,7 @@ namespace LadyJava
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
-            sprite.Update(gameTime, animation, position, rightCollision);//previousRightCollision
+            sprite.Update(gameTime, animation, position, facingDirection, rightCollision);//previousRightCollision
 
             return entranceLocation;
         }
@@ -150,24 +149,33 @@ namespace LadyJava
         #region movement
         private Vector2 continuousMotion(Vector2 newMotion, BoundingBox[] collisions)
         {
-            int direction = Direction.Right.GetHashCode();// FacingRight;
-            animation = Global.Right;
+            int direction = Global.Direction.Right.GetHashCode();// FacingRight;
+            animation = Global.Moving;
+            facingDirection = Global.Direction.Right;
+            
             if (movingLeft)
             {
-                direction = Direction.Left.GetHashCode(); // FacingLeft; 
-                animation = Global.Left;
+                direction = Global.Direction.Left.GetHashCode(); // FacingLeft; 
+                animation = Global.Moving;
+                facingDirection = Global.Direction.Left;
             }
 
             if ((movingRight && !InputManager.IsKeyDown(Commands.Right)) ||
                 (movingLeft && !InputManager.IsKeyDown(Commands.Left)))
             {
                 if (movingRight && InputManager.IsKeyDown(Commands.Left))
-                    animation = Global.Left;
+                {
+                    animation = Global.Moving;
+                    facingDirection = Global.Direction.Left;
+                }
                 else if (movingLeft && InputManager.IsKeyDown(Commands.Right))
-                    animation = Global.Right;
+                {
+                    animation = Global.Moving;
+                    facingDirection = Global.Direction.Right;
+                }
                 else if (!isJumping)
                     animation = Global.Still;
-
+                
                 if (!isJumping || !isFalling)
                 {
                     newMotion.X *= Global.GroundFriction;
@@ -193,7 +201,9 @@ namespace LadyJava
             if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Right)) ||
                 (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Right)))
             {
-                animation = Global.Right;
+                animation = Global.Moving;
+                facingDirection = Global.Direction.Right;
+
                 newMotion.X = movement;
 
                 if (switchedTileMap)
@@ -202,7 +212,8 @@ namespace LadyJava
             else if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Left)) ||
                      (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
             {
-                animation = Global.Left;
+                animation = Global.Moving;
+                facingDirection = Global.Direction.Left;
                 newMotion.X = -movement;
 
                 if (switchedTileMap)

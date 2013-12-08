@@ -7,6 +7,8 @@ namespace Engine
 {
     public class Sprite
     {
+        Dictionary<Global.Direction, SpriteEffects> directions;
+
         private Vector2 position;
         private Vector2 maxOrigin; //used to centre the camera because of the different sprite origins
 
@@ -19,6 +21,8 @@ namespace Engine
 
         private float scale;
         private float rotation;
+
+        private Global.Direction facingDirection;
 
         public Texture2D Images
         { get { return image; } }
@@ -95,7 +99,12 @@ namespace Engine
             
             maxOrigin = new Vector2(spriteWidth / 2f, spriteHeight / 2f);
             
-            position = spritePosition; 
+            position = spritePosition;
+
+            facingDirection = Global.Direction.Right;
+            directions = new Dictionary<Global.Direction, SpriteEffects>();
+            directions.Add(Global.Direction.Left, SpriteEffects.FlipHorizontally);
+            directions.Add(Global.Direction.Right, SpriteEffects.None);
         }
         
 
@@ -133,6 +142,11 @@ namespace Engine
             }
         
             position = spritePosition;
+
+            facingDirection = Global.Direction.Right;
+            directions = new Dictionary<Global.Direction, SpriteEffects>();
+            directions.Add(Global.Direction.Left, SpriteEffects.FlipHorizontally);
+            directions.Add(Global.Direction.Right, SpriteEffects.None);
         }
 
         /*
@@ -162,27 +176,27 @@ namespace Engine
             animations[currentAnimation].Update(gameTime);//, animationType);
         }
 
-        public void Update(GameTime gameTime, string animationType, Vector2 newPosition, bool rightCollision)
+        public void Update(GameTime gameTime, string animationType, Vector2 newPosition, Global.Direction direction, bool rightCollision)
         {
             position = newPosition;
+            facingDirection = direction;
 
-            if (previousAnimation != currentAnimation)
-            {
-                if (rightCollision)
-                    if (animations[animationType].Width > animations[previousAnimation].Width)
-                        position.X -= Math.Abs(CurrentAnimation.Width - animations[previousAnimation].Width);
-            }
+            if (rightCollision && 
+                previousAnimation != currentAnimation && 
+                animations[animationType].Width > animations[previousAnimation].Width)
+                    position.X -= Math.Abs(CurrentAnimation.Width - animations[previousAnimation].Width);
+
             previousAnimation = currentAnimation;
             currentAnimation = animationType;
-
 
             //change current frame based on time elapsed
             CurrentAnimation.Update(gameTime);
         }
 
-        public void Update(GameTime gameTime, string animationType, Vector2 newPosition)
+        public void Update(GameTime gameTime, string animationType, Vector2 newPosition, Global.Direction direction)
         {
             position = newPosition;
+            facingDirection = direction;
 
             currentAnimation = animationType;
 
@@ -203,7 +217,7 @@ namespace Engine
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(image, position + Origin, animations[currentAnimation].CurrentFrame.ToRectangle, //position + origin
-                             Color.White, rotation, Origin, scale, SpriteEffects.None, 0f);
+                             Color.White, rotation, Origin, scale, directions[facingDirection], 0f);
         }
     }
 }

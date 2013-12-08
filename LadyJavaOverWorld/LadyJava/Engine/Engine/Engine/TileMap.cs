@@ -404,8 +404,8 @@ namespace Engine
 
             int[,] tileLayer = new int[height, width];
 
-            try
-            {
+            //try
+            //{
                 using (StreamReader sr = new StreamReader(fileLocation))
                 {
                     string lines = sr.ReadToEnd();
@@ -602,12 +602,12 @@ namespace Engine
                     //if (readingCollisionLayer)
                     //    collisionLayer = new CollisionLayer(tileLayer, tileWidth, tileHeight, entrances);
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e.Message);
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("The file could not be read:");
+            //    Console.WriteLine(e.Message);
+            //}
         }
 
         public void Save(String fileLocation)
