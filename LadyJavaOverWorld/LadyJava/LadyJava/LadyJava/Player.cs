@@ -11,6 +11,17 @@ namespace LadyJava
 {
     abstract class Player
     {
+        protected enum Direction
+        {
+            Right = 1,
+            Left = -1
+        }
+
+        //protected const int FacingRight = 1;
+        //protected const int FacingLeft = -1;
+
+        protected const float movement = 3.7f;
+
         public abstract void Draw(SpriteBatch spriteBatch);
 
         public abstract Vector2 Update(GameTime gameTime,
@@ -26,15 +37,15 @@ namespace LadyJava
         protected string animation;
         protected bool switchedTileMap;
 
-        protected bool rightCollide;
+        protected bool rightCollision;
 
         protected bool jumpDone;
 
         protected BoundingBox boundingBox;
 
         protected bool speakingToFinalNPC;
-        protected bool finishedTalkingToFinalNPC;
 
+        protected bool finishedTalkingToFinalNPC;
         public bool SpokeWithFinalNPC
         { get { return finishedTalkingToFinalNPC; } }
 
@@ -66,7 +77,8 @@ namespace LadyJava
         public Vector2 Motion
         { get { return motion; } }
 
-        public Vector2 CameraOffsets
+        //position needs to adjust based of width or height change in sprite class
+        public Vector2 CameraFocus
         { get { return sprite.CameraOffsets; } }
 
         protected Vector2 EntranceCollision(Vector2 newMotion, BoundingBox[] newEntrances)
@@ -77,7 +89,6 @@ namespace LadyJava
                 if (boundingBox.Intersects(newEntrances[i])) //compare Lady J's box with another square. 
                 {
                     return new Vector2(newEntrances[i].Min.X, newEntrances[i].Min.Y);
-
                 }
             }
             return Global.InvalidVector2;
@@ -122,19 +133,20 @@ namespace LadyJava
 
             switchedTileMap = switchingTileMap;
         }
-
-        protected bool NoCollision(BoundingBox bounds, BoundingBox[] collisions)
+        
+        protected BoundingBox NoCollision(BoundingBox bounds, BoundingBox[] collisions)
         {
             foreach (BoundingBox collision in collisions)
                 if (collision.Intersects(bounds))
-                    return false;
+                    return collision;
 
-            return true;
+            return Global.InvalidBoundingBox;
         }
 
         protected Vector2 AdjustForCollision(Vector2 position, Vector2 newMotion,
                                              int width, int height,
-                                             BoundingBox[] collisions)
+                                             BoundingBox[] collisions,
+                                             bool checkRightCollision)
         {
             Vector2 newPosition = position;
             int incrementCount = (int)(newMotion.Length() * 2) + 1;
@@ -145,7 +157,8 @@ namespace LadyJava
                 Vector2 adjustedPosition = position + increment * i;
                 BoundingBox newBounds = UpdateBounds(adjustedPosition, width, height);
 
-                if (NoCollision(newBounds, collisions))
+                BoundingBox collision = NoCollision(newBounds, collisions);
+                if (collision == Global.InvalidBoundingBox)
                 {
                     newPosition = adjustedPosition;
                 }
@@ -158,28 +171,31 @@ namespace LadyJava
 
                         Vector2 newMotionX = increment.X * Vector2.UnitX * stepsLeft;
                         Vector2 newPositionX =
-                            AdjustForCollision(newPosition, newMotionX, width, height, collisions);
+                            AdjustForCollision(newPosition, newMotionX, width, height, collisions, true);
                         newPosition += newPositionX;
 
                         Vector2 newMotionY = increment.Y * Vector2.UnitY * stepsLeft;
                         Vector2 newPositionY =
-                            AdjustForCollision(newPosition, newMotionY, width, height, collisions);
+                            AdjustForCollision(newPosition, newMotionY, width, height, collisions, false);
                         newPosition += newPositionY;
-
                     }
+
+                    if (newMotion.X != 0 && collision.Min.X > newPosition.X)
+                    {
+                        if (newMotion.X != 0)
+                            rightCollision = true;
+                    }
+                    else
+                        rightCollision = false;
+
+                    if ((newPosition - position).Y == 0 && newMotion.Y < 0)
+                        jumpDone = true;
+
                     break;
                 }
             }
-
-            Vector2 adjustedMotion = newPosition - position;
-            if (adjustedMotion.X == 0 && newMotion.X > 0)
-                rightCollide = true;
-            else
-                rightCollide = false;
-            if (adjustedMotion.Y == 0 && newMotion.Y < 0)
-                jumpDone = true;
-
-            return adjustedMotion;
+            
+            return newPosition - position;// adjustedMotion;
         }
 
         protected BoundingBox UpdateBounds(Vector2 newPosition, int width, int height)

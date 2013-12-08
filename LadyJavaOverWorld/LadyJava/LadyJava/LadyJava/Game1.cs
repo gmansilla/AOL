@@ -35,7 +35,7 @@ namespace LadyJava
 
         protected override void LoadContent()
         {
-            gameStateManager = new GameStateManager(State.TitleScreen);
+            gameStateManager = new GameStateManager(State.GamePlay);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }

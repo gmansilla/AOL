@@ -160,6 +160,11 @@ namespace Engine
             }
         }
 
+        public BoundingBox[] GetSurroundingBoundingBoxes(Vector2 playerPosition)
+        {
+            return collisionLayer.GetSurroundingBoundingBoxes(playerPosition, TileWidth, TileHeight);
+        }
+
         void processActiveEntrances(bool openEndOfTheGame)
         {
             activeEntrances = new List<BoundingBox>();

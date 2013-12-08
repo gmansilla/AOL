@@ -16,12 +16,9 @@ namespace LadyJava
     {
         Camera camera;
         Dictionary<AreaType, Player> player;
-        //OverWorldPlayer overworldPlayer;
-        //DungeonPlayer dungeonPlayer;
         int talkingTo = Global.InvalidInt;
 
         Dictionary<string, RescueInfo> toBeRescued;
-
 
         Texture2D collisionLayerImage;
         
@@ -116,11 +113,9 @@ namespace LadyJava
                                                           campus[currentArea].PixelHeight,
                                                           campus[currentArea].ToEntranceBox,
                                                           campus[currentArea].NPCTalkRadii,
-                                                          campus[currentArea].CollisionLayer.
+                                                          campus[currentArea].
                                                             GetSurroundingBoundingBoxes(
-                                                                player[campus[currentArea].CurrentAreaType].Position,
-                                                                campus[currentArea].TileWidth,
-                                                                campus[currentArea].TileHeight),
+                                                                player[campus[currentArea].CurrentAreaType].Position),
                                                           campus[currentArea].NPCsToBoundingBox);
 
 

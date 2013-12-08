@@ -162,31 +162,32 @@ namespace Engine
             animations[currentAnimation].Update(gameTime);//, animationType);
         }
 
-        public void Update(GameTime gameTime, string animationType, Vector2 newPosition, bool rightCollide)
+        public void Update(GameTime gameTime, string animationType, Vector2 newPosition, bool rightCollision)
         {
-            bool animationChanged = false;
             position = newPosition;
 
-            if(animationType != currentAnimation)
+            if (previousAnimation != currentAnimation)
             {
-                previousAnimation = currentAnimation;
-                animationChanged = true;
-            }
-
-            //based on time elapsed change current frame
-            currentAnimation = animationType;
-            animations[currentAnimation].Update(gameTime);//, animationType);
-
-            if (animationChanged)
-            {
-                if (rightCollide)
-                {
-                    //if (CurrentAnimation.Width > animations[previousAnimation].Width)
+                if (rightCollision)
+                    if (animations[animationType].Width > animations[previousAnimation].Width)
                         position.X -= Math.Abs(CurrentAnimation.Width - animations[previousAnimation].Width);
-                    //else if (CurrentAnimation.Width > animations[previousAnimation].Width)
-                    //    position.X -= Math.Abs(CurrentAnimation.Width - animations[previousAnimation].Width);
-                }
             }
+            previousAnimation = currentAnimation;
+            currentAnimation = animationType;
+
+
+            //change current frame based on time elapsed
+            CurrentAnimation.Update(gameTime);
+        }
+
+        public void Update(GameTime gameTime, string animationType, Vector2 newPosition)
+        {
+            position = newPosition;
+
+            currentAnimation = animationType;
+
+            //change current frame based on time elapsed
+            CurrentAnimation.Update(gameTime);
         }
 
         public void Update(GameTime gameTime, string animationType, Vector2 newPosition, float newRotation)

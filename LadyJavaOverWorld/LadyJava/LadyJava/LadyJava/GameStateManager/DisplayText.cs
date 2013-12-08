@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Dante
+namespace LadyJava
 {
     public class DisplayText
     {

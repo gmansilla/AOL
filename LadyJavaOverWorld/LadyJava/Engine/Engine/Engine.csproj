@@ -107,7 +107,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DisplayText.cs" />
     <Compile Include="Engine\CollisionLayer.cs" />
     <Compile Include="Engine\Animation.cs" />
     <Compile Include="Engine\AnimationInfo.cs" />

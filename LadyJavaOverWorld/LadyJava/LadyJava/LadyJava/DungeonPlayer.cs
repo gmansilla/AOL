@@ -17,13 +17,11 @@ namespace LadyJava
 {
     class DungeonPlayer : Player
     {
-        const int RightDirection = 1;
-        const int LeftDirection = -1;
 
         //bool delayJump;
         bool isJumping;
         bool isFalling;
-        bool facingRight;
+        Direction facingDirection;
 
         int jumpTime;
         //int delayJumpTime;
@@ -31,10 +29,6 @@ namespace LadyJava
         const int jumpHeight = 15;
         const int delayJumpTimer = 350; //msecs
         const int jumpTimer = 400; //msecs
-
-        //Vector2 motion;
-
-        private float movement = 3.7f;//3.7
 
         bool movingRight
         { get { return motion.X > 0; } }
@@ -57,8 +51,9 @@ namespace LadyJava
             //delayJump = false;
             isJumping = false;
             isFalling = false;
-            facingRight = true;
-            rightCollide = false;
+            
+            facingDirection = Direction.Right;
+            rightCollision = false;
 
             UpdateBounds(Position, Width, Height);
         }
@@ -81,7 +76,7 @@ namespace LadyJava
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
-            sprite.Update(gameTime, animation, position, rightCollide);
+            sprite.Update(gameTime, animation, position, rightCollision);//previousRightCollision
 
             return entranceLocation;
         }
@@ -120,7 +115,7 @@ namespace LadyJava
                 newMotion = continuousMotion(newMotion, collisions);
             }
 
-            newMotion = AdjustForCollision(currentPosition, newMotion, Width, Height, collisions);
+            newMotion = AdjustForCollision(currentPosition, newMotion, Width, Height, collisions, true);
 
             if (newMotion.Y != 0f)
                 isFalling = true;
@@ -155,11 +150,11 @@ namespace LadyJava
         #region movement
         private Vector2 continuousMotion(Vector2 newMotion, BoundingBox[] collisions)
         {
-            int direction = RightDirection;
+            int direction = Direction.Right.GetHashCode();// FacingRight;
             animation = Global.Right;
             if (movingLeft)
             {
-                direction = LeftDirection; 
+                direction = Direction.Left.GetHashCode(); // FacingLeft; 
                 animation = Global.Left;
             }
 

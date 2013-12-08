@@ -39,6 +39,9 @@ namespace Engine
 
         public const int InvalidInt = -1;
         public static Vector2 InvalidVector2 = new Vector2(-1, -1); //Must be static
+        public static BoundingBox InvalidBoundingBox = 
+            new BoundingBox(new Vector3(-1, -1, -1), new Vector3(-1, -1, -1));
+
 
         public static string[] imageExtensions = { ".jpg", ".png", ".tga" };
 

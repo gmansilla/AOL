@@ -17,7 +17,7 @@ namespace LadyJava
 {
     class OverWorldPlayer : Player
     {
-        private float movement = 3.4f;
+        //private float movement = 3.4f;
 
         public OverWorldPlayer(Sprite newSprite, int tileWidth, int tileHeight)
         {
@@ -135,12 +135,12 @@ namespace LadyJava
                 motion *= movement;
             }
 
-            motion = AdjustForCollision(position, motion, Width, Height, collisions);
+            motion = AdjustForCollision(position, motion, Width, Height, collisions, false);
 
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
-            sprite.Update(gameTime, animation, position, false);
+            sprite.Update(gameTime, animation, position);
 
             return entranceLocation;
         }
