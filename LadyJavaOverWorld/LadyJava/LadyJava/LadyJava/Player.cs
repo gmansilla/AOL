@@ -167,8 +167,6 @@ namespace LadyJava
                         newPosition += newPositionY;
 
                     }
-                    if ((newPosition - position).Y > newMotion.Y)
-                        jumpDone = true;
                     break;
                 }
             }
@@ -178,7 +176,8 @@ namespace LadyJava
                 rightCollide = true;
             else
                 rightCollide = false;
-
+            if (adjustedMotion.Y == 0 && newMotion.Y < 0)
+                jumpDone = true;
 
             return adjustedMotion;
         }

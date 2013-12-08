@@ -181,7 +181,7 @@ namespace Engine
             {
                 if (rightCollide)
                 {
-                    if (CurrentAnimation.Width > animations[previousAnimation].Width)
+                    //if (CurrentAnimation.Width > animations[previousAnimation].Width)
                         position.X -= Math.Abs(CurrentAnimation.Width - animations[previousAnimation].Width);
                     //else if (CurrentAnimation.Width > animations[previousAnimation].Width)
                     //    position.X -= Math.Abs(CurrentAnimation.Width - animations[previousAnimation].Width);

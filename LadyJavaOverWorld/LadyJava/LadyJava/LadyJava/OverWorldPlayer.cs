@@ -17,7 +17,7 @@ namespace LadyJava
 {
     class OverWorldPlayer : Player
     {
-        private float movement = 10.4f;
+        private float movement = 3.4f;
 
         public OverWorldPlayer(Sprite newSprite, int tileWidth, int tileHeight)
         {
