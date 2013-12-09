@@ -14,6 +14,7 @@ namespace Engine
         public const float PixelsToMeter = 0.018f;
 
         public const float GroundFriction = 0.70f;
+        public const float AttackFriction = 0.95f;
         public const float AirFriction = 0.90f;
         
         public const float Buffer = 0.01f;

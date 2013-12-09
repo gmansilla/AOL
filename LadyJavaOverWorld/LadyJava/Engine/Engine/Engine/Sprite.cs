@@ -10,13 +10,10 @@ namespace Engine
         Dictionary<Global.Direction, SpriteEffects> directions;
 
         private Vector2 position;
-        private Vector2 maxOrigin; //used to centre the camera because of the different sprite origins
 
-        private Texture2D image; //allows for multiple sprite maps for one sprite update, use method ChangeImage to display different image
+        private Texture2D image;
         private Dictionary<string, Animation> animations;
-        //private int currentImage;
         private string currentAnimation;
-        private string previousAnimation;
         private string defaultAnimation;
 
         private float scale;
@@ -27,29 +24,20 @@ namespace Engine
         public Texture2D Images
         { get { return image; } }
 
-        //public Texture2D Image
-        //{ get { return image[currentImage]; } }
-                
         public float Scale
         { get { return scale; } }
 
         public Vector2 Position
         { get { return position; } }
 
-        public Vector2 CameraOffsets
-        { get { return new Vector2(100f, 25f); } }
-        
         public Vector2 Origin
         { get { return animations[currentAnimation].Origin; } }
         
-        public Vector2 MaxOrigin
-        { get { return maxOrigin; } }
-
         public Animation CurrentAnimation
         { get { return animations[currentAnimation]; } }
 
-        public Animation PreviousAnimation
-        { get { return animations[previousAnimation]; } }
+        public String NextAnimation
+        { get { return animations[currentAnimation].NextAnimation; } }
 
         public int Width
         { get { return CurrentAnimation.Width; } }
@@ -78,26 +66,29 @@ namespace Engine
             const int speed = 0;
 
             int startY = 0;
-            maxOrigin = Vector2.Zero;
 
             rotation = 0f;
 
-            //currentImage = 0;
             image = spriteImage;
 
             scale = spriteScale;
 
-            defaultAnimation = "Default";
+            bool loopAnimation = true;
+
+            defaultAnimation = Animation.Default;
             currentAnimation = defaultAnimation;
+
             animations = new Dictionary<string, Animation>();
+            string nextAnimation = Animation.None;
             animations.Add(currentAnimation, 
                            new Animation(startY,
                                          spriteWidth,
                                          spriteHeight,
                                          totalFrames,
-                                         speed, spriteScale));
-            
-            maxOrigin = new Vector2(spriteWidth / 2f, spriteHeight / 2f);
+                                         speed, 
+                                         nextAnimation,
+                                         loopAnimation,
+                                         spriteScale));
             
             position = spritePosition;
 
@@ -107,16 +98,13 @@ namespace Engine
             directions.Add(Global.Direction.Right, SpriteEffects.None);
         }
         
-
         public Sprite(Texture2D spriteImage, Vector2 spritePosition, AnimationInfo[] spriteAnimations, float spriteScale)
         {
             int startY = 0;
             int firstAnimation = 0;
-            maxOrigin = Vector2.Zero;
 
             rotation = 0f;
 
-            //currentImage = 0;
             image = spriteImage;
 
             scale = spriteScale;
@@ -125,6 +113,7 @@ namespace Engine
 
             defaultAnimation = spriteAnimations[firstAnimation].Name;
             currentAnimation = defaultAnimation;
+
             for (int animation = 0; animation < spriteAnimations.Length; animation++)
             {
                 animations.Add(spriteAnimations[animation].Name, 
@@ -132,11 +121,10 @@ namespace Engine
                                              spriteAnimations[animation].Width,
                                              spriteAnimations[animation].Height,
                                              spriteAnimations[animation].TotalFrames,
-                                             spriteAnimations[animation].Speed, spriteScale));
-                if (maxOrigin.X < spriteAnimations[animation].Width / 2f)
-                    maxOrigin.X = spriteAnimations[animation].Width / 2f;
-                if (maxOrigin.Y < spriteAnimations[animation].Height / 2f)
-                    maxOrigin.Y = spriteAnimations[animation].Height / 2f;
+                                             spriteAnimations[animation].Speed, 
+                                             spriteAnimations[animation].NextAnimation,
+                                             spriteAnimations[animation].Loop,
+                                             spriteScale));
 
                 startY += spriteAnimations[animation].Height;
             }
@@ -149,18 +137,9 @@ namespace Engine
             directions.Add(Global.Direction.Right, SpriteEffects.None);
         }
 
-        /*
-        public void ChangeImage()
-        {
-            currentImage++;
-            if (currentImage > image.Length - 1)
-                currentImage = 0;
-        }
-        */
-
         public int GetNextFrameTime(string newType)
         {
-            return animations[newType].NextFrame * animations[newType].FrameCount;
+            return animations[newType].NextFrameTime * animations[newType].FrameCount;
         }
 
         public void SetPosition(Vector2 newPosition)
@@ -173,26 +152,38 @@ namespace Engine
             position = newPosition;
 
             currentAnimation = defaultAnimation;
-            animations[currentAnimation].Update(gameTime);//, animationType);
+            CurrentAnimation.Update(gameTime);//, animationType);
         }
 
-        public void Update(GameTime gameTime, string animationType, Vector2 newPosition, Global.Direction direction, bool rightCollision)
+        public string Update(GameTime gameTime, 
+                             string animationType, 
+                             Vector2 newPosition,
+                             Global.Direction direction)
         {
             position = newPosition;
             facingDirection = direction;
 
-            if (rightCollision && 
-                previousAnimation != currentAnimation && 
-                animations[animationType].Width > animations[previousAnimation].Width)
-                    position.X -= Math.Abs(CurrentAnimation.Width - animations[previousAnimation].Width);
-
-            previousAnimation = currentAnimation;
-            currentAnimation = animationType;
-
+            //if the animation changed
+            if (currentAnimation != animationType)//animationType
+            {
+                currentAnimation = animationType;
+                CurrentAnimation.Activate();
+            }
             //change current frame based on time elapsed
             CurrentAnimation.Update(gameTime);
+
+            //Handle linked animations
+            if (CurrentAnimation.NextAnimation != Animation.None &&
+                CurrentAnimation.Status == AnimationStatus.Stopped)
+            {
+                currentAnimation = CurrentAnimation.NextAnimation;
+                CurrentAnimation.Activate();
+            }
+
+            return CurrentAnimationName;
         }
 
+        /*
         public void Update(GameTime gameTime, string animationType, Vector2 newPosition, Global.Direction direction)
         {
             position = newPosition;
@@ -203,6 +194,7 @@ namespace Engine
             //change current frame based on time elapsed
             CurrentAnimation.Update(gameTime);
         }
+        */
 
         public void Update(GameTime gameTime, string animationType, Vector2 newPosition, float newRotation)
         {

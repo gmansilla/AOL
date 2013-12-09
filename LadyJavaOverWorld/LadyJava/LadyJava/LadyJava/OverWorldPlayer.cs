@@ -23,7 +23,9 @@ namespace LadyJava
         {
             animation = Global.Still;
             sprite = newSprite;
+            //centre lady java on tile
             SetPosition(Position, tileWidth, tileHeight, true, false);
+            cameraFocus = sprite.Position;
             
             switchedTileMap = false;
             
@@ -32,7 +34,7 @@ namespace LadyJava
             finishedTalkingToFinalNPC = false;
             
 
-            UpdateBounds(Position, Width, Height);
+            boundingBox = getBounds(Position, Width, Height);
         }
         
         public override Vector2 Update(GameTime gameTime, 
@@ -142,6 +144,7 @@ namespace LadyJava
             motion = AdjustForCollision(position, motion, Width, Height, collisions, false);
 
             position += motion;
+            cameraFocus += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
             sprite.Update(gameTime, animation, position, facingDirection);

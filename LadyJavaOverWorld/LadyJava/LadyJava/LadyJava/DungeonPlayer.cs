@@ -17,13 +17,17 @@ namespace LadyJava
 {
     class DungeonPlayer : Player
     {
+        Texture2D attackImage;
 
-        //bool delayJump;
         bool isJumping;
         bool isFalling;
 
+        bool isAttacking;
+        Vector2 attackPosition;
+        BoundingBox attackBounds;
+        SpriteEffects attackDirection;
+
         int jumpTime;
-        //int delayJumpTime;
 
         const int jumpHeight = 15;
         const int delayJumpTimer = 350; //msecs
@@ -39,12 +43,15 @@ namespace LadyJava
         { get { return (movingRight && InputManager.IsKeyDown(Commands.Left)) ||
                        (movingLeft && InputManager.IsKeyDown(Commands.Right)); } }
 
-        public DungeonPlayer(Sprite newSprite)
+        public DungeonPlayer(Sprite newSprite, Texture2D newAttackImage)
         {
+            attackImage = newAttackImage;
+
             motion = Vector2.Zero; 
             
             animation = Global.Still;
             sprite = newSprite;
+            cameraFocus = sprite.Position;
 
             jumpDone = true;
             //delayJump = false;
@@ -52,11 +59,37 @@ namespace LadyJava
             isFalling = false;
 
             facingDirection = Global.Direction.Right;
-            rightCollision = false;
 
-            UpdateBounds(Position, Width, Height);
+            boundingBox = getBounds(Position, Width, Height);
         }
-        
+
+        void GenerateAttackBounds()
+        {
+            if (animation == Global.Attacking)
+            {
+                Vector2 attackPos = Vector2.Zero;
+                if (facingDirection == Global.Direction.Left)
+                {
+                    attackPos = new Vector2(Position.X - Width, Position.Y);
+                    attackDirection = SpriteEffects.FlipHorizontally;
+                }
+                else if (facingDirection == Global.Direction.Right)
+                {
+                    attackPos = new Vector2(Position.X + Width, Position.Y);
+                    attackDirection = SpriteEffects.None;
+                }
+                attackBounds = new BoundingBox(new Vector3(attackPos, 0f),
+                                               new Vector3(attackPos.X + attackImage.Width,
+                                                           attackPos.Y + attackImage.Height, 0f));
+                attackPosition = new Vector2(attackBounds.Min.X, attackBounds.Min.Y);
+            }
+            else
+            {
+                attackBounds = Global.InvalidBoundingBox;
+                attackPosition = Global.InvalidVector2;
+            }
+        }
+
         public override Vector2 Update(GameTime gameTime,
                                int newNPC, //npc index
                                int finalNPC,  //final npc index
@@ -66,7 +99,6 @@ namespace LadyJava
         {
             Vector2 entranceLocation = Global.InvalidVector2;
             Vector2 position = sprite.Position;
-            previousPosition = sprite.Position;
 
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
@@ -75,8 +107,9 @@ namespace LadyJava
             position += motion;
             position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
-            sprite.Update(gameTime, animation, position, facingDirection, rightCollision);//previousRightCollision
+            animation = sprite.Update(gameTime, animation, position, facingDirection);
 
+            GenerateAttackBounds();
             return entranceLocation;
         }
 
@@ -89,59 +122,54 @@ namespace LadyJava
 
             newMotion.Y = (Global.GravityAccelation / Global.PixelsToMeter) * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if ((!switchedTileMap && InputManager.HasKeyBeenUp(Commands.Jump) ||
-                 switchedTileMap && InputManager.HasKeyBeenUp(Commands.Jump))
-                &&
-                !isMovingOppositeDirection &&
-                jumpDone && !isJumping && !isFalling)// && !delayJump)
+            if (InputManager.HasKeyBeenUp(Commands.Attack) && !isAttacking)
+            {
+                isAttacking = true;
+                if (animation == Global.Moving)
+                    animation = Global.Attacking;
+                else
+                    animation = Global.StartingAttack;
+            }
+            else if (((!switchedTileMap && InputManager.HasKeyBeenUp(Commands.Jump)) ||
+                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Jump)))
+                     &&
+                     !isMovingOppositeDirection &&
+                     jumpDone && !isJumping && !isFalling)// && !delayJump)
             {
                 jumpTime = 0;
                 jumpDone = false;
                 isJumping = true;
-                
+
                 switchedTileMap = false;
             }
             else if (!jumpDone)
             {
                 newMotion = Jump(gameTime, newMotion, collisions);
             }
-            else if (newMotion.X == 0)
+            else if (newMotion.X == 0 && !isAttacking)
             {
                 newMotion = initialMovement(newMotion, collisions);
             }
-            else
+            else //if (!isAttacking)
             {
                 newMotion = continuousMotion(newMotion, collisions);
             }
 
             newMotion = AdjustForCollision(currentPosition, newMotion, Width, Height, collisions, true);
 
+            if (isAttacking &&
+                sprite.CurrentAnimationName == Global.Attacking &&
+                sprite.CurrentAnimation.Status == AnimationStatus.Stopped)
+                    isAttacking = false;
+
+
             if (newMotion.Y != 0f)
                 isFalling = true;
             else
             {
                 isFalling = false;
-                isJumping = false; //remove if delayJump is added back in
-                /*
-                if (!delayJump && jumpDone && isJumping)
-                {
-                    delayJump = true;
-                    delayJumpTime = 0;
-                }
-                */
+                isJumping = false;
             }
-
-            /*
-            if (delayJump)
-            {
-                delayJumpTime += gameTime.ElapsedGameTime.Milliseconds;
-                if (delayJumpTime > delayJumpTimer)
-                {
-                    isJumping = false;
-                    delayJump = false;
-                }
-            }
-            */
 
             return newMotion;
         }
@@ -150,47 +178,56 @@ namespace LadyJava
         private Vector2 continuousMotion(Vector2 newMotion, BoundingBox[] collisions)
         {
             int direction = Global.Direction.Right.GetHashCode();// FacingRight;
-            animation = Global.Moving;
-            facingDirection = Global.Direction.Right;
-            
-            if (movingLeft)
-            {
-                direction = Global.Direction.Left.GetHashCode(); // FacingLeft; 
-                animation = Global.Moving;
-                facingDirection = Global.Direction.Left;
-            }
 
-            if ((movingRight && !InputManager.IsKeyDown(Commands.Right)) ||
-                (movingLeft && !InputManager.IsKeyDown(Commands.Left)))
+            if (!isAttacking)
             {
-                if (movingRight && InputManager.IsKeyDown(Commands.Left))
+                animation = Global.Moving;
+                facingDirection = Global.Direction.Right;
+
+                if (movingLeft)
                 {
+                    direction = Global.Direction.Left.GetHashCode(); // FacingLeft; 
                     animation = Global.Moving;
                     facingDirection = Global.Direction.Left;
                 }
-                else if (movingLeft && InputManager.IsKeyDown(Commands.Right))
+
+                if ((movingRight && !InputManager.IsKeyDown(Commands.Right)) ||
+                    (movingLeft && !InputManager.IsKeyDown(Commands.Left)))
                 {
-                    animation = Global.Moving;
-                    facingDirection = Global.Direction.Right;
+                    if (movingRight && InputManager.IsKeyDown(Commands.Left))
+                    {
+                        animation = Global.Moving;
+                        facingDirection = Global.Direction.Left;
+                    }
+                    else if (movingLeft && InputManager.IsKeyDown(Commands.Right))
+                    {
+                        animation = Global.Moving;
+                        facingDirection = Global.Direction.Right;
+                    }
+                    else if (!isJumping)
+                        animation = Global.Still;
+
+
+                    if (!isJumping || !isFalling)
+                    {
+                        newMotion.X *= Global.GroundFriction;
+                        if (Math.Abs(newMotion.X) < Global.Buffer)
+                            newMotion.X = 0f;
+                    }
+                    else
+                    {
+                        newMotion.X *= Global.AirFriction;
+                        if (Math.Abs(newMotion.X) < Global.Buffer)
+                            newMotion.X = 0f;
+                    }
                 }
-                else if (!isJumping)
-                    animation = Global.Still;
-                
-                if (!isJumping || !isFalling)
-                {
-                    newMotion.X *= Global.GroundFriction;
-                    if (Math.Abs(newMotion.X) < Global.Buffer)
-                        newMotion.X = 0f;
-                }
+                //still moving
                 else
-                {
-                    newMotion.X *= Global.AirFriction;
-                    if (Math.Abs(newMotion.X) < Global.Buffer)
-                        newMotion.X = 0f;
-                }
+                    newMotion.X = direction * movement;
             }
+            //slow down
             else
-                newMotion.X = direction * movement;
+                newMotion.X *= Global.AttackFriction;
             
             return newMotion;
         }
@@ -242,6 +279,9 @@ namespace LadyJava
         public override void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
+            if (isAttacking &&
+                sprite.CurrentAnimationName == Global.Attacking)
+                    spriteBatch.Draw(attackImage, attackPosition, null, Color.White, 0f, Vector2.Zero, sprite.Scale, attackDirection, 0f);
         }
     }
 }

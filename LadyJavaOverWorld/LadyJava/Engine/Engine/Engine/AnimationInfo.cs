@@ -13,6 +13,7 @@ namespace Engine
         int height;
         int framesCount;
         int speed;
+        bool loop;
 
         public string Name
         { get { return name; } }
@@ -26,8 +27,10 @@ namespace Engine
         { get { return framesCount; } }
         public int Speed
         { get { return speed; } }
+        public bool Loop
+        { get { return loop; } }
 
-        public AnimationInfo(string newName, int newWidth, int newHeight, int newFramesCount, int newAnimationSpeed, string newAnimationLink)
+        public AnimationInfo(string newName, int newWidth, int newHeight, int newFramesCount, int newAnimationSpeed, string newAnimationLink, bool loopAnimation)
         {
             name = newName;
             nextAnimation = newAnimationLink;
@@ -35,6 +38,11 @@ namespace Engine
             height = newHeight;
             framesCount = newFramesCount;
             speed = newAnimationSpeed;
+            loop = loopAnimation;
         }
+
+        public AnimationInfo(string newName, int newWidth, int newHeight, int newFramesCount, int newAnimationSpeed, string newAnimationLink) : 
+            this(newName, newWidth, newHeight, newFramesCount,newAnimationSpeed, newAnimationLink, true)
+        { }
     }
 }

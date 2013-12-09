@@ -92,8 +92,8 @@ namespace Engine
 
         public BoundingBox[] GetSurroundingBoundingBoxes(Vector2 playerPosition, int tileWidth, int tileHeight)
         {
-            const int YRange = 3;
-            const int XRange = 3;
+            const int YRange = 4;
+            const int XRange = 4;
             List<BoundingBox> surrounding = new List<BoundingBox>();
 
             Point playerCell = new Point((int)(playerPosition.X / tileWidth), (int)(playerPosition.Y / tileHeight));

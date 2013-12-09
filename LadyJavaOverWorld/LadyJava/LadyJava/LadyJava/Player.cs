@@ -11,9 +11,6 @@ namespace LadyJava
 {
     abstract class Player
     {
-        //protected const int FacingRight = 1;
-        //protected const int FacingLeft = -1;
-
         protected const float movement = 3.7f;
 
         protected Global.Direction facingDirection;
@@ -33,8 +30,6 @@ namespace LadyJava
         protected string animation;
         protected bool switchedTileMap;
 
-        protected bool rightCollision;
-
         protected bool jumpDone;
 
         protected BoundingBox boundingBox;
@@ -44,7 +39,6 @@ namespace LadyJava
         protected bool finishedTalkingToFinalNPC;
         public bool SpokeWithFinalNPC
         { get { return finishedTalkingToFinalNPC; } }
-
 
         protected Vector2 previousPosition;
         public Vector2 PreviousPosition
@@ -74,12 +68,13 @@ namespace LadyJava
         { get { return motion; } }
 
         //position needs to adjust based of width or height change in sprite class
+        protected Vector2 cameraFocus;
         public Vector2 CameraFocus
-        { get { return sprite.CameraOffsets; } }
+        { get { return cameraFocus; } }
 
         protected Vector2 EntranceCollision(Vector2 newMotion, BoundingBox[] newEntrances)
         {
-            UpdateBounds(Position + newMotion, Width, Height);
+            boundingBox = getBounds(Position + newMotion, Width, Height);
             for (int i = 0; i < newEntrances.Length; i++) //For each tile
             {
                 if (boundingBox.Intersects(newEntrances[i])) //compare Lady J's box with another square. 
@@ -121,12 +116,15 @@ namespace LadyJava
 
         public void SetPosition(Vector2 newPosition, int tileWidth, int tileHeight, bool centreToTile, bool switchingTileMap)
         {
-            Vector2 offsets = new Vector2(tileWidth / 2f - Width / 2f, tileHeight / 2f - Height / 2f);
             if (centreToTile)
+            {
+                Vector2 offsets = new Vector2(tileWidth / 2f - Width / 2f, tileHeight / 2f - Height / 2f);
                 sprite.SetPosition(newPosition + offsets);
+            }
             else
                 sprite.SetPosition(newPosition);
 
+            cameraFocus = sprite.Position;
             switchedTileMap = switchingTileMap;
         }
         
@@ -151,7 +149,7 @@ namespace LadyJava
             for (int i = 1; i <= incrementCount; i++)
             {
                 Vector2 adjustedPosition = position + increment * i;
-                BoundingBox newBounds = UpdateBounds(adjustedPosition, width, height);
+                BoundingBox newBounds = getBounds(adjustedPosition, width, height);
 
                 BoundingBox collision = NoCollision(newBounds, collisions);
                 if (collision == Global.InvalidBoundingBox)
@@ -175,15 +173,6 @@ namespace LadyJava
                             AdjustForCollision(newPosition, newMotionY, width, height, collisions, false);
                         newPosition += newPositionY;
                     }
-
-                    if (newMotion.X != 0 && collision.Min.X > newPosition.X)
-                    {
-                        if (newMotion.X != 0)
-                            rightCollision = true;
-                    }
-                    else
-                        rightCollision = false;
-
                     if ((newPosition - position).Y == 0 && newMotion.Y < 0)
                         jumpDone = true;
 
@@ -191,14 +180,13 @@ namespace LadyJava
                 }
             }
             
-            return newPosition - position;// adjustedMotion;
+            return newPosition - position;
         }
 
-        protected BoundingBox UpdateBounds(Vector2 newPosition, int width, int height)
+        protected BoundingBox getBounds(Vector2 newPosition, int width, int height)
         {
-            boundingBox = new BoundingBox(new Vector3(newPosition, 0f),
+            return new BoundingBox(new Vector3(newPosition, 0f),
                                    new Vector3(newPosition.X + width, newPosition.Y + height, 0f));
-            return boundingBox;
         }
     }
 }
