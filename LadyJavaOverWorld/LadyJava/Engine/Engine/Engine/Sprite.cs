@@ -7,7 +7,7 @@ namespace Engine
 {
     public class Sprite
     {
-        Dictionary<Global.Direction, SpriteEffects> directions;
+        Dictionary<Direction, SpriteEffects> directions;
 
         private Vector2 position;
 
@@ -19,7 +19,7 @@ namespace Engine
         private float scale;
         private float rotation;
 
-        private Global.Direction facingDirection;
+        private Direction facingDirection;
 
         public Texture2D Images
         { get { return image; } }
@@ -92,10 +92,10 @@ namespace Engine
             
             position = spritePosition;
 
-            facingDirection = Global.Direction.Right;
-            directions = new Dictionary<Global.Direction, SpriteEffects>();
-            directions.Add(Global.Direction.Left, SpriteEffects.FlipHorizontally);
-            directions.Add(Global.Direction.Right, SpriteEffects.None);
+            facingDirection = Direction.Right;
+            directions = new Dictionary<Direction, SpriteEffects>();
+            directions.Add(Direction.Left, SpriteEffects.FlipHorizontally);
+            directions.Add(Direction.Right, SpriteEffects.None);
         }
         
         public Sprite(Texture2D spriteImage, Vector2 spritePosition, AnimationInfo[] spriteAnimations, float spriteScale)
@@ -131,10 +131,10 @@ namespace Engine
         
             position = spritePosition;
 
-            facingDirection = Global.Direction.Right;
-            directions = new Dictionary<Global.Direction, SpriteEffects>();
-            directions.Add(Global.Direction.Left, SpriteEffects.FlipHorizontally);
-            directions.Add(Global.Direction.Right, SpriteEffects.None);
+            facingDirection = Direction.Right;
+            directions = new Dictionary<Direction, SpriteEffects>();
+            directions.Add(Direction.Left, SpriteEffects.FlipHorizontally);
+            directions.Add(Direction.Right, SpriteEffects.None);
         }
 
         public int GetNextFrameTime(string newType)
@@ -158,7 +158,7 @@ namespace Engine
         public string Update(GameTime gameTime, 
                              string animationType, 
                              Vector2 newPosition,
-                             Global.Direction direction)
+                             Direction direction)
         {
             position = newPosition;
             facingDirection = direction;

@@ -8,6 +8,36 @@ using System.IO;
 
 namespace Engine
 {
+    public enum TilePosition
+    {
+        Centre,
+        Right,
+        Left
+    }
+
+    public enum StoryState
+    {
+        None,
+        Default,
+        TecManSaved,
+        SeeHashSaved,
+        TheOrcaleSaved,
+        AllSaved,
+        TheScrumMasterSaved
+    }
+
+    public enum PlayState
+    {
+        Playing,
+        Message
+    }
+
+    public enum Direction
+    {
+        Right = 1,
+        Left = -1
+    }
+
     public static class Global
     {
         public const float GravityAccelation = 9.807f;
@@ -53,36 +83,6 @@ namespace Engine
         public const int TheScrumMaster = 3;
         public static string[] ToBeRecused = { "TecMan", "SeeHash", "TheOracle", "TheScrumMaster" };
         public static string[] RecuseAreas = { "TileMaps\\D1End.map", "TileMaps\\D2End.map", "TileMaps\\D3End.map", "TileMaps\\D4End.map" };
-
-        public enum TilePosition
-        {
-            Centre,
-            Right,
-            Left
-        }
-
-        public enum StoryState
-        {
-            None,
-            Default,
-            TecManSaved,
-            SeeHashSaved,
-            TheOrcaleSaved,
-            AllSaved,
-            TheScrumMasterSaved
-        }
-
-        public enum PlayState
-        {
-            Playing,
-            Message
-        }
-
-        public enum Direction
-        {
-            Right = 1,
-            Left = -1
-        }
 
         static public Texture2D LoadTexture(string newTexturePath, GraphicsDevice graphicsDevice)
         {

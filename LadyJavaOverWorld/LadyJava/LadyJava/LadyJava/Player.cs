@@ -13,7 +13,7 @@ namespace LadyJava
     {
         protected const float movement = 3.7f;
 
-        protected Global.Direction facingDirection;
+        protected Direction facingDirection;
 
         public abstract void Draw(SpriteBatch spriteBatch);
 
@@ -48,8 +48,8 @@ namespace LadyJava
         public int TalkingTo
         { get { return talkingTo; } }
 
-        protected Global.PlayState currentPlayState;
-        public Global.PlayState CurrentPlayState
+        protected PlayState currentPlayState;
+        public PlayState CurrentPlayState
         { get { return currentPlayState; } }
         
         public Vector2 Position

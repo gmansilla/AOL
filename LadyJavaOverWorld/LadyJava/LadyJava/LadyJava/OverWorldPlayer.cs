@@ -55,8 +55,8 @@ namespace LadyJava
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
             animation = Global.Still;
-            facingDirection = Global.Direction.Right;
-            if (currentPlayState == Global.PlayState.Playing)
+            facingDirection = Direction.Right;
+            if (currentPlayState == PlayState.Playing)
             {
                 if ((!switchedTileMap && InputManager.IsKeyDown(Commands.Up)) ||
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Up)))
@@ -86,7 +86,7 @@ namespace LadyJava
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Right)))
                 {
                     animation = Global.Moving;
-                    facingDirection = Global.Direction.Right;
+                    facingDirection = Direction.Right;
 
                     motion.X = movement;
                     //motion = RightCollision(motion, collisions);
@@ -100,7 +100,7 @@ namespace LadyJava
                     (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
                 {
                     animation = Global.Moving;
-                    facingDirection = Global.Direction.Left;
+                    facingDirection = Direction.Left;
                     motion.X = -movement;
                     //motion = LeftCollision(motion, collisions);
                     if (motion.X != -movement)
@@ -120,7 +120,7 @@ namespace LadyJava
                     //if (talking)
                     if(talkingTo == Global.InvalidInt)
                     {
-                        currentPlayState = Global.PlayState.Message;
+                        currentPlayState = PlayState.Message;
                         talkingTo = i;
                         if (talkingTo == finalNPC)
                             speakingToFinalNPC = true;
@@ -130,7 +130,7 @@ namespace LadyJava
                     {
                         if (speakingToFinalNPC)
                             finishedTalkingToFinalNPC = true;
-                        currentPlayState = Global.PlayState.Playing;
+                        currentPlayState = PlayState.Playing;
                     }
                 }
             }

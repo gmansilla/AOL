@@ -58,7 +58,7 @@ namespace LadyJava
             isJumping = false;
             isFalling = false;
 
-            facingDirection = Global.Direction.Right;
+            facingDirection = Direction.Right;
 
             boundingBox = getBounds(Position, Width, Height);
         }
@@ -68,12 +68,12 @@ namespace LadyJava
             if (animation == Global.Attacking)
             {
                 Vector2 attackPos = Vector2.Zero;
-                if (facingDirection == Global.Direction.Left)
+                if (facingDirection == Direction.Left)
                 {
                     attackPos = new Vector2(Position.X - Width, Position.Y);
                     attackDirection = SpriteEffects.FlipHorizontally;
                 }
-                else if (facingDirection == Global.Direction.Right)
+                else if (facingDirection == Direction.Right)
                 {
                     attackPos = new Vector2(Position.X + Width, Position.Y);
                     attackDirection = SpriteEffects.None;
@@ -177,18 +177,18 @@ namespace LadyJava
         #region movement
         private Vector2 continuousMotion(Vector2 newMotion, BoundingBox[] collisions)
         {
-            int direction = Global.Direction.Right.GetHashCode();// FacingRight;
+            int direction = Direction.Right.GetHashCode();// FacingRight;
 
             if (!isAttacking)
             {
                 animation = Global.Moving;
-                facingDirection = Global.Direction.Right;
+                facingDirection = Direction.Right;
 
                 if (movingLeft)
                 {
-                    direction = Global.Direction.Left.GetHashCode(); // FacingLeft; 
+                    direction = Direction.Left.GetHashCode(); // FacingLeft; 
                     animation = Global.Moving;
-                    facingDirection = Global.Direction.Left;
+                    facingDirection = Direction.Left;
                 }
 
                 if ((movingRight && !InputManager.IsKeyDown(Commands.Right)) ||
@@ -197,12 +197,12 @@ namespace LadyJava
                     if (movingRight && InputManager.IsKeyDown(Commands.Left))
                     {
                         animation = Global.Moving;
-                        facingDirection = Global.Direction.Left;
+                        facingDirection = Direction.Left;
                     }
                     else if (movingLeft && InputManager.IsKeyDown(Commands.Right))
                     {
                         animation = Global.Moving;
-                        facingDirection = Global.Direction.Right;
+                        facingDirection = Direction.Right;
                     }
                     else if (!isJumping)
                         animation = Global.Still;
@@ -239,7 +239,7 @@ namespace LadyJava
                 (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Right)))
             {
                 animation = Global.Moving;
-                facingDirection = Global.Direction.Right;
+                facingDirection = Direction.Right;
 
                 newMotion.X = movement;
 
@@ -250,7 +250,7 @@ namespace LadyJava
                      (switchedTileMap && InputManager.HasKeyBeenUp(Commands.Left)))
             {
                 animation = Global.Moving;
-                facingDirection = Global.Direction.Left;
+                facingDirection = Direction.Left;
                 newMotion.X = -movement;
 
                 if (switchedTileMap)

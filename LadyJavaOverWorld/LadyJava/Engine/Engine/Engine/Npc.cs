@@ -25,7 +25,7 @@ namespace Engine
         bool finalDialogProcessed;
         string finalDialog;
 
-        Global.TilePosition tilePosition;
+        TilePosition tilePosition;
 
         BoundingBox boundingBox;
         BoundingBox talkRadius;
@@ -33,9 +33,9 @@ namespace Engine
         int currentMessage;
         List<string> displayLines;
         
-        Global.StoryState storyState;
+        StoryState storyState;
         
-        Dictionary<Global.StoryState, List<string>> dialog;
+        Dictionary<StoryState, List<string>> dialog;
 
         bool displayText;
 
@@ -51,7 +51,7 @@ namespace Engine
         public string Name
         { get { return name; } }
         
-        public Global.TilePosition TileAlignment
+        public TilePosition TileAlignment
         { get { return tilePosition; } }
 
         public int Width
@@ -112,7 +112,7 @@ namespace Engine
 
             finalDialogProcessed = false;
 
-            storyState = Global.StoryState.None;
+            storyState = StoryState.None;
 
             if (newGraphicsDevice == null)
             {
@@ -125,7 +125,7 @@ namespace Engine
                 headshot = Global.LoadTexture(contentPath + "Npc\\" + name + "\\headshot", newGraphicsDevice);
             }
 
-            dialog = new Dictionary<Global.StoryState, List<string>>();
+            dialog = new Dictionary<StoryState, List<string>>();
             //foreach (Global.StoryState stage in (Global.StoryState[])Enum.GetValues(typeof(Global.StoryState)))
 
             loadScript(newName);
@@ -134,7 +134,7 @@ namespace Engine
 
             speechText = newSpeechText;
 
-            tilePosition = ((Global.TilePosition)Enum.Parse(typeof(Global.TilePosition), newTilePosition));
+            tilePosition = ((TilePosition)Enum.Parse(typeof(TilePosition), newTilePosition));
 
             SetPosition(Position, tileWidth);
         }
@@ -143,9 +143,9 @@ namespace Engine
         {
             Vector2 offsets = Vector2.Zero;
 
-            if (tilePosition == Global.TilePosition.Centre)
+            if (tilePosition == TilePosition.Centre)
                 offsets = new Vector2(tileWidth / 2f - Width / 2f, 0f);
-            else if (tilePosition == Global.TilePosition.Right)
+            else if (tilePosition == TilePosition.Right)
                 offsets = new Vector2(tileWidth - Width, 0f);
 
             return offsets;
@@ -168,7 +168,7 @@ namespace Engine
             headshotPosition = messageBoxPosition;
             textPosition = headshotPosition + new Vector2(headshot.Width, 0);
 
-            Global.StoryState newStoryState = findCurrentStoryState(toBeRescued);
+            StoryState newStoryState = findCurrentStoryState(toBeRescued);
 
             if (storyState != newStoryState)
             {
@@ -179,27 +179,27 @@ namespace Engine
             }
         }
 
-        private Global.StoryState findCurrentStoryState(Dictionary<string, RescueInfo> rescueList)
+        private StoryState findCurrentStoryState(Dictionary<string, RescueInfo> rescueList)
         {
-                if (dialog.ContainsKey(Global.StoryState.TheScrumMasterSaved) &&
+                if (dialog.ContainsKey(StoryState.TheScrumMasterSaved) &&
                     rescueList[Global.ToBeRecused[Global.TheScrumMaster]].IsRescued)
-                    return Global.StoryState.TheScrumMasterSaved;
-                else if (dialog.ContainsKey(Global.StoryState.AllSaved) &&
+                    return StoryState.TheScrumMasterSaved;
+                else if (dialog.ContainsKey(StoryState.AllSaved) &&
                          rescueList[Global.ToBeRecused[Global.TheOracle]].IsRescued &&
                          rescueList[Global.ToBeRecused[Global.TecMan]].IsRescued &&
                          rescueList[Global.ToBeRecused[Global.SeeHash]].IsRescued)
-                    return Global.StoryState.AllSaved;
-                else if (dialog.ContainsKey(Global.StoryState.TheOrcaleSaved) && 
+                    return StoryState.AllSaved;
+                else if (dialog.ContainsKey(StoryState.TheOrcaleSaved) && 
                          rescueList[Global.ToBeRecused[Global.TheOracle]].IsRescued)
-                    return Global.StoryState.TheOrcaleSaved;
-                else if (dialog.ContainsKey(Global.StoryState.SeeHashSaved) &&
+                    return StoryState.TheOrcaleSaved;
+                else if (dialog.ContainsKey(StoryState.SeeHashSaved) &&
                          rescueList[Global.ToBeRecused[Global.SeeHash]].IsRescued)
-                    return Global.StoryState.SeeHashSaved;
-                else if (dialog.ContainsKey(Global.StoryState.TecManSaved) &&
+                    return StoryState.SeeHashSaved;
+                else if (dialog.ContainsKey(StoryState.TecManSaved) &&
                          rescueList[Global.ToBeRecused[Global.TecMan]].IsRescued)
-                    return Global.StoryState.TecManSaved;
+                    return StoryState.TecManSaved;
 
-            return Global.StoryState.Default;
+            return StoryState.Default;
         }
 
         private void processMessageToDraw(Vector2 cameraPosition)
@@ -304,35 +304,35 @@ namespace Engine
                         switch (line[y].Trim()) { 
                             case "[Default]":
                                 readingDefault = true;
-                                dialog.Add(Global.StoryState.Default, new List<String>());
+                                dialog.Add(StoryState.Default, new List<String>());
                             break;
                             case "[TecManSaved]":
                                 readingTecManSaved = true;
-                                dialog.Add(Global.StoryState.TecManSaved, new List<String>());
+                                dialog.Add(StoryState.TecManSaved, new List<String>());
                                 readingDefault = readingSeeHashSaved = readingAllSaved = 
                                 readingTOSaved = readingTSMSaved = false;
                             break;
                             case "[SeehashSaved]":
                                 readingSeeHashSaved = true;
-                                dialog.Add(Global.StoryState.SeeHashSaved, new List<String>());
+                                dialog.Add(StoryState.SeeHashSaved, new List<String>());
                                 readingDefault = readingTecManSaved = readingAllSaved = 
                                 readingTOSaved = readingTSMSaved = false;
                             break;
                             case "[TheOracleSaved]":
                                 readingTOSaved = true;
-                                dialog.Add(Global.StoryState.TheOrcaleSaved, new List<String>());
+                                dialog.Add(StoryState.TheOrcaleSaved, new List<String>());
                                 readingDefault = readingSeeHashSaved = readingAllSaved = 
                                 readingTecManSaved = readingTSMSaved = false;
                             break;
                             case "[TheScrumMasterSaved]":
                                 readingTSMSaved = true;
-                                dialog.Add(Global.StoryState.TheScrumMasterSaved, new List<String>());
+                                dialog.Add(StoryState.TheScrumMasterSaved, new List<String>());
                                 readingDefault = readingSeeHashSaved = readingAllSaved = 
                                 readingTOSaved = readingTecManSaved = false;
                             break;
                             case "[AllSaved]":
                                 readingAllSaved = true;
-                                dialog.Add(Global.StoryState.AllSaved, new List<String>());
+                                dialog.Add(StoryState.AllSaved, new List<String>());
                                 readingDefault = readingSeeHashSaved = readingTSMSaved = 
                                 readingTOSaved = readingTecManSaved = false;
                             break;
@@ -340,7 +340,7 @@ namespace Engine
                                 if (readingDefault == true)
                                 {
                                     if(line[y].Trim() != "")
-                                        dialog[Global.StoryState.Default].Add(line[y].Trim());
+                                        dialog[StoryState.Default].Add(line[y].Trim());
                                 }
                                 else if (readingTecManSaved == true)
                                 {
@@ -348,7 +348,7 @@ namespace Engine
                                     //readingTOSaved = readingTSMSaved = false;
 
                                     if (line[y].Trim() != "")
-                                        dialog[Global.StoryState.TecManSaved].Add(line[y].Trim());
+                                        dialog[StoryState.TecManSaved].Add(line[y].Trim());
                                 }
                                 else if (readingSeeHashSaved == true)
                                 {
@@ -357,7 +357,7 @@ namespace Engine
 
                                     if (line[y].Trim() != "")
                                         if (line[y].Trim() != "")
-                                            dialog[Global.StoryState.SeeHashSaved].Add(line[y].Trim());
+                                            dialog[StoryState.SeeHashSaved].Add(line[y].Trim());
                                 }
                                 else if (readingTOSaved == true)
                                 {
@@ -365,7 +365,7 @@ namespace Engine
                                     //readingTSMSaved = readingTecManSaved = false;
 
                                     if (line[y].Trim() != "")
-                                        dialog[Global.StoryState.TheOrcaleSaved].Add(line[y].Trim());
+                                        dialog[StoryState.TheOrcaleSaved].Add(line[y].Trim());
                                 }
                                 else if (readingTSMSaved == true)
                                 {
@@ -378,7 +378,7 @@ namespace Engine
                                             finalDialog = line[y].Trim();
 
                                         if (line[y].Trim() != "<FinalDialog>")
-                                            dialog[Global.StoryState.TheScrumMasterSaved].Add(line[y].Trim());
+                                            dialog[StoryState.TheScrumMasterSaved].Add(line[y].Trim());
                                     }
                                 }
                                 else if (readingAllSaved == true)
@@ -387,7 +387,7 @@ namespace Engine
                                     //readingTOSaved = readingTecManSaved = false;
 
                                     if (line[y].Trim() != "")
-                                        dialog[Global.StoryState.AllSaved].Add(line[y].Trim());
+                                        dialog[StoryState.AllSaved].Add(line[y].Trim());
                                 }
                             break;
                         }
@@ -420,7 +420,7 @@ namespace Engine
             processMessageToDraw(cameraPosition);
         }
 
-        string getCurrentMessage(Global.StoryState stage)
+        string getCurrentMessage(StoryState stage)
         {
             if (currentMessage >= dialog[stage].Count)
                 currentMessage = 0;

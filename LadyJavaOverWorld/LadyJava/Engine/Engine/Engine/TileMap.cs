@@ -251,7 +251,7 @@ namespace Engine
 
 
         public int NPCUpdate(GameTime gameTime, Dictionary<string, RescueInfo> toBeRescued,
-                      Camera playerCamera, Global.PlayState playerPlayState, int playerTalkingTo, bool endGame,
+                      Camera playerCamera, PlayState playerPlayState, int playerTalkingTo, bool endGame,
                       int screenWidth, int screenHeight)
         {
             
@@ -260,7 +260,7 @@ namespace Engine
                 if (!activeNPCs[i].MessageBoxVisible && playerTalkingTo == i)
                     activeNPCs[i].ShowMessageBox();
                 else if (activeNPCs[i].MessageBoxVisible)
-                    if (playerPlayState == Global.PlayState.Playing)
+                    if (playerPlayState == PlayState.Playing)
                     {
                         activeNPCs[i].HideMessageBox();
                         playerTalkingTo = Global.InvalidInt;
