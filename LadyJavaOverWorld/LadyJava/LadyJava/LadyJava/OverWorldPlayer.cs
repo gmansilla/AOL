@@ -157,9 +157,9 @@ namespace LadyJava
             talkingTo = Global.InvalidInt;
         }*/
         
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Color transparency)
         {
-            sprite.Draw(spriteBatch);
+            sprite.Draw(spriteBatch, transparency);
         }
     }
 }

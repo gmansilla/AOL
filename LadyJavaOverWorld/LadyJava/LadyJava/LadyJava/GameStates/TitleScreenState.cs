@@ -21,8 +21,6 @@ namespace LadyJava
         Color selectedColor;
         Color unSelectedColor;
 
-        Texture2D background;
-
         bool displayStartText;
 
         float scale;
@@ -61,7 +59,12 @@ namespace LadyJava
 
             string info = "Press the [SpaceBar] to Continue";
             if (StartMsg == Global.Start)
+            {
                 displayStartText = true;
+            }
+            else
+                backgroundColor = new Color(255, 255, 255, Half);
+
             startText = new DisplayText(position, info, normalText, selectedColor);
             startText.MoveText(new Vector2(-startText.Width / 2f, startText.Height));
 
@@ -128,9 +131,11 @@ namespace LadyJava
                 }
                 else if (InputManager.HasKeyBeenUp(Commands.Execute))
                 {
-                    status = Status.Off;
+                    status = Status.Transition;
                     if (selected == State.Options)
                         status = Status.Paused;
+                    else if (selected == State.GamePlay)
+                        status = Status.Off;
 
                     return selected;
                 }
@@ -145,14 +150,16 @@ namespace LadyJava
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Matrix.CreateScale(new Vector3(scale, scale, scale)));
 
-            spriteBatch.Draw(background, Vector2.Zero, new Rectangle(0, 0, width, height), new Color(255f, 255f, 255f, 0.5f));
+            spriteBatch.Draw(background, Vector2.Zero, new Rectangle(0, 0, width, height), backgroundColor);
 
-            if(displayStartText)
-                startText.DrawString(spriteBatch);
-            else
-                foreach (KeyValuePair<State, DisplayText> text in actionText)
-                    text.Value.DrawString(spriteBatch);
-
+            if (status != Status.Transition)
+            {
+                if (displayStartText)
+                    startText.DrawString(spriteBatch);
+                else
+                    foreach (KeyValuePair<State, DisplayText> text in actionText)
+                        text.Value.DrawString(spriteBatch);
+            }
             spriteBatch.End();
         }
     

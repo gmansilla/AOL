@@ -20,8 +20,6 @@ namespace LadyJava
         Color selectedColor;
         Color unSelectedColor;
 
-        Texture2D background;
-
         float scale;
 
         int width;
@@ -54,8 +52,6 @@ namespace LadyJava
 
             string info = "Press the [SpaceBar] to Continue";
             actionText.Add(selected, new DisplayText(position, info, normalText, selectedColor));
-            //actionText.Add(State.Options, new DisplayText(position, "Options", normalText, unSelectedColor));
-            //actionText.Add(State.Quit, new DisplayText(position, "Quit", normalText, unSelectedColor));
 
             float menusHeight = 0f;
             foreach (KeyValuePair<State, DisplayText> text in actionText)
@@ -71,27 +67,7 @@ namespace LadyJava
             width = newScreenWidth;
             height = newScreenHeight;
 
-            if (InputManager.HasKeyBeenUp(Commands.Down) || InputManager.HasLeftStickChangedDriection(Commands.ThumbStick.Down))
-            {
-                actionText[selected].ChangeColor(unSelectedColor);
-                if (selected == State.TitleScreen)
-                    selected = State.TitleScreen;
-                //else if (selected == State.Options)
-                //    selected = State.Quit;
-                actionText[selected].ChangeColor(selectedColor);
-            }
-            else if (InputManager.HasKeyBeenUp(Commands.Up) || InputManager.HasLeftStickChangedDriection(Commands.ThumbStick.Up))
-            {
-                actionText[selected].ChangeColor(unSelectedColor);
-
-                if (selected == State.TitleScreen)
-                    selected = State.TitleScreen;
-                //else if (selected == State.Options)
-                //    selected = State.GamePlay;
-                
-                actionText[selected].ChangeColor(selectedColor);
-            }
-            else if (InputManager.HasKeyBeenUp(Commands.Execute))
+            if (InputManager.HasKeyBeenUp(Commands.Execute))
             {
                 status = Status.Off;
                 return selected;

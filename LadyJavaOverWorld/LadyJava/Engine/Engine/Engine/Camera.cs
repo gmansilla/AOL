@@ -42,7 +42,24 @@ namespace Engine
 
             origin = new Vector2(screenWidth / 2, screenHeight / 2f);
             scale = 1.0f;
+
+            
         }
+
+        public Camera(int newScreenWidth, int newScreenHeight, 
+                      Vector2 playerPosition, Vector2 playerOrigin,
+                      int levelWidth, int levelHeight)
+        {
+            screenWidth = newScreenWidth;
+            screenHeight = newScreenHeight;
+
+            origin = new Vector2(screenWidth / 2, screenHeight / 2f);
+            scale = 1.0f;
+
+            position = playerPosition + playerOrigin - origin;
+            LockToLevel(levelWidth, levelHeight);
+        }
+
 
         public Camera(int newScreenWidth, int newScreenHeight, float newScale)
         {

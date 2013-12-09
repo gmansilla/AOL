@@ -20,22 +20,11 @@ namespace LadyJava
         Song currentSong;
         Song lastSong;
 
+        Status nextStatus;
+
         State currentState;
-        //State activeState;
-
-        //bool isGamePlayPaused;
-
-        //Leaderboard leaderboard;
-        //SpriteFont leaderboardFont;
-
         public State CurrentState
         { get { return currentState; } }
-
-        //public State ActiveState
-        //{ get { return activeState; } }
-
-        //public bool IsGamePlayPaused
-        //{ get { return isGamePlayPaused; } }
 
         public bool HasGameSongChanged
         { get { return currentSong != lastSong; } }
@@ -43,10 +32,9 @@ namespace LadyJava
         public GameStateManager(State firstState)
         {
             gameStates = new List<GameState>();
-            //isGamePlayPaused = false;
 
-            //activeState = State.None;
             currentState = firstState;
+            nextStatus = Status.Active;
         }
 
         public void AddState(GameState newState)
@@ -85,18 +73,37 @@ namespace LadyJava
             foreach (GameState gameState in gameStates)
             {
                 //activate the current state
-                if (currentState == gameState.ID && gameState.CurrentStatus != Status.Active)
-                    gameState.ChangeStatus(Status.Active);
+                if (currentState == gameState.ID && gameState.CurrentStatus != nextStatus)
+                    gameState.ChangeStatus(nextStatus);
 
                 //Update the currently active state
-                if (gameState.CurrentStatus == Status.Active)
+                //if (gameState.CurrentStatus == Status.Active)
+                //{
+                if (gameState.CurrentStatus == Status.Transition)
+                    gameState.Transition();
+                else if (gameState.CurrentStatus == Status.Active)
                     currentState = gameState.Update(gameTime, screenWidth, screenHeight);
+                //}
+
+                if (gameStates.Exists(GameState.isTransitioning))
+                {
+                    if(gameState.CurrentStatus == Status.Transition)
+                        nextStatus = Status.Paused;
+                    else if (gameState.CurrentStatus == Status.Off)
+                        nextStatus = Status.Active;
+                }
+                else if (!gameStates.Exists(GameState.isTransitioning))
+                    nextStatus = Status.Active;
 
                 //playing select song based on status
                 if (gameStates.Count > 1 && gameState.CurrentStatus == Status.Paused)
+                {
                     currentSong = gameState.BGSong;
+                }
                 else if (gameStates.Count == 1 && gameState.CurrentStatus == Status.Active)
+                {
                     currentSong = gameState.BGSong;
+                }
             }
 
             //Play Music
@@ -111,6 +118,7 @@ namespace LadyJava
                 }
                 lastSong = currentSong;
             }
+
 
             gameStates.RemoveAll(GameState.IsOff);
 
@@ -127,7 +135,12 @@ namespace LadyJava
             //then draw the active state
             foreach (GameState gameState in gameStates)
                 if(gameState.CurrentStatus == Status.Active)
-                    gameState.Draw(spriteBatch); 
+                    gameState.Draw(spriteBatch);
+
+            //draw transition states last
+            foreach (GameState gameState in gameStates)
+                if (gameState.CurrentStatus == Status.Transition)
+                    gameState.Draw(spriteBatch);
         }
     }
 }

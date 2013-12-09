@@ -58,7 +58,7 @@ namespace Engine
             tileLayer[y, x] = cellIndex;
         }
 
-        public void Draw(SpriteBatch spriteBatch, List<Tile> tiles)
+        public void Draw(SpriteBatch spriteBatch, List<Tile> tiles, Color transparency)
         {
             for (int y = 0; y < Height; y++)
             {
@@ -70,7 +70,7 @@ namespace Engine
                         spriteBatch.Draw(tiles[textureIndex].Image, new Rectangle(
                         x * tileWidth,
                         y * tileHeight,
-                        tiles[textureIndex].Width, tiles[textureIndex].Height), Color.White);
+                        tiles[textureIndex].Width, tiles[textureIndex].Height), transparency);
                     }
                 }
             }

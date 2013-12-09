@@ -30,6 +30,8 @@ namespace LadyJava
 
         public GamePlayState(ContentManager newContent, GraphicsDevice newGraphicsDevice)
         {
+            exitStatus = Status.Transition;
+
             int screenWidth = newGraphicsDevice.Viewport.Width;
             int screenHeight = newGraphicsDevice.Viewport.Height;
 
@@ -72,7 +74,10 @@ namespace LadyJava
                        new OverWorldPlayer(new Sprite(overworldImage, campus[currentArea].StartingPosition, overworldAnimations, 1.0f), 
                                            campus[currentArea].TileWidth, campus[currentArea].TileHeight));
 
-            camera = new Camera(screenWidth, screenHeight);
+            camera = new Camera(screenWidth, screenHeight,
+                                player[campus[currentArea].CurrentAreaType].Position,
+                                player[campus[currentArea].CurrentAreaType].Origin,
+                                campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
             
             Texture2D dungeonImage = newContent.Load<Texture2D>("Sprites\\LadyJavaDungeon");
             AnimationInfo[] dungeonAnimations = { new AnimationInfo(Global.Still, 30, 48, 1, 0, Animation.None),
@@ -126,7 +131,7 @@ namespace LadyJava
 
                 if (newArea == Global.EndOfTheGame)
                 {
-                    status = Status.Off; 
+                    status = exitStatus; 
                     return State.FinalStory;
                 }
                 //clear out the last position if the user doesn't reenter the same previous location
@@ -171,9 +176,9 @@ namespace LadyJava
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.TransformMatrix);
-            campus[currentArea].Draw(spriteBatch);
+            campus[currentArea].Draw(spriteBatch, backgroundColor);
 
-            player[campus[currentArea].CurrentAreaType].Draw(spriteBatch);
+            player[campus[currentArea].CurrentAreaType].Draw(spriteBatch, backgroundColor);
 
             if(drawCollision)
                 campus[currentArea].CollisionLayer.Draw(spriteBatch, collisionLayerImage);

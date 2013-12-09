@@ -15,7 +15,7 @@ namespace LadyJava
 
         protected Direction facingDirection;
 
-        public abstract void Draw(SpriteBatch spriteBatch);
+        public abstract void Draw(SpriteBatch spriteBatch, Color transparency);
 
         public abstract Vector2 Update(GameTime gameTime,
                                        int newNPC, //npc index

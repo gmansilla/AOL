@@ -267,7 +267,7 @@ namespace TileMapEditor
 
                 //Draw all layers up to the selected one
                 for (int i = 0; i <= drawTo; i++)
-                    tileMap.Layers[i].Draw(spriteBatch, tileMap.Tiles);
+                    tileMap.Layers[i].Draw(spriteBatch, tileMap.Tiles, Color.White);
 
                 //Draw empty cells
                 for (int y = 0; y < tileMap.Layers[drawTo].Height; y++)
@@ -323,7 +323,7 @@ namespace TileMapEditor
             {
                 //Draw all layers up to the selected one
                 for (int i = 0; i < tileMap.Layers.Count; i++)
-                    tileMap.Layers[i].Draw(spriteBatch, tileMap.Tiles);
+                    tileMap.Layers[i].Draw(spriteBatch, tileMap.Tiles, Color.White);
 
                 for (int y = 0; y < tileMap.CollisionLayer.Height; y++)
                     for (int x = 0; x < tileMap.CollisionLayer.Width; x++)

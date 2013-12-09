@@ -13,6 +13,7 @@ namespace LadyJava
     {
         Unloaded,
         Active,
+        Transition,
         Off,
         Paused,
     }
@@ -31,13 +32,16 @@ namespace LadyJava
     
     public abstract class GameState
     {
-        // This code is depend on the current game
-        //static public int NameEntry = 5;
-        //static public int TitleScreen = 4;
-        //static public int GamePlay = 0;
-        //static public int Leaderboard = 1;
-        //static public int Controls = 2;
-        //static public int Quit = 3;
+        const float Increment = 0.01f;
+        protected const float Clear = 0.0f;
+        protected const float Half = 0.5f;
+        protected const float Opaque = 1.0f;
+
+        protected Texture2D background;
+        protected Color backgroundColor = new Color(255, 255, 255, Opaque);
+        protected Status exitStatus;
+
+        float transparency = Opaque;
 
         protected Status status;
         protected Song bgSong;
@@ -47,23 +51,24 @@ namespace LadyJava
         public State ID
         { get { return id; } }
 
-        //protected int index = 0; //state id number, unique
-
         public virtual Song BGSong
         { get { return bgSong; } }
 
         public Status CurrentStatus
         { get { return status; } }
 
-        public GameState()
-        {
-            id = State.None;
-            status = Status.Off;
-        }
-
         public void ChangeStatus(Status newStatus)
         {
             status = newStatus;
+        }
+
+        public void Transition()
+        {
+            transparency = Math.Max(0, transparency - Increment);
+            backgroundColor = new Color(255f, 255f, 255f, transparency);
+
+            if (transparency == Clear)
+                status = Status.Off;
         }
 
         public abstract State Update(GameTime gameTime, int screenWidth, int screenHeight);
@@ -77,5 +82,14 @@ namespace LadyJava
 
             return false;
         }
+
+        public static bool isTransitioning(GameState state)
+        {
+            if (state.CurrentStatus == Status.Transition)
+                return true;
+
+            return false;
+        }
+
     }
 }

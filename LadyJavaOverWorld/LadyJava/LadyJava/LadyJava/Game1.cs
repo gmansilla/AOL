@@ -35,7 +35,7 @@ namespace LadyJava
 
         protected override void LoadContent()
         {
-            gameStateManager = new GameStateManager(State.GamePlay);
+            gameStateManager = new GameStateManager(State.FinalStory);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
@@ -60,13 +60,13 @@ namespace LadyJava
             }
             else if (state == State.Options && !gameStateManager.Contains(State.Options))
                 gameStateManager.AddState(new OptionsState(Content, GraphicsDevice));
-            else if (state == State.InitialStory && !gameStateManager.Contains(State.Options))
+            else if (state == State.InitialStory && !gameStateManager.Contains(State.InitialStory))
                 gameStateManager.AddState(new InitialStoryState(Content, GraphicsDevice));
             else if (state == State.GamePlay && !gameStateManager.Contains(State.GamePlay))
                 gameStateManager.AddState(new GamePlayState(Content, GraphicsDevice));
-            else if (state == State.FinalStory && !gameStateManager.Contains(State.Options))
+            else if (state == State.FinalStory && !gameStateManager.Contains(State.FinalStory))
                 gameStateManager.AddState(new FinalStoryState(Content, GraphicsDevice));
-            else if (state == State.Credits && !gameStateManager.Contains(State.Options))
+            else if (state == State.Credits && !gameStateManager.Contains(State.Credits))
                 gameStateManager.AddState(new CreditsState(Content, GraphicsDevice));
 
             // Allows the game to exit

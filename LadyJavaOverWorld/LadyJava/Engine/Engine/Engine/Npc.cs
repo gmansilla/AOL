@@ -257,10 +257,10 @@ namespace Engine
             return cell;
         }
         
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Color transparency)
         {
             //draw npc
-            sprite.Draw(spriteBatch);
+            sprite.Draw(spriteBatch, transparency);
 
             if (displayText)
             {

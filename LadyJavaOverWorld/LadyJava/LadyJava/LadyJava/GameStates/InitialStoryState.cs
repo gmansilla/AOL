@@ -20,8 +20,6 @@ namespace LadyJava
         Color selectedColor;
         Color unSelectedColor;
 
-        Texture2D background;
-
         float scale;
 
         int width;
@@ -71,29 +69,9 @@ namespace LadyJava
             width = newScreenWidth;
             height = newScreenHeight;
 
-            if (InputManager.HasKeyBeenUp(Commands.Down) || InputManager.HasLeftStickChangedDriection(Commands.ThumbStick.Down))
+            if (InputManager.HasKeyBeenUp(Commands.Execute))
             {
-                actionText[selected].ChangeColor(unSelectedColor);
-                if (selected == State.GamePlay)
-                    selected = State.GamePlay;
-                //else if (selected == State.Options)
-                //    selected = State.Quit;
-                actionText[selected].ChangeColor(selectedColor);
-            }
-            else if (InputManager.HasKeyBeenUp(Commands.Up) || InputManager.HasLeftStickChangedDriection(Commands.ThumbStick.Up))
-            {
-                actionText[selected].ChangeColor(unSelectedColor);
-
-                if (selected == State.GamePlay)
-                    selected = State.GamePlay;
-                //else if (selected == State.Options)
-                //    selected = State.GamePlay;
-                
-                actionText[selected].ChangeColor(selectedColor);
-            }
-            else if (InputManager.HasKeyBeenUp(Commands.Execute))
-            {
-                status = Status.Off;
+                status = Status.Transition;
                 return selected;
             }
 
@@ -104,10 +82,11 @@ namespace LadyJava
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Matrix.CreateScale(new Vector3(scale, scale, scale)));
 
-            spriteBatch.Draw(background, Vector2.Zero, new Rectangle(0, 0, width, height), Color.White);
+            spriteBatch.Draw(background, Vector2.Zero, new Rectangle(0, 0, width, height), backgroundColor);
 
-            foreach (KeyValuePair<State, DisplayText> text in actionText)
-                text.Value.DrawString(spriteBatch);
+            if (status != Status.Transition)
+                foreach (KeyValuePair<State, DisplayText> text in actionText)
+                    text.Value.DrawString(spriteBatch);
 
             spriteBatch.End();
         }

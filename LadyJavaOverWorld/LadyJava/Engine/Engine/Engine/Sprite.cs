@@ -206,10 +206,10 @@ namespace Engine
             animations[currentAnimation].Update(gameTime);//, animationType);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Color transparency)
         {
             spriteBatch.Draw(image, position + Origin, animations[currentAnimation].CurrentFrame.ToRectangle, //position + origin
-                             Color.White, rotation, Origin, scale, directions[facingDirection], 0f);
+                             transparency, rotation, Origin, scale, directions[facingDirection], 0f);
         }
     }
 }

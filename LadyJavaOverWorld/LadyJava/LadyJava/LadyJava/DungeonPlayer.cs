@@ -276,9 +276,9 @@ namespace LadyJava
             return motion;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Color transparency)
         {
-            sprite.Draw(spriteBatch);
+            sprite.Draw(spriteBatch, transparency);
             if (isAttacking &&
                 sprite.CurrentAnimationName == Global.Attacking)
                     spriteBatch.Draw(attackImage, attackPosition, null, Color.White, 0f, Vector2.Zero, sprite.Scale, attackDirection, 0f);

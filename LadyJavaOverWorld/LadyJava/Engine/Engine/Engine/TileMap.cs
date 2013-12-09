@@ -711,21 +711,21 @@ namespace Engine
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Color transparency)
         {
             for (int i = 0; i < tileMap.Count; i++)
                 if (name == Global.MainArea)
                 {
                     if (!allSaved && i < tileMap.Count - 1)
-                        tileMap[i].Draw(spriteBatch, tiles);
+                        tileMap[i].Draw(spriteBatch, tiles, transparency);
                     else if (allSaved)
-                        tileMap[i].Draw(spriteBatch, tiles);
+                        tileMap[i].Draw(spriteBatch, tiles, transparency);
                 }
                 else
-                    tileMap[i].Draw(spriteBatch, tiles);
+                    tileMap[i].Draw(spriteBatch, tiles, transparency);
 
             foreach (Npc npc in activeNPCs)
-                npc.Draw(spriteBatch);
+                npc.Draw(spriteBatch, transparency);
         }
     }
 }
