@@ -16,7 +16,7 @@ namespace LadyJava
     {
         Camera camera;
         Dictionary<AreaType, Player> player;
-        int talkingTo = Global.InvalidInt;
+        int[] interactingWith;
 
         Dictionary<string, RescueInfo> toBeRescued;
 
@@ -81,7 +81,7 @@ namespace LadyJava
             Texture2D dungeonImage = newContent.Load<Texture2D>("Sprites\\LadyJavaDungeon");
             AnimationInfo[] dungeonAnimations = { new AnimationInfo(Global.Still, 30, 48, 1, 0, Animation.None),
                                                   new AnimationInfo(Global.Moving, 30, 48, 8, 100, Animation.None),
-                                                  new AnimationInfo(Global.StartingAttack, 30, 48, 3, 100, Global.Attacking),
+                                                  new AnimationInfo(Global.StartingAttack, 30, 48, 3, 50, Global.Attacking),
                                                   new AnimationInfo(Global.Attacking, 30, 48, 1, 500, Animation.None, false),
                                                   new AnimationInfo(Global.Dying, 32, 48, 9, 100, Animation.None, false) };
             player.Add(AreaType.Dungeon,
@@ -94,6 +94,8 @@ namespace LadyJava
             RescueInfo[] rescueInfo = new RescueInfo[Global.ToBeRecused.Length];
             for(int i = 0; i < Global.ToBeRecused.Length; i++)
                 toBeRescued.Add(Global.ToBeRecused[i], new RescueInfo(Global.RecuseAreas[i]));
+
+            interactingWith = new int[0];
         }
 
         public override State Update(GameTime gameTime, int screenWidth, int screenHeight)
@@ -107,20 +109,20 @@ namespace LadyJava
             else if (InputManager.HasKeyBeenUp(new Command(Microsoft.Xna.Framework.Input.Keys.C, Buttons.LeftShoulder)))
                 drawCollision = !drawCollision;
 
-            bool tileMapSwitch = false;
-
             campus[currentArea].UpdateRescueList(toBeRescued);
 
             Vector2 entrancePixelLocation = player[campus[currentArea].CurrentAreaType]
                                                   .Update(gameTime,
-                                                          talkingTo,
+                                                          interactingWith,
                                                           campus[currentArea].FinalNPCIndex,
                                                           campus[currentArea].PixelWidth,
                                                           campus[currentArea].PixelHeight,
-                                                          campus[currentArea].BossArea, 
+                                                          campus[currentArea].BossArea,
+                                                          campus[currentArea].BossIsAlive, 
                                                           campus[currentArea].BossAreaTrigger,
                                                           campus[currentArea].ToEntranceBox,
                                                           campus[currentArea].NPCTalkRadii,
+                                                          campus[currentArea].EnemiesToBoundingBox,
                                                           campus[currentArea].
                                                             GetSurroundingBoundingBoxes(
                                                                 player[campus[currentArea].CurrentAreaType].Position),
@@ -149,7 +151,7 @@ namespace LadyJava
                     if (previousArea == npc.Value.RescueArea)
                         npc.Value.Rescue();
                 
-                tileMapSwitch = true;
+                bool tileMapSwitch = true;
                 if (campus[currentArea].LastPosition == Global.InvalidVector2)
                     player[campus[currentArea].CurrentAreaType].SetPosition(campus[currentArea].StartingPosition,
                                                 campus[currentArea].TileWidth,
@@ -164,23 +166,25 @@ namespace LadyJava
             }
 
             if(!player[campus[currentArea].CurrentAreaType].InBossFight)
-                camera.Update(gameTime, tileMapSwitch,
-                                player[campus[currentArea].CurrentAreaType].Position,
-                                player[campus[currentArea].CurrentAreaType].Origin, 
-                                campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
+                camera.Update(gameTime, 
+                              player[campus[currentArea].CurrentAreaType].InBossFight,
+                              player[campus[currentArea].CurrentAreaType].Position,
+                              player[campus[currentArea].CurrentAreaType].Origin, 
+                              campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
             else
-                camera.Update(gameTime, tileMapSwitch,
+                camera.Update(gameTime, 
+                              player[campus[currentArea].CurrentAreaType].InBossFight,
                               new Vector2(campus[currentArea].BossArea.X, campus[currentArea].BossArea.Y),
                               player[campus[currentArea].CurrentAreaType].Origin,
                               campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
 
 
-            talkingTo = campus[currentArea].NPCUpdate(gameTime, toBeRescued, camera,
-                                                      player[campus[currentArea].CurrentAreaType].Position,
-                                                      player[campus[currentArea].CurrentAreaType].CurrentPlayState,
-                                                      player[campus[currentArea].CurrentAreaType].TalkingTo,
-                                                      player[campus[currentArea].CurrentAreaType].SpokeWithFinalNPC,
-                                                      screenWidth, screenHeight);
+            interactingWith = campus[currentArea].NPCUpdate(gameTime, toBeRescued, camera,
+                                                            player[campus[currentArea].CurrentAreaType].Position,
+                                                            player[campus[currentArea].CurrentAreaType].CurrentPlayState,
+                                                            player[campus[currentArea].CurrentAreaType].InteractingWith,
+                                                            player[campus[currentArea].CurrentAreaType].SpokeWithFinalNPC,
+                                                            screenWidth, screenHeight);
 
             return State.GamePlay;
         }

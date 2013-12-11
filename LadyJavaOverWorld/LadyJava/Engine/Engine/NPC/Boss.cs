@@ -9,6 +9,7 @@ namespace Engine
     public abstract class Boss : Enemy
     {
         protected string type;
+
         protected Rectangle fightArea;
         public Rectangle FightArea
         { get { return fightArea; } }
@@ -17,7 +18,6 @@ namespace Engine
         { get { return fightArea.Width * 2; } }
         protected int FightAreaHeight
         { get { return fightArea.Height * 2; } }
-
 
         protected BoundingBox fightAreaTrigger;
         public BoundingBox FightAreaTrigger

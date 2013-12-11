@@ -47,16 +47,27 @@ namespace Engine
         int finalNPCIndex;
         bool allSaved;
 
-        Boss boss;
         List<Enemy> enemies;
+        List<BoundingBox> enemyBounds;
+        public BoundingBox[] EnemiesToBoundingBox
+        { get { return enemyBounds.ToArray(); } }
+
+        Boss boss;
+
+        public bool BossIsAlive
+        { get { if (areaType == AreaType.Dungeon)
+                    return boss.IsAlive;
+                else
+                    return false; } }
 
         public BoundingBox BossAreaTrigger
-        { get { if (areaType == AreaType.Dungeon)
+        { get { if (areaType == AreaType.Dungeon && boss.IsAlive)
                     return boss.FightAreaTrigger;
                 else
                     return Global.InvalidBoundingBox; } }
+
         public Rectangle BossArea
-        { get { if (areaType == AreaType.Dungeon)
+        { get { if (areaType == AreaType.Dungeon && boss.IsAlive)
                     return boss.FightArea;
                 else
                     return new Rectangle(); } }
@@ -125,17 +136,17 @@ namespace Engine
                        int screenWidth, int screenHeight, SpriteFont newText) : this()
         {
             name = tileMapName;
-            //toBeRescued = new Dictionary<string, RescueInfo>();
+
             Load(tileMapPath + name, gameContent, null, screenWidth, screenHeight, newText);
             startingPosition = GetStartingPosition();
 
             activeNPCs = new List<Npc>();
-            collectBounds();
+            collectNPCBounds();
+            collectEnemyBounds();
 
             //it will be set after the the final dialog message has been processed
             finalNPCIndex = Global.InvalidInt;
             allSaved = false;
-            //openEndOfTheGame = false;
 
             processActiveEntrances(false);
         }
@@ -146,8 +157,6 @@ namespace Engine
         {
             Load(tileMapLocation, null, graphicsDevice, screenWidth, screenHeight, newText);
             startingPosition = GetStartingPosition();
-
-            //collectBounds();
         }
 
         //creating a blank tilemap for the editor
@@ -159,7 +168,7 @@ namespace Engine
             startingPosition = GetStartingPosition();
         }
 
-        void collectBounds()
+        void collectNPCBounds()
         {
             if (activeNPCs.Count >= 0)
             {
@@ -173,6 +182,22 @@ namespace Engine
                 }
             }
         }
+
+        void collectEnemyBounds()
+        {
+            if (enemies.Count >= 0)
+            {
+                enemyBounds = new List<BoundingBox>();
+
+                for (int i = 0; i < enemies.Count; i++)
+                    if (enemies[i].IsAlive)
+                        enemyBounds.Add(enemies[i].ToBoundingBox);
+                //remove boss != null when all areas have a boss
+                if(boss != null && areaType == AreaType.Dungeon && boss.IsAlive)
+                    enemyBounds.Add(boss.ToBoundingBox);
+            }
+        }
+
 
         public BoundingBox[] GetSurroundingBoundingBoxes(Vector2 playerPosition)
         {
@@ -218,7 +243,8 @@ namespace Engine
         public void UpdateRescueList
             (Dictionary<string, RescueInfo> toBeRescued)
         {
-            activeNPCs.Clear();
+            activeNPCs = new List<Npc>();
+            //activeNPCs.Clear();
             //toBeRescued = updateRescueList;
 
             for (int i = 0; i < npcs.Count; i++)
@@ -241,7 +267,7 @@ namespace Engine
                     else
                         activeNPCs.Add(npcs[i]);
 
-            collectBounds();
+            collectNPCBounds();
 
             if (!allSaved)
             {
@@ -264,37 +290,61 @@ namespace Engine
         }
 
 
-        public int NPCUpdate(GameTime gameTime, Dictionary<string, RescueInfo> toBeRescued,
+        public int[] NPCUpdate(GameTime gameTime, Dictionary<string, RescueInfo> toBeRescued,
                              Camera playerCamera, Vector2 playerPosition, 
-                             PlayState playerPlayState, int playerTalkingTo, bool endGame,
+                             PlayState playerPlayState, int[] playerInteractingWith, bool endGame,
                              int screenWidth, int screenHeight)
         {
             
             for (int i = 0; i < activeNPCs.Count; i++)
             {
-                if (!activeNPCs[i].MessageBoxVisible && playerTalkingTo == i)
-                    activeNPCs[i].ShowMessageBox();
-                else if (activeNPCs[i].MessageBoxVisible)
-                    if (playerPlayState == PlayState.Playing)
-                    {
-                        activeNPCs[i].HideMessageBox();
-                        playerTalkingTo = Global.InvalidInt;
-                        activeNPCs[i].ChangeMessage(playerCamera.Position);
-                    }
+                for (int h = 0; h < playerInteractingWith.Length; h++)
+                {
+                    if (!activeNPCs[i].MessageBoxVisible && playerInteractingWith[h] == i)
+                        activeNPCs[i].ShowMessageBox();
+                    else if (activeNPCs[i].MessageBoxVisible)
+                        if (playerPlayState == PlayState.Playing)
+                        {
+                            activeNPCs[i].HideMessageBox();
+                            playerInteractingWith[h] = Global.InvalidInt;
+                            activeNPCs[i].ChangeMessage(playerCamera.Position);
+                        }
 
-                activeNPCs[i].Update(playerCamera, screenWidth, screenHeight, toBeRescued);
-                //set final npc index if the dialog has been processed
-                if (activeNPCs[i].FinalDialogProcessed)
-                    finalNPCIndex = i;
+                    activeNPCs[i].Update(playerCamera, screenWidth, screenHeight, toBeRescued);
+                    //set final npc index if the dialog has been processed
+                    if (activeNPCs[i].FinalDialogProcessed)
+                        finalNPCIndex = i;
+                }
             }
 
             if (areaType == AreaType.Dungeon)
-                boss.Update(gameTime, playerPosition);
+            {
+                for (int i = 0; i < playerInteractingWith.Length; i++)
+                    if (playerInteractingWith[i] > enemies.Count - 1)
+                    {
+                        boss.WasHit();
+                        playerInteractingWith[i] = Global.InvalidInt;
+                    }
+                    else
+                    {
+                        enemies[i].WasHit();
+                        playerInteractingWith[i] = Global.InvalidInt;
+                    }
+
+                for (int i = 0; i < enemies.Count; i++)
+                    if (enemies[i].IsAlive)
+                        enemies[i].Update(gameTime, playerPosition);
+
+                if(boss.IsAlive)
+                    boss.Update(gameTime, playerPosition);
+
+                collectEnemyBounds();
+            }
 
             if (endGame)
                 processActiveEntrances(endGame);
 
-            return playerTalkingTo;
+            return playerInteractingWith;
         }
 
         Vector2 GetStartingPosition()
@@ -842,13 +892,14 @@ namespace Engine
                         tileMap[i].Draw(spriteBatch, tiles, transparency);
                 }
                 else
+                {
+                    if (areaType == AreaType.Dungeon && i == tileMap.Count - 1)
+                        boss.Draw(spriteBatch, transparency);
                     tileMap[i].Draw(spriteBatch, tiles, transparency);
-
+                }
             foreach (Npc npc in activeNPCs)
                 npc.Draw(spriteBatch, transparency);
 
-            if(areaType == AreaType.Dungeon)
-                boss.Draw(spriteBatch, transparency);
         }
     }
 }

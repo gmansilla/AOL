@@ -18,13 +18,15 @@ namespace LadyJava
         public abstract void Draw(SpriteBatch spriteBatch, Color transparency);
 
         public abstract Vector2 Update(GameTime gameTime,
-                                       int newNPC, //npc index
+                                       int[] newNPC, //npc index
                                        int finalNPC,  //final npc index
                                        int levelWidth, int levelHeight,
                                        Rectangle bossArea,
+                                       bool bossIsAlive,
                                        BoundingBox bossAreaTrigger,
                                        BoundingBox[] entrances, 
                                        BoundingBox[] talkingRadii,
+                                       BoundingBox[] enemyBounds,
                                        params Object[] collisionObjects);
 
         protected Vector2 motion;
@@ -51,9 +53,10 @@ namespace LadyJava
         public Vector2 PreviousPosition
         { get { return previousPosition; } }
 
-        protected int talkingTo;
-        public int TalkingTo
-        { get { return talkingTo; } }
+
+        protected List<int> interactingWith;
+        public int[] InteractingWith
+        { get { return interactingWith.ToArray(); } }
 
         protected PlayState currentPlayState;
         public PlayState CurrentPlayState
@@ -62,6 +65,9 @@ namespace LadyJava
         public Vector2 Position
         { get { return sprite.Position; } }
 
+        public Vector2 FeetPosition
+        { get { return Position + new Vector2(0, Height); } }
+        
         public Vector2 Origin
         { get { return sprite.Origin; } }
 
@@ -81,7 +87,7 @@ namespace LadyJava
 
         protected Vector2 EntranceCollision(Vector2 newMotion, BoundingBox[] newEntrances)
         {
-            boundingBox = getBounds(Position + newMotion, Width, Height);
+            boundingBox = getBounds(Position + newMotion);//, Width, Height);
             for (int i = 0; i < newEntrances.Length; i++) //For each tile
             {
                 if (boundingBox.Intersects(newEntrances[i])) //compare Lady J's box with another square. 
@@ -170,7 +176,7 @@ namespace LadyJava
             for (int i = 1; i <= incrementCount; i++)
             {
                 Vector2 adjustedPosition = position + increment * i;
-                BoundingBox newBounds = getBounds(adjustedPosition, width, height);
+                BoundingBox newBounds = getBounds(adjustedPosition);//, width, height);
 
                 BoundingBox collision = NoCollision(newBounds, collisions);
                 if (collision == Global.InvalidBoundingBox)
@@ -204,10 +210,10 @@ namespace LadyJava
             return newPosition - position;
         }
 
-        protected BoundingBox getBounds(Vector2 newPosition, int width, int height)
+        protected BoundingBox getBounds(Vector2 newPosition)//, int width, int height)
         {
             return new BoundingBox(new Vector3(newPosition, 0f),
-                                   new Vector3(newPosition.X + width, newPosition.Y + height, 0f));
+                                   new Vector3(newPosition.X + Width, newPosition.Y + Height, 0f));
         }
     }
 }

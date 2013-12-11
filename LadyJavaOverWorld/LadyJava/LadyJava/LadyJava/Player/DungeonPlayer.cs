@@ -39,6 +39,8 @@ namespace LadyJava
         bool movingLeft
         { get { return motion.X < 0; } }
 
+        
+
         bool isMovingOppositeDirection
         { get { return (movingRight && InputManager.IsKeyDown(Commands.Left)) ||
                        (movingLeft && InputManager.IsKeyDown(Commands.Right)); } }
@@ -60,7 +62,9 @@ namespace LadyJava
 
             facingDirection = Direction.Right;
 
-            boundingBox = getBounds(Position, Width, Height);
+            interactingWith = new List<int>();
+
+            boundingBox = getBounds(Position);//, Width, Height);
         }
 
         void GenerateAttackBounds()
@@ -91,19 +95,29 @@ namespace LadyJava
         }
 
         public override Vector2 Update(GameTime gameTime,
-                               int newNPC, //npc index
+                               int[] newNPC, //npc index
                                int finalNPC,  //final npc index
                                int levelWidth, int levelHeight,
                                Rectangle bossArea,
+                               bool bossIsAlive,
                                BoundingBox bossAreaTrigger,
-                               BoundingBox[] entrances, 
-                               BoundingBox[] talkingRadii,
+                               BoundingBox[] entrances,
+                               BoundingBox[] talkingRadii, 
+                               BoundingBox[] enemyBounds,
                                params Object[] collisionObjects)
         {
             Vector2 entranceLocation = Global.InvalidVector2;
             Vector2 position = sprite.Position;
 
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
+
+            if (inBossFight && !bossIsAlive)
+                inBossFight = false;
+
+            interactingWith = new List<int>();
+            foreach (int npc in newNPC)
+                if (npc != Global.InvalidInt)
+                    interactingWith.Add(npc);
 
             motion = UpdateMotion(gameTime, position, motion, collisions);
 
@@ -120,6 +134,13 @@ namespace LadyJava
             animation = sprite.Update(gameTime, animation, position, facingDirection);
 
             GenerateAttackBounds();
+            interactingWith = new List<int>();
+            for (int i = 0; i < enemyBounds.Length; i++)
+                if (attackBounds.Intersects(enemyBounds[i]) && 
+                    ((facingDirection == Direction.Right && attackBounds.Min.X < enemyBounds[i].Min.X) ||
+                     (facingDirection == Direction.Left && attackBounds.Max.X > enemyBounds[i].Max.X)))
+                    interactingWith.Add(i);
+
             return entranceLocation;
         }
 
@@ -129,13 +150,13 @@ namespace LadyJava
             {
                 if (movingLeft)
                 {
-                    if (getBounds(position + new Vector2(Width, 0f), Width, Height).Intersects(bossArea))
+                    if (getBounds(position + new Vector2(Width, 0f)).Intersects(bossArea))//, Width, Height).Intersects(bossArea))
                         inBossFight = true;
 
                 }
                 else if (movingRight)
                 {
-                    if (getBounds(position, Width, Height).Intersects(bossArea))
+                    if (getBounds(position).Intersects(bossArea))//, Width, Height).Intersects(bossArea))
                         inBossFight = true;
 
                 }

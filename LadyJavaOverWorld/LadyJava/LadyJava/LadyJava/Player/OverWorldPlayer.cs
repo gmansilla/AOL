@@ -28,22 +28,25 @@ namespace LadyJava
             cameraFocus = sprite.Position;
             
             switchedTileMap = false;
-            
-            talkingTo = Global.InvalidInt;
+
+            interactingWith = new List<int>();//Global.InvalidInt;
             speakingToFinalNPC = false;
             finishedTalkingToFinalNPC = false;
             
 
-            boundingBox = getBounds(Position, Width, Height);
+            boundingBox = getBounds(Position);//, Width, Height);
         }
         
         public override Vector2 Update(GameTime gameTime, 
-                                       int newNPC, //npc index
+                                       int[] newNPC, //npc index
                                        int finalNPC, //final npc index
                                        int levelWidth, int levelHeight,
                                        Rectangle bossArea,
+                                       bool bossIsAlive,
                                        BoundingBox bossAreaTrigger,
-                                       BoundingBox[] entrances, BoundingBox[] talkingRadii,
+                                       BoundingBox[] entrances, 
+                                       BoundingBox[] talkingRadii,
+                                       BoundingBox[] enemyBounds,
                                        params Object[] collisionObjects)
         {
             Vector2 entranceLocation = Global.InvalidVector2;
@@ -51,7 +54,10 @@ namespace LadyJava
             Vector2 position = sprite.Position;
             previousPosition = sprite.Position;
 
-            talkingTo = newNPC;
+            interactingWith = new List<int>();
+            foreach(int npc in newNPC)
+                if(npc != Global.InvalidInt)
+                    interactingWith.Add(npc);
 
             bool collision = false;
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
@@ -120,11 +126,11 @@ namespace LadyJava
                 {
                     //talking = !talking;
                     //if (talking)
-                    if(talkingTo == Global.InvalidInt)
+                    if (interactingWith.Count == 0)
                     {
                         currentPlayState = PlayState.Message;
-                        talkingTo = i;
-                        if (talkingTo == finalNPC)
+                        interactingWith.Add(i);
+                        if (i == finalNPC)
                             speakingToFinalNPC = true;
                         break;
                     }

@@ -19,7 +19,11 @@ namespace Engine
         int screenWidth;
         int screenHeight;
 
+        bool bossFightWasActive;
+
         bool inTransition;
+        bool transitionUp;
+        bool transitionLeft;
         Vector2 transitionTo;
 
         public Vector2 Position
@@ -72,29 +76,69 @@ namespace Engine
             origin = new Vector2(screenWidth / 2, screenHeight / 2f) * scale;
         }
 
-        public void Update(GameTime gameTime, bool tileMapSwitched,
+        public void Update(GameTime gameTime, bool bossFightIsActive,
                            Vector2 playerPosition, Vector2 playerOrigin, 
                            int levelWidth, int levelHeight)
         {
             if (!inTransition)
             {
                 Vector2 newPosition = playerPosition + playerOrigin - origin;
-                if (Math.Abs(position.Y - newPosition.Y) > MaxCameraMovement && !tileMapSwitched)
-                {
-                    inTransition = true;
-                    transitionTo = newPosition;
-                }
-                else
-                    position = newPosition;
-            }    
+                    
+                    if (Math.Abs(position.Y - newPosition.Y) > MaxCameraMovement && (bossFightIsActive || bossFightWasActive))
+                    {
+                        transitionUp = false;
+                        transitionLeft = false;
+                        if (newPosition.Y < position.Y)
+                            transitionUp = true;
+                        if (newPosition.X < position.X)
+                            transitionLeft = true;
+
+                        inTransition = true;
+                        transitionTo = newPosition;
+                    }
+                    else
+                    {
+                        position = newPosition;
+                    }
+                    
+            }
             else
             {
-                position.X = Math.Max(transitionTo.X, position.X - MaxCameraMovement / 2f);
-                position.Y = Math.Max(transitionTo.Y, position.Y - MaxCameraMovement / 2f);
-                if (position.X >= transitionTo.X && position.Y >= transitionTo.Y)
+                bool horizontalDone = false;
+                bool verticalDone = false;
+
+                if (transitionLeft)
+                {
+                    position.X = Math.Max(transitionTo.X, position.X - MaxCameraMovement / 2f);
+                    if (position.X <= transitionTo.X)
+                        horizontalDone = true;
+                }
+                else
+                {
+                    position.X = Math.Min(transitionTo.X, position.X + MaxCameraMovement / 2f);
+                    if (position.X >= transitionTo.X)
+                        horizontalDone = true;
+                }
+
+                if (transitionUp)
+                {
+                    position.Y = Math.Max(transitionTo.Y, position.Y - MaxCameraMovement / 2f);
+                    if (position.Y <= transitionTo.Y)
+                        verticalDone = true;
+                }
+                else
+                {
+                    position.Y = Math.Min(transitionTo.Y, position.Y + MaxCameraMovement / 2f);
+                    if (position.Y >= transitionTo.Y)
+                        verticalDone = true;
+                }
+
+                if (horizontalDone && verticalDone)
                     inTransition = false;
             }
+                
             LockToLevel(levelWidth, levelHeight);
+            bossFightWasActive = bossFightIsActive;
         }
 
         public void Update(Vector2 scrollbarPosition)
@@ -112,17 +156,32 @@ namespace Engine
         }
 
 
-        void LockToLevel(int width, int height)
+        bool LockToLevel(int width, int height)
         {
+            bool locked = false;
             if (position.X > width - screenWidth)
+            {
                 position.X = width - screenWidth;
+                locked = true;
+            }
             if (position.Y > height - screenHeight)
+            {
                 position.Y = height - screenHeight;
+                locked = true;
+            }
 
             if (position.X < 0)
+            {
                 position.X = 0;
+                locked = true;
+            }
             if (position.Y < 0)
+            {
                 position.Y = 0;
+                locked = true;
+            }
+
+            return locked;
         }
 
 

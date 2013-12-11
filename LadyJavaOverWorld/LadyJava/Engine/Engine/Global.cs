@@ -53,6 +53,7 @@ namespace Engine
         public const string Down = "Down";
         //public const string Left = "Left";
         public const string Moving = "Moving";
+        public const string Hurt = "Hurt";
         public const string None = "None";
         public const string Still = "Idle";
         public const string StartingAttack = "StartingAttack";
