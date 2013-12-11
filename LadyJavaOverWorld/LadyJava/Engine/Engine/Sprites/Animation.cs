@@ -71,14 +71,14 @@ namespace Engine
             nextFrameTime = aniamtionTime;
             loop = loopAnimation;
             animateTime = 0;
-            
-            scale = 1f;
+
+            scale = animationScale;
 
             frames = new Frame[totalFrames];
             currentFrame = 0;
 
             for (int frame = 0; frame < TotalFrames; frame++)
-                frames[frame] = new Frame(frameWidth, frameHeight, new Point(frame * frameWidth, initialY), animationScale);
+                frames[frame] = new Frame(frameWidth, frameHeight, new Point(frame * frameWidth, initialY), scale);
 
             status = AnimationStatus.Running;
         }

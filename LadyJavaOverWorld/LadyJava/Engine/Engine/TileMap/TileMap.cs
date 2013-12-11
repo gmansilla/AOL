@@ -265,8 +265,9 @@ namespace Engine
 
 
         public int NPCUpdate(GameTime gameTime, Dictionary<string, RescueInfo> toBeRescued,
-                      Camera playerCamera, PlayState playerPlayState, int playerTalkingTo, bool endGame,
-                      int screenWidth, int screenHeight)
+                             Camera playerCamera, Vector2 playerPosition, 
+                             PlayState playerPlayState, int playerTalkingTo, bool endGame,
+                             int screenWidth, int screenHeight)
         {
             
             for (int i = 0; i < activeNPCs.Count; i++)
@@ -288,7 +289,7 @@ namespace Engine
             }
 
             if (areaType == AreaType.Dungeon)
-                boss.Update(gameTime);
+                boss.Update(gameTime, playerPosition);
 
             if (endGame)
                 processActiveEntrances(endGame);

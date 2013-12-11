@@ -176,6 +176,7 @@ namespace LadyJava
 
 
             talkingTo = campus[currentArea].NPCUpdate(gameTime, toBeRescued, camera,
+                                                      player[campus[currentArea].CurrentAreaType].Position,
                                                       player[campus[currentArea].CurrentAreaType].CurrentPlayState,
                                                       player[campus[currentArea].CurrentAreaType].TalkingTo,
                                                       player[campus[currentArea].CurrentAreaType].SpokeWithFinalNPC,

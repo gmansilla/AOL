@@ -107,14 +107,15 @@ namespace LadyJava
 
         protected Vector2 LockToFightArea(Vector2 position, Vector2 areaStart, float areaWidth, float areaHeight)
         {
-            if (position.X < areaStart.X)
-                position.X = areaStart.X;
-            if (position.Y < areaStart.Y)
-                position.Y = areaStart.Y;
-            if (position.X > areaWidth - Width)
-                position.X = areaWidth - Width;
-            if (position.Y > areaHeight - Height)
-                position.Y = areaHeight - Height;
+            //also adjust by the origin of the player
+            if (position.X < areaStart.X + Origin.X)
+                position.X = areaStart.X + Origin.X;
+            if (position.Y < areaStart.Y + Origin.Y)
+                position.Y = areaStart.Y + Origin.Y;
+            if (position.X > areaWidth - Origin.X)
+                position.X = areaWidth - Origin.X;
+            if (position.Y > areaHeight - Origin.Y)
+                position.Y = areaHeight - Origin.Y;
             return position;
         }
 

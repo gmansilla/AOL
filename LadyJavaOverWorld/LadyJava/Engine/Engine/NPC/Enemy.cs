@@ -12,13 +12,19 @@ namespace Engine
     {
         protected Sprite sprite;
 
-        abstract public void Update(GameTime gameTime);
+        public int Width
+        { get { return sprite.Width; } }
 
+        public int Height
+        { get { return sprite.Height; } }
+
+        abstract public void Update(GameTime gameTime, Vector2 playerPosition);
+        
         abstract public void Draw(SpriteBatch spriteBatch, Color transparency);
 
-        public void SetPosition (Vector2 newPosition)
-        {
-            sprite.SetPosition(newPosition);
-        }
+        abstract public void SetPosition(Vector2 newPosition);
+        //{
+        //    sprite.SetPosition(newPosition);
+        //}
     }
 }
