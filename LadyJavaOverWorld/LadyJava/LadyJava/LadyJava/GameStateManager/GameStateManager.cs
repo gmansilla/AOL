@@ -107,7 +107,7 @@ namespace LadyJava
             }
 
             //Play Music
-            if (currentSong != null)
+            if (currentSong != null && currentSong == null)
             {
                 if (!MediaPlayer.State.Equals(MediaState.Playing))
                     MediaPlayer.Play(currentSong);

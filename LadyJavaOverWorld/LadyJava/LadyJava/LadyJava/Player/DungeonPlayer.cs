@@ -54,9 +54,9 @@ namespace LadyJava
             cameraFocus = sprite.Position;
 
             jumpDone = true;
-            //delayJump = false;
             isJumping = false;
             isFalling = false;
+            inBossFight = false;
 
             facingDirection = Direction.Right;
 
@@ -94,7 +94,10 @@ namespace LadyJava
                                int newNPC, //npc index
                                int finalNPC,  //final npc index
                                int levelWidth, int levelHeight,
-                               BoundingBox[] entrances, BoundingBox[] talkingRadii,
+                               Rectangle bossArea,
+                               BoundingBox bossAreaTrigger,
+                               BoundingBox[] entrances, 
+                               BoundingBox[] talkingRadii,
                                params Object[] collisionObjects)
         {
             Vector2 entranceLocation = Global.InvalidVector2;
@@ -105,12 +108,38 @@ namespace LadyJava
             motion = UpdateMotion(gameTime, position, motion, collisions);
 
             position += motion;
-            position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
+
+            CheckForBossFight(bossAreaTrigger, position);
+            if (!inBossFight)
+                position = LockToLevel(position, levelWidth, levelHeight);
+            else
+                position = LockToFightArea(position,
+                                           new Vector2(bossArea.X - bossArea.Width, bossArea.Y - bossArea.Height),
+                                           bossArea.X + bossArea.Width, bossArea.Y + bossArea.Height);
             entranceLocation = EntranceCollision(motion, entrances);
             animation = sprite.Update(gameTime, animation, position, facingDirection);
 
             GenerateAttackBounds();
             return entranceLocation;
+        }
+
+        private void CheckForBossFight(BoundingBox bossArea, Vector2 position)
+        {
+            if (!inBossFight)
+            {
+                if (movingLeft)
+                {
+                    if (getBounds(position + new Vector2(Width, 0f), Width, Height).Intersects(bossArea))
+                        inBossFight = true;
+
+                }
+                else if (movingRight)
+                {
+                    if (getBounds(position, Width, Height).Intersects(bossArea))
+                        inBossFight = true;
+
+                }
+            }
         }
 
         private Vector2 UpdateMotion(GameTime gameTime, 

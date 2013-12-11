@@ -9,15 +9,18 @@ namespace Engine
 {
     public class Camera
     {
+        const float MaxCameraMovement = Global.GravityAccelation;
+
         Vector2 position;
         Vector2 origin;
         
         float scale;
 
-        //CollisionBox collisionBox;
-
         int screenWidth;
         int screenHeight;
+
+        bool inTransition;
+        Vector2 transitionTo;
 
         public Vector2 Position
         { get { return position; } }
@@ -69,17 +72,29 @@ namespace Engine
             origin = new Vector2(screenWidth / 2, screenHeight / 2f) * scale;
         }
 
-        public void Update(GameTime gameTime, Vector2 playerPosition, 
-                           Vector2 playerOrigin, 
+        public void Update(GameTime gameTime, bool tileMapSwitched,
+                           Vector2 playerPosition, Vector2 playerOrigin, 
                            int levelWidth, int levelHeight)
         {
-            //position += playerMotion;// -origin.X;// +playerOrigin.X;
-           
-            position = playerPosition + playerOrigin - origin;
-
+            if (!inTransition)
+            {
+                Vector2 newPosition = playerPosition + playerOrigin - origin;
+                if (Math.Abs(position.Y - newPosition.Y) > MaxCameraMovement && !tileMapSwitched)
+                {
+                    inTransition = true;
+                    transitionTo = newPosition;
+                }
+                else
+                    position = newPosition;
+            }    
+            else
+            {
+                position.X = Math.Max(transitionTo.X, position.X - MaxCameraMovement / 2f);
+                position.Y = Math.Max(transitionTo.Y, position.Y - MaxCameraMovement / 2f);
+                if (position.X >= transitionTo.X && position.Y >= transitionTo.Y)
+                    inTransition = false;
+            }
             LockToLevel(levelWidth, levelHeight);
-
-            //collisionBox.Update(position, origin);
         }
 
         public void Update(Vector2 scrollbarPosition)

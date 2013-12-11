@@ -65,7 +65,6 @@ namespace LadyJava
             AnimationInfo[] overworldAnimations = { new AnimationInfo(Global.Still, 32, 46, 1, 0, Animation.None),
                                                     new AnimationInfo(Global.Down, 32, 46, 4, 100, Animation.None),
                                                     new AnimationInfo(Global.Moving, 32, 46, 4, 100, Animation.None),
-                                                    //new AnimationInfo(Global.Right, 32, 46, 4, 100),
                                                     new AnimationInfo(Global.Up, 32, 46, 4, 100, Animation.None) };
 
             player = new Dictionary<AreaType, Player>();
@@ -108,6 +107,8 @@ namespace LadyJava
             else if (InputManager.HasKeyBeenUp(new Command(Microsoft.Xna.Framework.Input.Keys.C, Buttons.LeftShoulder)))
                 drawCollision = !drawCollision;
 
+            bool tileMapSwitch = false;
+
             campus[currentArea].UpdateRescueList(toBeRescued);
 
             Vector2 entrancePixelLocation = player[campus[currentArea].CurrentAreaType]
@@ -116,6 +117,8 @@ namespace LadyJava
                                                           campus[currentArea].FinalNPCIndex,
                                                           campus[currentArea].PixelWidth,
                                                           campus[currentArea].PixelHeight,
+                                                          campus[currentArea].BossArea, 
+                                                          campus[currentArea].BossAreaTrigger,
                                                           campus[currentArea].ToEntranceBox,
                                                           campus[currentArea].NPCTalkRadii,
                                                           campus[currentArea].
@@ -145,24 +148,32 @@ namespace LadyJava
                 foreach (KeyValuePair<string, RescueInfo> npc in toBeRescued)
                     if (previousArea == npc.Value.RescueArea)
                         npc.Value.Rescue();
-
+                
+                tileMapSwitch = true;
                 if (campus[currentArea].LastPosition == Global.InvalidVector2)
                     player[campus[currentArea].CurrentAreaType].SetPosition(campus[currentArea].StartingPosition,
                                                 campus[currentArea].TileWidth,
-                                                campus[currentArea].TileHeight, true, true);
+                                                campus[currentArea].TileHeight, true, tileMapSwitch);
                 else
                 {
                     player[campus[currentArea].CurrentAreaType].SetPosition(campus[currentArea].LastPosition,
                                                 campus[currentArea].TileWidth,
-                                                campus[currentArea].TileHeight, false, true);
+                                                campus[currentArea].TileHeight, false, tileMapSwitch);
                     campus[currentArea].SetLastPosition(Global.InvalidVector2);
                 }
             }
 
-            camera.Update(gameTime,
-                          player[campus[currentArea].CurrentAreaType].Position,
-                          player[campus[currentArea].CurrentAreaType].Origin, 
-                          campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
+            if(!player[campus[currentArea].CurrentAreaType].InBossFight)
+                camera.Update(gameTime, tileMapSwitch,
+                                player[campus[currentArea].CurrentAreaType].Position,
+                                player[campus[currentArea].CurrentAreaType].Origin, 
+                                campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
+            else
+                camera.Update(gameTime, tileMapSwitch,
+                              new Vector2(campus[currentArea].BossArea.X, campus[currentArea].BossArea.Y),
+                              player[campus[currentArea].CurrentAreaType].Origin,
+                              campus[currentArea].PixelWidth, campus[currentArea].PixelHeight);
+
 
             talkingTo = campus[currentArea].NPCUpdate(gameTime, toBeRescued, camera,
                                                       player[campus[currentArea].CurrentAreaType].CurrentPlayState,

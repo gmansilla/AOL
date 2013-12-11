@@ -40,7 +40,9 @@ namespace LadyJava
         public override Vector2 Update(GameTime gameTime, 
                                        int newNPC, //npc index
                                        int finalNPC, //final npc index
-                                       int levelWidth, int levelHeight, 
+                                       int levelWidth, int levelHeight,
+                                       Rectangle bossArea,
+                                       BoundingBox bossAreaTrigger,
                                        BoundingBox[] entrances, BoundingBox[] talkingRadii,
                                        params Object[] collisionObjects)
         {
@@ -145,18 +147,13 @@ namespace LadyJava
 
             position += motion;
             cameraFocus += motion;
-            position = LockToLevel(sprite.Width, sprite.Height, position, levelWidth, levelHeight);
+            position = LockToLevel(position, levelWidth, levelHeight);
             entranceLocation = EntranceCollision(motion, entrances);
             sprite.Update(gameTime, animation, position, facingDirection);
 
             return entranceLocation;
         }
 
-        /*public void EndConversation()
-        {
-            talkingTo = Global.InvalidInt;
-        }*/
-        
         public override void Draw(SpriteBatch spriteBatch, Color transparency)
         {
             sprite.Draw(spriteBatch, transparency);

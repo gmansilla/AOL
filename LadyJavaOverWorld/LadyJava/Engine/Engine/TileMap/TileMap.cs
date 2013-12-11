@@ -25,6 +25,7 @@ namespace Engine
     public class TileMap
     {
         const string ContentPath = @"..\..\..\LadyJava\LadyJavaContent\";
+        const int BossAreaMidPoint = -2;
 
         string name;
 
@@ -45,7 +46,20 @@ namespace Engine
         BoundingBox[] npcTalkRadii;
         int finalNPCIndex;
         bool allSaved;
-        //bool openEndOfTheGame;
+
+        Boss boss;
+        List<Enemy> enemies;
+
+        public BoundingBox BossAreaTrigger
+        { get { if (areaType == AreaType.Dungeon)
+                    return boss.FightAreaTrigger;
+                else
+                    return Global.InvalidBoundingBox; } }
+        public Rectangle BossArea
+        { get { if (areaType == AreaType.Dungeon)
+                    return boss.FightArea;
+                else
+                    return new Rectangle(); } }
 
         public List<string> Entrances
         { get { return collisionLayer.Entrances; } }
@@ -273,6 +287,9 @@ namespace Engine
                     finalNPCIndex = i;
             }
 
+            if (areaType == AreaType.Dungeon)
+                boss.Update(gameTime);
+
             if (endGame)
                 processActiveEntrances(endGame);
 
@@ -389,6 +406,13 @@ namespace Engine
             bool readingCollisionLayer = false;
             bool readingNPCs = false;
             bool readingNPCLayer = false;
+            bool readingEnemies = false;
+            bool readingBoss = false;
+            bool readingEnemyLayer = false;
+
+            enemies = new List<Enemy>();
+            String bossType = "";
+            List<AnimationInfo> bossAnimations = new List<AnimationInfo>();
 
             List<string> entrances = new List<string>();
             
@@ -442,10 +466,20 @@ namespace Engine
                             readingEntrances = false;
                             readingNPCs = true;
                         }
+                        else if (line[y].Trim() == "[Enemies]")
+                        {
+                            readingEntrances = false;
+                            readingNPCs = false;
+                            
+                            readingEnemies = true;
+                            currentRow = 0;
+                        }
                         else if (line[y].Trim() == "[TileLayer]")
                         {
                             readingEntrances = false;
                             readingNPCs = false;
+                            readingEnemies = false;
+                            readingBoss = false;
 
                             readingTileMap = true;
                             currentRow = 0;
@@ -462,6 +496,14 @@ namespace Engine
                         {
                             readingCollisionLayer = false;
                             readingNPCLayer = true;
+                            currentRow = 0;
+                        }
+                        else if (line[y].Trim() == "[EnemyLayer]")
+                        {
+                            readingCollisionLayer = false;
+                            readingNPCLayer = false;
+                            
+                            readingEnemyLayer = true;
                             currentRow = 0;
                         }
                         else if (readingType)
@@ -516,39 +558,55 @@ namespace Engine
                         }
                         else if (readingNPCs)
                         {
-                            if (line[y].Trim() != "")
+                            ReadNPC(gameContent, graphicsDevice, screenWidth, screenHeight, newText, tileWidth, line[y]);
+                        }
+                        else if (readingEnemies)
+                        {
+                            if(line[y].Trim() == "<Boss>")
                             {
-                                const int NPCName = 0;
-                                const int NPCTilePosition = 1;
-                                const int NPCWidth = 2;
-                                const int NPCHeight = 3;
+                                currentRow = 0;
+                                readingBoss = true;
+                            }
+                            else if (readingBoss)
+                            {
+                                if(line[y].Trim() != "")
+                                {
+                                    const int AnimationName = 0;
+                                    const int FrameWidth = 1;
+                                    const int FrameHeight = 2;
+                                    const int FramesCount = 3;
+                                    const int AniiamtionSpeed = 4;
+                                    const int NextAnimation = 5;
 
-                                string[] npcVariables = line[y].Trim().Split(new Char[] { ' ' });
+                                    currentRow++;
+                                    if (currentRow == 1)
+                                        bossType = line[y].Trim();
+                                    else if (currentRow > 1)
+                                    {
+                                        string[] animationInfo = line[y].Trim().Split(' ');
+                                        bossAnimations.Add(
+                                            new AnimationInfo(
+                                                animationInfo[AnimationName],
+                                                int.Parse(animationInfo[FrameWidth]), int.Parse(animationInfo[FrameHeight]),
+                                                int.Parse(animationInfo[FramesCount]), int.Parse(animationInfo[AniiamtionSpeed]),
+                                                animationInfo[NextAnimation]));
+                                    }
+                                }
+                                else if(readingBoss) 
+                                {
+                                    Texture2D bossImage;
+                                    if (graphicsDevice != null)
+                                        bossImage = Global.LoadTexture(ContentPath + "Bosses\\" + bossType, graphicsDevice);
+                                    else
+                                        bossImage = gameContent.Load<Texture2D>("Bosses\\" + bossType);
 
-                                if (graphicsDevice == null)
-                                    npcs.Add(new Npc(npcVariables[NPCName],
-                                                     Vector2.Zero,
-                                                     npcVariables[NPCTilePosition],
-                                                     int.Parse(npcVariables[NPCWidth]),
-                                                     int.Parse(npcVariables[NPCHeight]),
-                                                     gameContent,
-                                                     tileWidth,
-                                                     screenWidth,
-                                                     screenHeight,
-                                                     newText));
-                                else
-                                    npcs.Add(new Npc(npcVariables[NPCName],
-                                                     Vector2.Zero,
-                                                     npcVariables[NPCTilePosition],
-                                                     int.Parse(npcVariables[NPCWidth]),
-                                                     int.Parse(npcVariables[NPCHeight]),
-                                                     ContentPath,
-                                                     graphicsDevice,
-                                                     tileWidth,
-                                                     screenWidth,
-                                                     screenHeight,
-                                                     newText));
-
+                                    if(bossType == Global.BabyMetroid)
+                                        boss = new BabyMetroid(bossImage, bossAnimations.ToArray());
+                                }
+                            }
+                            else if (line[y].Trim() != "")
+                            {
+                                //read normal enemies
                             }
                         }
                         else if (readingTileMap)
@@ -596,6 +654,29 @@ namespace Engine
                                 currentRow++;
                             }
                         }
+                        else if (readingEnemyLayer)
+                        {
+                            if (line[y].Trim() != "")
+                            {
+                                string[] tiles = line[y].Trim().Split(new Char[] { '|' });
+
+                                for (int i = 0; i < tiles.Length; i++)
+                                {
+                                    int enemy = int.Parse(tiles[i]);
+                                    if (enemy > Global.InvalidInt)
+                                    {
+                                        if (enemy > enemies.Count - 1)
+                                            boss.SetPosition(new Vector2(i * tileWidth, currentRow * tileHeight));
+                                        else
+                                            enemies[enemy].SetPosition(new Vector2(i * tileWidth, currentRow * tileHeight));
+                                    }
+                                    else if (enemy == TileMap.BossAreaMidPoint)
+                                        boss.SetFightArea(new Point(i * tileWidth, currentRow * tileHeight), 
+                                                          screenWidth, screenHeight, tileWidth, tileHeight);
+                                }
+                                currentRow++;
+                            }
+                        }
                     }
 
                     //add the collision layer if there is no blank line at end of file
@@ -608,6 +689,44 @@ namespace Engine
             //    Console.WriteLine("The file could not be read:");
             //    Console.WriteLine(e.Message);
             //}
+        }
+
+        private void ReadNPC(ContentManager gameContent, GraphicsDevice graphicsDevice, int screenWidth, int screenHeight, SpriteFont newText, int tileWidth, string line)
+        {
+            if (line.Trim() != "")
+            {
+                const int NPCName = 0;
+                const int NPCTilePosition = 1;
+                const int NPCWidth = 2;
+                const int NPCHeight = 3;
+
+                string[] npcVariables = line.Trim().Split(new Char[] { ' ' });
+
+                if (graphicsDevice == null)
+                    npcs.Add(new Npc(npcVariables[NPCName],
+                                     Vector2.Zero,
+                                     npcVariables[NPCTilePosition],
+                                     int.Parse(npcVariables[NPCWidth]),
+                                     int.Parse(npcVariables[NPCHeight]),
+                                     gameContent,
+                                     tileWidth,
+                                     screenWidth,
+                                     screenHeight,
+                                     newText));
+                else
+                    npcs.Add(new Npc(npcVariables[NPCName],
+                                     Vector2.Zero,
+                                     npcVariables[NPCTilePosition],
+                                     int.Parse(npcVariables[NPCWidth]),
+                                     int.Parse(npcVariables[NPCHeight]),
+                                     ContentPath,
+                                     graphicsDevice,
+                                     tileWidth,
+                                     screenWidth,
+                                     screenHeight,
+                                     newText));
+
+            }
         }
 
         public void Save(String fileLocation)
@@ -726,6 +845,9 @@ namespace Engine
 
             foreach (Npc npc in activeNPCs)
                 npc.Draw(spriteBatch, transparency);
+
+            if(areaType == AreaType.Dungeon)
+                boss.Draw(spriteBatch, transparency);
         }
     }
 }

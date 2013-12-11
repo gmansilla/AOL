@@ -21,7 +21,10 @@ namespace LadyJava
                                        int newNPC, //npc index
                                        int finalNPC,  //final npc index
                                        int levelWidth, int levelHeight,
-                                       BoundingBox[] entrances, BoundingBox[] talkingRadii,
+                                       Rectangle bossArea,
+                                       BoundingBox bossAreaTrigger,
+                                       BoundingBox[] entrances, 
+                                       BoundingBox[] talkingRadii,
                                        params Object[] collisionObjects);
 
         protected Vector2 motion;
@@ -31,6 +34,10 @@ namespace LadyJava
         protected bool switchedTileMap;
 
         protected bool jumpDone;
+
+        protected bool inBossFight;
+        public bool InBossFight
+        { get { return inBossFight; } }
 
         protected BoundingBox boundingBox;
 
@@ -85,16 +92,29 @@ namespace LadyJava
             return Global.InvalidVector2;
         }
 
-        protected Vector2 LockToLevel(int width, int height, Vector2 position, int levelW, int levelH)
+        protected Vector2 LockToLevel(Vector2 position, int levelW, int levelH)
         {
             if (position.X < 0)
                 position.X = 0;
             if (position.Y < 0)
                 position.Y = 0;
-            if (position.X > levelW - width)
-                position.X = levelW - width;
-            if (position.Y > levelH - height)
-                position.Y = levelH - height;
+            if (position.X > levelW - Width)
+                position.X = levelW - Width;
+            if (position.Y > levelH - Height)
+                position.Y = levelH - Height;
+            return position;
+        }
+
+        protected Vector2 LockToFightArea(Vector2 position, Vector2 areaStart, float areaWidth, float areaHeight)
+        {
+            if (position.X < areaStart.X)
+                position.X = areaStart.X;
+            if (position.Y < areaStart.Y)
+                position.Y = areaStart.Y;
+            if (position.X > areaWidth - Width)
+                position.X = areaWidth - Width;
+            if (position.Y > areaHeight - Height)
+                position.Y = areaHeight - Height;
             return position;
         }
 

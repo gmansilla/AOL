@@ -84,6 +84,9 @@ namespace Engine
         public static string[] ToBeRecused = { "TecMan", "SeeHash", "TheOracle", "TheScrumMaster" };
         public static string[] RecuseAreas = { "TileMaps\\D1End.map", "TileMaps\\D2End.map", "TileMaps\\D3End.map", "TileMaps\\D4End.map" };
 
+        public static string BabyMetroid = "BabyMetroid";
+        public static string Thwomp = "Thwomp";
+
         static public Texture2D LoadTexture(string newTexturePath, GraphicsDevice graphicsDevice)
         {
             Texture2D newTexture;
