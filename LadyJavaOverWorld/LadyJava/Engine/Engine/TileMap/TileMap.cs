@@ -161,7 +161,7 @@ namespace Engine
 
         void collectBounds()
         {
-            if (activeNPCs.Count > 0)
+            if (activeNPCs.Count >= 0)
             {
                 npcBounds = new BoundingBox[activeNPCs.Count];
                 npcTalkRadii = new BoundingBox[activeNPCs.Count];
