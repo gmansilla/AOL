@@ -72,6 +72,10 @@ namespace Engine
                 else
                     return new Rectangle(); } }
 
+        bool playerHit;
+        public bool PlayerHit
+        { get { return playerHit; } }
+
         public List<string> Entrances
         { get { return collisionLayer.Entrances; } }
 
@@ -244,8 +248,6 @@ namespace Engine
             (Dictionary<string, RescueInfo> toBeRescued)
         {
             activeNPCs = new List<Npc>();
-            //activeNPCs.Clear();
-            //toBeRescued = updateRescueList;
 
             for (int i = 0; i < npcs.Count; i++)
                 if (name == Global.MainArea)
@@ -291,9 +293,9 @@ namespace Engine
 
 
         public int[] NPCUpdate(GameTime gameTime, Dictionary<string, RescueInfo> toBeRescued,
-                             Camera playerCamera, Vector2 playerPosition, 
-                             PlayState playerPlayState, int[] playerInteractingWith, bool endGame,
-                             int screenWidth, int screenHeight)
+                               Camera playerCamera, Vector2 playerPosition, bool inBossFight, BoundingBox playerBounds,
+                               PlayState playerPlayState, int[] playerInteractingWith, bool endGame,
+                               int screenWidth, int screenHeight)
         {
             
             for (int i = 0; i < activeNPCs.Count; i++)
@@ -319,6 +321,7 @@ namespace Engine
 
             if (areaType == AreaType.Dungeon)
             {
+                playerHit = false;
                 for (int i = 0; i < playerInteractingWith.Length; i++)
                     if (playerInteractingWith[i] > enemies.Count - 1)
                     {
@@ -333,11 +336,17 @@ namespace Engine
 
                 for (int i = 0; i < enemies.Count; i++)
                     if (enemies[i].IsAlive)
-                        enemies[i].Update(gameTime, playerPosition);
-
-                if(boss.IsAlive)
-                    boss.Update(gameTime, playerPosition);
-
+                    {
+                        enemies[i].Update(gameTime, playerPosition, playerBounds, screenWidth, inBossFight);
+                        if (enemies[i].Status != EnemyStatus.Hurt && enemies[i].PlayerHit)
+                            playerHit = true;
+                    }
+                if (boss.IsAlive)
+                {
+                    boss.Update(gameTime, playerPosition, playerBounds, screenWidth, inBossFight);
+                    if (boss.Status != EnemyStatus.Hurt && boss.PlayerHit)
+                        playerHit = true;
+                }
                 collectEnemyBounds();
             }
 
@@ -653,6 +662,9 @@ namespace Engine
 
                                     if(bossType == Global.BabyMetroid)
                                         boss = new BabyMetroid(bossImage, bossAnimations.ToArray());
+                                    else
+                                        boss = new Thwomp(bossImage, bossAnimations.ToArray());
+
                                 }
                             }
                             else if (line[y].Trim() != "")
@@ -900,6 +912,12 @@ namespace Engine
             foreach (Npc npc in activeNPCs)
                 npc.Draw(spriteBatch, transparency);
 
+
+        }
+
+        public void ResetBoss()
+        {
+            boss.Reset(boss.StartPosition);
         }
     }
 }

@@ -38,9 +38,11 @@ namespace LadyJava
         }
         
         public override Vector2 Update(GameTime gameTime, 
+                                       Camera camera,
                                        int[] newNPC, //npc index
                                        int finalNPC, //final npc index
                                        int levelWidth, int levelHeight,
+                                       bool playerHit,
                                        Rectangle bossArea,
                                        bool bossIsAlive,
                                        BoundingBox bossAreaTrigger,

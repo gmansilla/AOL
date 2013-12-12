@@ -8,19 +8,10 @@ using Engine;
 
 namespace Engine
 {
-    public enum BossStatus
-    {
-        Moving,
-        Attacking,
-        Stunned,
-        Hurt,
-    }
-
     public class BabyMetroid : Boss
     {
         Random rand = new Random();
 
-        const int MaxHP = 5;
         const int MaxMoves = 3;
         const int MaxAttackSpots = 4;
         const int MovementBuffer = 5;
@@ -30,14 +21,11 @@ namespace Engine
         const float normalSpeed = 4;
         const float attackSpeed = 8;
 
-        Dictionary<BossStatus, float> movement;
-        Dictionary<BossStatus, float> spinSpeed;
-
-        Vector2 targetPosition;
+        Dictionary<EnemyStatus, float> spinSpeed;
 
         Vector2 position;
 
-        Vector2[] attackPositions;
+        //Vector2[] attackPositions;
 
         public BabyMetroid(Texture2D newImage, AnimationInfo[] newAnimationInfo) :
                       this(new Sprite(newImage, Vector2.Zero, newAnimationInfo, 1f))
@@ -52,16 +40,18 @@ namespace Engine
             position = sprite.Position;
             fightAreaTrigger = Global.InvalidBoundingBox;
 
-            movement = new Dictionary<BossStatus, float>();
-            movement.Add(BossStatus.Moving, normalSpeed);
-            movement.Add(BossStatus.Stunned, normalSpeed);
-            movement.Add(BossStatus.Attacking, attackSpeed);
+            movement = new Dictionary<EnemyStatus, float>();
+            movement.Add(EnemyStatus.Moving, normalSpeed);
+            movement.Add(EnemyStatus.Stunned, normalSpeed);
+            movement.Add(EnemyStatus.Attacking, attackSpeed);
+            movement.Add(EnemyStatus.Hurt, normalSpeed);
 
-            spinSpeed = new Dictionary<BossStatus, float>();
-            spinSpeed.Add(BossStatus.Moving, normalSpinSpeed);
-            spinSpeed.Add(BossStatus.Stunned, normalSpinSpeed);
-            spinSpeed.Add(BossStatus.Attacking, attackSpinSpeed);
-            bossStatus = BossStatus.Moving;
+            spinSpeed = new Dictionary<EnemyStatus, float>();
+            spinSpeed.Add(EnemyStatus.Moving, normalSpinSpeed);
+            spinSpeed.Add(EnemyStatus.Stunned, normalSpinSpeed);
+            spinSpeed.Add(EnemyStatus.Attacking, attackSpinSpeed);
+            spinSpeed.Add(EnemyStatus.Hurt, normalSpinSpeed);
+            status = EnemyStatus.Moving;
             moveCount = 1;
 
             currentAnimation = Global.Moving;
@@ -82,101 +72,122 @@ namespace Engine
             
             attackSpot = 0;
             targetPosition = attackPositions[attackSpot];
+            //position = targetPosition;
+            SetPosition(targetPosition);
+            //currentAnimation = sprite.Update(gameTime, currentAnimation, circlePosition, Direction.Right);
+
         }
 
         Vector2 circlePosition;
-        const int changePositionTimer = 2500; //2.5secs
-        float changePositionTime = 0;
         bool pauseTimer = false;
-        BossStatus bossStatus;
         float currentAngle = 0;
         int attackSpot;
         int moveCount;
-        public override void Update(GameTime gameTime, Vector2 playerPosition)
+
+        public override void Update(GameTime gameTime, Vector2 playerPosition, BoundingBox playerBounds, int screenWidth, bool inBossFight)
         {
+
             if (attackPositions == null && fightArea != new Rectangle())
                 CreateAttackPositions();
 
-            if(!pauseTimer)
-                changePositionTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (bossStatus != BossStatus.Stunned)
+            playerHit = false;
+            //move if in range
+            if (inBossFight)//Math.Abs(position.X - playerPosition.X) < screenWidth * 0.8f)
             {
-                if (changePositionTime >= changePositionTimer)
-                {
-                    pauseTimer = true;
-                    changePositionTime = 0;
-                    if (bossStatus == BossStatus.Moving)
-                    {
-                        int newAttackSpot;
-                        do
-                            newAttackSpot = rand.Next(0, MaxAttackSpots);
-                        while (newAttackSpot == attackSpot);
-                        attackSpot = newAttackSpot;
-                        targetPosition = attackPositions[attackSpot];
-                    }
-                    else if (bossStatus == BossStatus.Attacking)
-                    {
-                        targetPosition = playerPosition;
-                        float distance = (int)(targetPosition - position).Length();
-                        float updateCount = distance / movement[bossStatus];
-                        float newAngle = (updateCount * spinSpeed[bossStatus] + currentAngle) % 360;
+                
+                CheckInvincibleDone(gameTime);
 
-                        Vector2 newTargetPosition = findPointOnCircle(targetPosition, newAngle);
-                        int newY = -(int)(newTargetPosition.Y - targetPosition.Y);
-                        
-                        position -= new Vector2(0, newY);
+                if (!pauseTimer)
+                    changePositionTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (status != EnemyStatus.Stunned)
+                {
+                    if (changePositionTime >= changePositionTimer)
+                    {
+                        pauseTimer = true;
+
+                        changePositionTime = 0;
+                        if (status == EnemyStatus.Moving || status == EnemyStatus.Hurt)
+                        {
+                            int newAttackSpot;
+                            do
+                                newAttackSpot = rand.Next(0, MaxAttackSpots);
+                            while (newAttackSpot == attackSpot);
+                            attackSpot = newAttackSpot;
+                            targetPosition = attackPositions[attackSpot];
+                        }
+                        else if (status == EnemyStatus.Attacking)
+                        {
+                            targetPosition = playerPosition;
+                        }
                     }
                 }
-            }
-            else if (changePositionTime >= changePositionTimer)
-            {
-                bossStatus = BossStatus.Moving;
-                pauseTimer = false;
-            }
-
-            if (pauseTimer)
-            {
-                Vector2 distance = targetPosition - position;
-                if (Math.Abs(distance.X) > MovementBuffer ||
-                    Math.Abs(distance.Y) > MovementBuffer)
+                else if (changePositionTime >= changePositionTimer)
                 {
-                    distance.Normalize();
-                    position += distance * movement[bossStatus];
-                }
-                else 
-                {
+                    status = EnemyStatus.Moving;
                     pauseTimer = false;
-                    Random rand = new Random();
-                    if (bossStatus == BossStatus.Attacking)
-                        bossStatus = BossStatus.Stunned;
-                    else if (moveCount >= MaxMoves)
+                }
+
+                if (pauseTimer)
+                {
+                    Vector2 distance = targetPosition - position;
+                    if (Math.Abs(distance.X) > MovementBuffer ||
+                        Math.Abs(distance.Y) > MovementBuffer)
                     {
-                        bossStatus = BossStatus.Attacking;
-                        moveCount = 0;
+                        distance.Normalize();
+                        position += distance * movement[status];
                     }
                     else
-                        if (rand.Next(0, 2) == 1)
+                    {
+                        pauseTimer = false;
+                        playerHit = false;
+                        Random rand = new Random();
+                        if (status == EnemyStatus.Attacking)
+                            status = EnemyStatus.Stunned;
+                        else if (moveCount >= MaxMoves)
                         {
-                            bossStatus = BossStatus.Attacking;
+                            status = EnemyStatus.Attacking;
                             moveCount = 0;
                         }
                         else
                         {
-                            bossStatus = BossStatus.Moving;
-                            moveCount++;
+                            if (rand.Next(0, 2) == 1)
+                            {
+                                status = EnemyStatus.Attacking;
+                                moveCount = 0;
+                            }
+                            else
+                            {
+                                status = EnemyStatus.Moving;
+                                moveCount++;
+                            }
                         }
+
+                    }
                 }
+
+                //Vector2 distanceToTarget = targetPosition - position;
+                //distanceToTarget.X = Math.Abs(distanceToTarget.X);
+                //distanceToTarget.Y = Math.Abs(distanceToTarget.Y);
+                if (status != EnemyStatus.Stunned)
+                {
+                    currentAngle += spinSpeed[status];
+                    if (currentAngle > 360)
+                        currentAngle = currentAngle - 360;
+                    circlePosition = findPointOnCircle(position, currentAngle);
+                }
+                boundingBox = getBounds(circlePosition);
+                if (!playerHit && status != EnemyStatus.Hurt && boundingBox.Intersects(playerBounds))
+                {
+                    playerHit = true;
+                    //hit player, run away
+                    status = EnemyStatus.Moving;
+                    pauseTimer = false;
+                    changePositionTime = changePositionTimer;
+                }
+
+                currentAnimation = sprite.Update(gameTime, currentAnimation, circlePosition, Direction.Right);
             }
 
-            if (bossStatus != BossStatus.Stunned)
-            {
-                currentAngle += spinSpeed[bossStatus];
-                if (currentAngle > 360)
-                    currentAngle = currentAngle - 360;
-                circlePosition = findPointOnCircle(position, currentAngle);
-            }
-            boundingBox = getBounds(circlePosition);
-            currentAnimation = sprite.Update(gameTime, currentAnimation, circlePosition, Direction.Right);
         }
 
         Vector2 findPointOnCircle(Vector2 pos, float angle)
@@ -188,6 +199,7 @@ namespace Engine
         public override void SetPosition(Vector2 newPosition)
         {
             position = newPosition;
+            sprite.SetPosition(newPosition);
         }
 
         public override void Draw(SpriteBatch spriteBatch, Color transparency)

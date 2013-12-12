@@ -110,6 +110,7 @@
     <Compile Include="Bosses\BabyMetroid.cs" />
     <Compile Include="NPC\Boss.cs" />
     <Compile Include="NPC\Enemy.cs" />
+    <Compile Include="Bosses\Thwomp.cs" />
     <Compile Include="TileMap\CollisionLayer.cs" />
     <Compile Include="Sprites\Animation.cs" />
     <Compile Include="Sprites\AnimationInfo.cs" />

@@ -7,10 +7,6 @@ namespace Engine
 {
     public class RescueInfo
     {
-        //string name;
-        //public string Name
-        //{ get { return name; } }
-
         string rescueArea;
         public string RescueArea
         { get { return rescueArea; } }
@@ -19,10 +15,8 @@ namespace Engine
         public bool IsRescued
         { get { return rescued; } }
 
-        public RescueInfo(//string newName, 
-                          string newRescueArea)
+        public RescueInfo(string newRescueArea)
         {
-            //name = newName;
             rescueArea = newRescueArea;
             rescued = false;
         }

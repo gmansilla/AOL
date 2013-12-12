@@ -19,18 +19,17 @@ namespace LadyJava
     {
         Texture2D attackImage;
 
+        Vector2 hpLocation;
+
         bool isJumping;
         bool isFalling;
 
-        bool isAttacking;
         Vector2 attackPosition;
         BoundingBox attackBounds;
         SpriteEffects attackDirection;
 
-        int jumpTime;
-
         const int jumpHeight = 15;
-        const int delayJumpTimer = 350; //msecs
+        //const int delayJumpTimer = 350; //msecs
         const int jumpTimer = 400; //msecs
 
         bool movingRight
@@ -39,15 +38,14 @@ namespace LadyJava
         bool movingLeft
         { get { return motion.X < 0; } }
 
-        
-
         bool isMovingOppositeDirection
         { get { return (movingRight && InputManager.IsKeyDown(Commands.Left)) ||
                        (movingLeft && InputManager.IsKeyDown(Commands.Right)); } }
 
-        public DungeonPlayer(Sprite newSprite, Texture2D newAttackImage)
+        public DungeonPlayer(Sprite newSprite, Texture2D newAttackImage, Texture2D newHPMarker, int screenWidth, int screenHeight)
         {
             attackImage = newAttackImage;
+            hpMarker = newHPMarker;
 
             motion = Vector2.Zero; 
             
@@ -64,7 +62,9 @@ namespace LadyJava
 
             interactingWith = new List<int>();
 
-            boundingBox = getBounds(Position);//, Width, Height);
+            //hpOffsets = new Vector2(screenWidth * 0.075f, screenHeight * 0.925f);
+
+            //boundingBox = getBounds(Position);
         }
 
         void GenerateAttackBounds()
@@ -95,57 +95,98 @@ namespace LadyJava
         }
 
         public override Vector2 Update(GameTime gameTime,
-                               int[] newNPC, //npc index
-                               int finalNPC,  //final npc index
-                               int levelWidth, int levelHeight,
-                               Rectangle bossArea,
-                               bool bossIsAlive,
-                               BoundingBox bossAreaTrigger,
-                               BoundingBox[] entrances,
-                               BoundingBox[] talkingRadii, 
-                               BoundingBox[] enemyBounds,
-                               params Object[] collisionObjects)
+                                       Camera camera,
+                                       int[] newNPC, //npc index
+                                       int finalNPC,  //final npc index
+                                       int levelWidth, int levelHeight,
+                                       bool playerHit,
+                                       Rectangle bossArea,
+                                       bool bossIsAlive,
+                                       BoundingBox bossAreaTrigger,
+                                       BoundingBox[] entrances,
+                                       BoundingBox[] talkingRadii,
+                                       BoundingBox[] enemyBounds,
+                                       params Object[] collisionObjects)
         {
             Vector2 entranceLocation = Global.InvalidVector2;
+
             Vector2 position = sprite.Position;
+            previousPosition = sprite.Position;
+
 
             BoundingBox[] collisions = GetBoundingBoxes(collisionObjects);
 
-            if (inBossFight && !bossIsAlive)
-                inBossFight = false;
+            CheckInvincibleDone(gameTime);
 
-            interactingWith = new List<int>();
-            foreach (int npc in newNPC)
-                if (npc != Global.InvalidInt)
-                    interactingWith.Add(npc);
+            if (isAlive)
+            {
+                if (inBossFight && !bossIsAlive)
+                    inBossFight = false;
 
-            motion = UpdateMotion(gameTime, position, motion, collisions);
+                interactingWith = new List<int>();
+                foreach (int npc in newNPC)
+                    if (npc != Global.InvalidInt)
+                        interactingWith.Add(npc);
 
-            position += motion;
+                motion = UpdateMotion(gameTime, position, motion, collisions);
 
-            CheckForBossFight(bossAreaTrigger, position);
-            if (!inBossFight)
-                position = LockToLevel(position, levelWidth, levelHeight);
+                position += motion;
+
+                CheckForBossFight(bossAreaTrigger, position);
+
+                if (!inBossFight)
+                    position = LockToLevel(position, levelWidth, levelHeight);
+                else
+                    position = LockToFightArea(position, Origin,
+                                               new Vector2(bossArea.X - bossArea.Width, bossArea.Y - bossArea.Height),
+                                               bossArea.X + bossArea.Width, bossArea.Y + bossArea.Height);
+                entranceLocation = EntranceCollision(motion, entrances);
+                animation = sprite.Update(gameTime, animation, position, facingDirection);
+
+                //change to screen width and height
+                Vector2 hpMotion = motion;
+                //if(levelLocked)
+                //    hpMotion = Vector2.Zero;
+
+                hpOffsets = new Vector2(hpOffsets.X, camera.ScreenHeight - hpOffsets.X - hpMarker.Height / 2);
+                hpLocation = camera.Position + hpMotion + new Vector2(hpOffsets.X, hpOffsets.Y);
+                if (!inBossFight)
+                    hpLocation = LockToLevel(hpLocation,
+                                             motion,
+                        //new Vector2(hpMarker.Width * hp / 2, hpMarker.Height / 2),
+                                             camera.ScreenWidth, camera.ScreenHeight,
+                                             levelWidth, levelHeight);
+                else
+                    hpLocation = LockToFightArea(hpLocation, //new Vector2(hpMarker.Width * hp / 2, hpMarker.Height / 2),
+                                                 camera.ScreenWidth, camera.ScreenHeight,
+                                                 new Vector2(bossArea.X - bossArea.Width, bossArea.Y - bossArea.Height),
+                                                 bossArea.X + bossArea.Width, bossArea.Y + bossArea.Height);
+
+                GenerateAttackBounds();
+                boundingBox = getHitBounds(position + Origin, (int)Origin.X / 2);
+                interactingWith = new List<int>();
+                for (int i = 0; i < enemyBounds.Length; i++)
+                    if (attackBounds.Intersects(enemyBounds[i]) &&
+                        ((facingDirection == Direction.Right && attackBounds.Min.X < enemyBounds[i].Min.X) ||
+                         (facingDirection == Direction.Left && attackBounds.Max.X > enemyBounds[i].Max.X)))
+                        interactingWith.Add(i);
+
+            }
             else
-                position = LockToFightArea(position,
-                                           new Vector2(bossArea.X - bossArea.Width, bossArea.Y - bossArea.Height),
-                                           bossArea.X + bossArea.Width, bossArea.Y + bossArea.Height);
-            entranceLocation = EntranceCollision(motion, entrances);
-            animation = sprite.Update(gameTime, animation, position, facingDirection);
-
-            GenerateAttackBounds();
-            interactingWith = new List<int>();
-            for (int i = 0; i < enemyBounds.Length; i++)
-                if (attackBounds.Intersects(enemyBounds[i]) && 
-                    ((facingDirection == Direction.Right && attackBounds.Min.X < enemyBounds[i].Min.X) ||
-                     (facingDirection == Direction.Left && attackBounds.Max.X > enemyBounds[i].Max.X)))
-                    interactingWith.Add(i);
+            {
+                animation = Global.Dying;
+                motion = UpdateMotion(gameTime, position, motion, collisions);
+                animation = sprite.Update(gameTime, animation, position, facingDirection);
+                //if (sprite.CurrentAnimation.Status == AnimationStatus.Stopped)
+                //    ResetPlayer();
+            }
 
             return entranceLocation;
         }
 
         private void CheckForBossFight(BoundingBox bossArea, Vector2 position)
         {
+
             if (!inBossFight)
             {
                 if (movingLeft)
@@ -167,6 +208,8 @@ namespace LadyJava
                                      Vector2 currentPosition, Vector2 newMotion, 
                                      BoundingBox[] collisions)
         {
+            if(isAlive)
+            {
             if (switchedTileMap)
                 newMotion = Vector2.Zero;
 
@@ -204,7 +247,7 @@ namespace LadyJava
             {
                 newMotion = continuousMotion(newMotion, collisions);
             }
-
+        }
             newMotion = AdjustForCollision(currentPosition, newMotion, Width, Height, collisions, true);
 
             if (isAttacking &&
@@ -328,10 +371,22 @@ namespace LadyJava
 
         public override void Draw(SpriteBatch spriteBatch, Color transparency)
         {
-            sprite.Draw(spriteBatch, transparency);
-            if (isAttacking &&
-                sprite.CurrentAnimationName == Global.Attacking)
+            if (invincible && (int)invincibleTime % 2 == 0)
+            { }
+            else
+            {
+                sprite.Draw(spriteBatch, transparency);
+                if (isAttacking &&
+                    sprite.CurrentAnimationName == Global.Attacking)
                     spriteBatch.Draw(attackImage, attackPosition, null, Color.White, 0f, Vector2.Zero, sprite.Scale, attackDirection, 0f);
+            }
+
+            for (int i = 0; i < hp; i++)
+            {
+                spriteBatch.Draw(hpMarker, hpLocation, transparency);
+                hpLocation.X += hpMarker.Width;
+
+            }
         }
     }
 }

@@ -624,11 +624,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dungeon\Fin.png">
-      <Name>Fin</Name>
+    <None Include="Dungeon\Fin.png.bak">
+      <Name>Fin.png</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
+    </None>
     <Compile Include="Dungeon\Start.png">
       <Name>Start</Name>
       <Importer>TextureImporter</Importer>
@@ -766,6 +766,27 @@
   <ItemGroup>
     <Compile Include="Bosses\BabyMetroid.png">
       <Name>BabyMetroid</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\hpMarker.png">
+      <Name>hpMarker</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dungeon\Fin.png">
+      <Name>Fin</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bosses\Thwomp.png">
+      <Name>Thwomp</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

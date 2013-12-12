@@ -17,7 +17,12 @@ namespace Engine
         float scale;
 
         int screenWidth;
+        public int ScreenWidth
+        { get { return screenWidth; } }
+
         int screenHeight;
+        public int ScreenHeight
+        { get { return screenHeight; } }
 
         bool bossFightWasActive;
 
@@ -74,6 +79,14 @@ namespace Engine
             screenHeight = newScreenHeight;
             scale = newScale;
             origin = new Vector2(screenWidth / 2, screenHeight / 2f) * scale;
+
+        }
+
+        public void ResetCamera()
+        {
+            inTransition = false;
+            transitionTo = Global.InvalidVector2;
+            bossFightWasActive = false;
         }
 
         public void Update(GameTime gameTime, bool bossFightIsActive,
@@ -95,6 +108,8 @@ namespace Engine
 
                         inTransition = true;
                         transitionTo = newPosition;
+                        transitionTo.X = Math.Min(transitionTo.X, levelWidth - screenWidth);
+                        transitionTo.Y = Math.Min(transitionTo.Y, levelHeight - screenHeight);
                     }
                     else
                     {

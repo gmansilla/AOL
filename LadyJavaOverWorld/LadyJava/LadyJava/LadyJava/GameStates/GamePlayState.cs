@@ -86,7 +86,9 @@ namespace LadyJava
                                                   new AnimationInfo(Global.Dying, 32, 48, 9, 100, Animation.None, false) };
             player.Add(AreaType.Dungeon,
                        new DungeonPlayer(new Sprite(dungeonImage, Vector2.Zero, dungeonAnimations, 1f),
-                                         newContent.Load<Texture2D>("Sprites\\ladyJavaAttack")));
+                                         newContent.Load<Texture2D>("Sprites\\ladyJavaAttack"),
+                                         newContent.Load<Texture2D>("Sprites\\hpMarker"),
+                                         screenWidth, screenHeight));
 
             collisionLayerImage = newContent.Load<Texture2D>("tileSelector");
 
@@ -108,15 +110,23 @@ namespace LadyJava
             }
             else if (InputManager.HasKeyBeenUp(new Command(Microsoft.Xna.Framework.Input.Keys.C, Buttons.LeftShoulder)))
                 drawCollision = !drawCollision;
+            else if (InputManager.HasKeyBeenUp(new Command(Microsoft.Xna.Framework.Input.Keys.R, Buttons.RightShoulder)))
+            {
+                foreach (KeyValuePair<string, RescueInfo> npc in toBeRescued)
+                    if(npc.Key != Global.ToBeRecused[Global.TheScrumMaster])
+                        npc.Value.Rescue();
+            }
 
             campus[currentArea].UpdateRescueList(toBeRescued);
 
             Vector2 entrancePixelLocation = player[campus[currentArea].CurrentAreaType]
                                                   .Update(gameTime,
+                                                          camera,
                                                           interactingWith,
                                                           campus[currentArea].FinalNPCIndex,
                                                           campus[currentArea].PixelWidth,
                                                           campus[currentArea].PixelHeight,
+                                                          campus[currentArea].PlayerHit,
                                                           campus[currentArea].BossArea,
                                                           campus[currentArea].BossIsAlive, 
                                                           campus[currentArea].BossAreaTrigger,
@@ -181,10 +191,24 @@ namespace LadyJava
 
             interactingWith = campus[currentArea].NPCUpdate(gameTime, toBeRescued, camera,
                                                             player[campus[currentArea].CurrentAreaType].Position,
+                                                            player[campus[currentArea].CurrentAreaType].InBossFight,
+                                                            player[campus[currentArea].CurrentAreaType].ToBoundingBox,
                                                             player[campus[currentArea].CurrentAreaType].CurrentPlayState,
                                                             player[campus[currentArea].CurrentAreaType].InteractingWith,
                                                             player[campus[currentArea].CurrentAreaType].SpokeWithFinalNPC,
                                                             screenWidth, screenHeight);
+
+            if (campus[currentArea].PlayerHit)
+                player[campus[currentArea].CurrentAreaType].WasHit();
+            if (player[campus[currentArea].CurrentAreaType].PlayerNeedsReset)
+            {    
+                player[campus[currentArea].CurrentAreaType].ResetPlayer(campus[currentArea].StartingPosition,
+                                                                        campus[currentArea].TileWidth,
+                                                                        campus[currentArea].TileHeight);
+                camera.ResetCamera();
+                campus[currentArea].ResetBoss();
+            }
+
 
             return State.GamePlay;
         }

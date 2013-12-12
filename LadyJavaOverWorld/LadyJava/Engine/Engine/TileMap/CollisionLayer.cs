@@ -12,6 +12,7 @@ namespace Engine
         static public int CollisionCell = -2;
         static public int NothingCell = -1;
         static public int StartingCell = -3;
+        static public int SavingPointCell = -4;
 
         BoundingBox[] collisionBoxes;
         BoundingBox[,] collisionBoxLayer;
@@ -65,7 +66,7 @@ namespace Engine
                         entranceCount++;
 
             collisionBoxes = new BoundingBox[boxCount];
-            entranceBoxes = new Dictionary<string, BoundingBox>(); // new BoundingBox[entranceCount];
+            entranceBoxes = new Dictionary<string, BoundingBox>(); 
 
             collisionBoxLayer = new BoundingBox[Height, Width];
 

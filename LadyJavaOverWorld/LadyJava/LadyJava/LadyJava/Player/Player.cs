@@ -11,6 +11,25 @@ namespace LadyJava
 {
     abstract class Player
     {
+        protected Texture2D hpMarker;
+
+        protected bool isAttacking;
+
+        protected int jumpTime;
+
+        const int MaxHP = 3;
+        protected int hp = MaxHP;
+        protected Vector2 hpOffsets = new Vector2(30, 0);
+
+        protected bool isAlive
+        { get { return hp > 0; } }
+
+        protected bool animationDone
+        { get { return sprite.CurrentAnimation.Status == AnimationStatus.Stopped; } }
+
+        public bool PlayerNeedsReset
+        { get { return !isAlive && animationDone; } }
+
         protected const float movement = 3.7f;
 
         protected Direction facingDirection;
@@ -18,9 +37,11 @@ namespace LadyJava
         public abstract void Draw(SpriteBatch spriteBatch, Color transparency);
 
         public abstract Vector2 Update(GameTime gameTime,
+                                       Camera camera,
                                        int[] newNPC, //npc index
                                        int finalNPC,  //final npc index
                                        int levelWidth, int levelHeight,
+                                       bool playerHit,
                                        Rectangle bossArea,
                                        bool bossIsAlive,
                                        BoundingBox bossAreaTrigger,
@@ -31,17 +52,24 @@ namespace LadyJava
 
         protected Vector2 motion;
 
+        protected bool invincible = false;
+
         protected Sprite sprite;
         protected string animation;
         protected bool switchedTileMap;
 
         protected bool jumpDone;
 
+        protected float invincibleTime;
+        const int invincibleTimer = 3000;
+        
         protected bool inBossFight;
         public bool InBossFight
         { get { return inBossFight; } }
 
         protected BoundingBox boundingBox;
+        public BoundingBox ToBoundingBox
+        { get { return boundingBox; } }
 
         protected bool speakingToFinalNPC;
 
@@ -98,6 +126,47 @@ namespace LadyJava
             return Global.InvalidVector2;
         }
 
+        public void WasHit()
+        {
+            if (!invincible)
+            {
+                //currentAnimation = Global.Hurt;
+                //status = EnemyStatus.Hurt;
+                hp--;
+                if(isAlive)
+                    SetInvincible();
+            }
+        }
+
+        protected void SetInvincible()
+        {
+            invincibleTime = 0;
+            invincible = true;
+        }
+
+        protected void CheckInvincibleDone(GameTime gameTime)
+        {
+            if (invincible)
+            {
+                invincibleTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (invincibleTime >= invincibleTimer)
+                {
+                    invincible = false;
+                    //currentAnimation = Global.Moving;
+                }
+            }
+        }
+
+        public void ResetPlayer(Vector2 startPosition, int tileWidth, int tileHeight)
+        {
+            hp = MaxHP;
+            jumpDone = true;
+            jumpTime = 0;
+            isAttacking = false;
+            inBossFight = false;
+            SetPosition(startPosition, tileWidth, tileHeight, false, true);
+        }
+
         protected Vector2 LockToLevel(Vector2 position, int levelW, int levelH)
         {
             if (position.X < 0)
@@ -108,20 +177,85 @@ namespace LadyJava
                 position.X = levelW - Width;
             if (position.Y > levelH - Height)
                 position.Y = levelH - Height;
+
+            return position;
+        }
+        
+        protected Vector2 LockToLevel(Vector2 position, int levelW, int levelH, out bool locked)
+        {
+            locked = false;
+            if (position.X < 0)
+            {
+                position.X = 0;
+                locked = true;
+            }
+            if (position.Y < 0)
+            {
+                position.Y = 0;
+                locked = true;
+            }
+            if (position.X > levelW - Width)
+            {
+                position.X = levelW - Width;
+                locked = true;
+            }
+            if (position.Y > levelH - Height)
+            {
+                position.Y = levelH - Height;
+                locked = true;
+            }
+
             return position;
         }
 
-        protected Vector2 LockToFightArea(Vector2 position, Vector2 areaStart, float areaWidth, float areaHeight)
+        protected Vector2 LockToLevel(Vector2 position, Vector2 motion, int screenWidth, int screenHeight, float areaWidth, float areaHeight)
         {
             //also adjust by the origin of the player
-            if (position.X < areaStart.X + Origin.X)
-                position.X = areaStart.X + Origin.X;
-            if (position.Y < areaStart.Y + Origin.Y)
-                position.Y = areaStart.Y + Origin.Y;
-            if (position.X > areaWidth - Origin.X)
-                position.X = areaWidth - Origin.X;
-            if (position.Y > areaHeight - Origin.Y)
-                position.Y = areaHeight - Origin.Y;
+            //if (position.X < origin.X)
+            //    position.X = origin.X;
+            //if (position.Y < origin.Y)
+            //    position.Y = origin.Y;
+
+            if (motion.X < 0 && areaWidth - position.X + hpOffsets.X + motion.X <= screenWidth)// - origin.X)
+                position.X = areaWidth - screenWidth + hpOffsets.X;//+ origin.X;
+            else if (areaWidth - position.X + hpOffsets.X <= screenWidth)// - origin.X)
+                position.X = areaWidth - screenWidth + hpOffsets.X;//+origin.X;
+            if (motion.Y < 0 && areaHeight - position.Y + hpOffsets.Y + motion.Y <= screenHeight)// - origin.X)
+                position.Y = areaHeight - screenHeight + hpOffsets.Y;//+ origin.X;
+            else if (areaHeight - position.Y + hpOffsets.Y <= screenHeight)// - origin.X)
+                position.Y = areaHeight - screenHeight + hpOffsets.Y;//+origin.X;
+
+
+            //if (position.Y > areaHeight - origin.Y)
+            //    position.Y = areaHeight - origin.Y;
+            return position;
+        }
+
+        protected Vector2 LockToFightArea(Vector2 position, int screenWidth, int screenHeight, Vector2 areaStart, float areaWidth, float areaHeight)
+        {
+            if (motion.X < 0 && areaWidth - position.X + hpOffsets.X + motion.X <= screenWidth)
+                position.X = areaWidth - screenWidth + hpOffsets.X * 1.5f;
+            else if (areaWidth - position.X + hpOffsets.X <= screenWidth)
+                position.X = areaWidth - screenWidth + hpOffsets.X * 1.5f;
+            if (motion.Y < 0 && areaHeight - position.Y + hpOffsets.Y + motion.Y <= screenHeight)
+                position.Y = areaHeight - screenHeight + hpOffsets.Y + hpMarker.Height / 2;
+            else if (areaHeight - position.Y + hpOffsets.Y <= screenHeight)
+                position.Y = areaHeight - screenHeight + hpOffsets.Y + hpMarker.Height / 2;
+
+            return position;
+        }
+
+        protected Vector2 LockToFightArea(Vector2 position, Vector2 origin, Vector2 areaStart, float areaWidth, float areaHeight)
+        {
+            //also adjust by the origin of the player
+            if (position.X < areaStart.X + origin.X)
+                position.X = areaStart.X + origin.X;
+            if (position.Y < areaStart.Y + origin.Y)
+                position.Y = areaStart.Y + origin.Y;
+            if (position.X > areaWidth - origin.X)
+                position.X = areaWidth - origin.X;
+            if (position.Y > areaHeight - origin.Y)
+                position.Y = areaHeight - origin.Y;
             return position;
         }
 
@@ -214,6 +348,13 @@ namespace LadyJava
         {
             return new BoundingBox(new Vector3(newPosition, 0f),
                                    new Vector3(newPosition.X + Width, newPosition.Y + Height, 0f));
+        }
+
+        protected BoundingBox getHitBounds(Vector2 newPosition, int radius)//, int width, int height)
+        {
+
+            return new BoundingBox(new Vector3(newPosition.X - radius, newPosition.Y - radius, 0f),
+                                   new Vector3(newPosition.X + radius, newPosition.Y + radius, 0f));
         }
     }
 }
