@@ -123,6 +123,9 @@ namespace LadyJava
                 if (inBossFight && !bossIsAlive)
                     inBossFight = false;
 
+                if (switchedTileMap)
+                    hp = MaxHP;
+
                 interactingWith = new List<int>();
                 foreach (int npc in newNPC)
                     if (npc != Global.InvalidInt)

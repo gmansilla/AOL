@@ -8,15 +8,27 @@ namespace Engine
 {
     public abstract class Boss : Enemy
     {
-        protected const int MaxHP = 1;
+        protected const int MaxHP = 5;
+
+        protected bool attacking = false;
         
         protected string type;
 
         protected Vector2 targetPosition;
 
+        protected Vector2 startPosition;
+
         protected Vector2[] attackPositions;
         public Vector2 StartPosition
-        { get { return attackPositions[0]; } }
+        {
+            get
+            {
+                //if (attackPositions == null)
+                    return startPosition;
+            }
+        }
+                //else
+                //    return attackPositions[0]; } }
 
         protected const int changePositionTimer = 2500; //2.5secs
         protected float changePositionTime = 0;
@@ -80,13 +92,13 @@ namespace Engine
         }
 
 
-        internal void Reset(Vector2 newPosition)
+        public void Reset(Vector2 newPosition)
         {
             hp = MaxHP;
             SetPosition(newPosition);
             targetPosition = newPosition;
-
-
+            attacking = false;
+            status = EnemyStatus.Moving;
         }
     }
 }

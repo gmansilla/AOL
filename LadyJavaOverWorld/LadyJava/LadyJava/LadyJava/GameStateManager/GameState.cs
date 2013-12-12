@@ -32,7 +32,7 @@ namespace LadyJava
     
     public abstract class GameState
     {
-        const float Increment = 0.01f;
+        const float Increment = 0.1f;
         protected const float Clear = 0.0f;
         protected const float Half = 0.5f;
         protected const float Opaque = 1.0f;

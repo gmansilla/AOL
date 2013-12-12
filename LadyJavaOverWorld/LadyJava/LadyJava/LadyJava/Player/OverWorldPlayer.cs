@@ -112,7 +112,7 @@ namespace LadyJava
                     animation = Global.Moving;
                     facingDirection = Direction.Left;
                     motion.X = -movement;
-                    //motion = LeftCollision(motion, collisions);
+                    
                     if (motion.X != -movement)
                         collision = true;
 
@@ -132,13 +132,13 @@ namespace LadyJava
                     {
                         currentPlayState = PlayState.Message;
                         interactingWith.Add(i);
-                        if (i == finalNPC)
-                            speakingToFinalNPC = true;
                         break;
                     }
                     else
                     {
-                        if (speakingToFinalNPC)
+                        if (i == finalNPC)
+                        //    speakingToFinalNPC = true;
+                        //if (speakingToFinalNPC)
                             finishedTalkingToFinalNPC = true;
                         currentPlayState = PlayState.Playing;
                     }

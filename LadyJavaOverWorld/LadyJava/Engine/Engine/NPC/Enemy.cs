@@ -53,7 +53,7 @@ namespace Engine
         public int Height
         { get { return sprite.Height; } }
 
-        abstract public void Update(GameTime gameTime, Vector2 playerPosition, BoundingBox playerBounds, int screenWidth, bool inBossFight);
+        abstract public void Update(GameTime gameTime, Vector2 playerPosition, BoundingBox playerBounds, int screenWidth, int screenHeight, bool inBossFight);
         
         abstract public void Draw(SpriteBatch spriteBatch, Color transparency);
 

@@ -337,13 +337,13 @@ namespace Engine
                 for (int i = 0; i < enemies.Count; i++)
                     if (enemies[i].IsAlive)
                     {
-                        enemies[i].Update(gameTime, playerPosition, playerBounds, screenWidth, inBossFight);
+                        enemies[i].Update(gameTime, playerPosition, playerBounds, screenWidth, screenHeight, inBossFight);
                         if (enemies[i].Status != EnemyStatus.Hurt && enemies[i].PlayerHit)
                             playerHit = true;
                     }
                 if (boss.IsAlive)
                 {
-                    boss.Update(gameTime, playerPosition, playerBounds, screenWidth, inBossFight);
+                    boss.Update(gameTime, playerPosition, playerBounds, screenWidth, screenHeight, inBossFight);
                     if (boss.Status != EnemyStatus.Hurt && boss.PlayerHit)
                         playerHit = true;
                 }

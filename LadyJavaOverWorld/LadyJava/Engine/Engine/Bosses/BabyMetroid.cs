@@ -69,7 +69,7 @@ namespace Engine
             attackPositions[1] = new Vector2(start.X + FightAreaWidth / 2 - Width / 2, position.Y);
             attackPositions[2] = new Vector2(start.X + FightAreaWidth - buffer.X - Width, position.Y);
             attackPositions[3] = new Vector2(attackPositions[1].X, start.Y + FightAreaHeight / 2);
-            
+            startPosition = attackPositions[attackSpot];
             attackSpot = 0;
             targetPosition = attackPositions[attackSpot];
             //position = targetPosition;
@@ -84,7 +84,7 @@ namespace Engine
         int attackSpot;
         int moveCount;
 
-        public override void Update(GameTime gameTime, Vector2 playerPosition, BoundingBox playerBounds, int screenWidth, bool inBossFight)
+        public override void Update(GameTime gameTime, Vector2 playerPosition, BoundingBox playerBounds, int screenWidth, int screenHeight, bool inBossFight)
         {
 
             if (attackPositions == null && fightArea != new Rectangle())
@@ -183,6 +183,7 @@ namespace Engine
                     status = EnemyStatus.Moving;
                     pauseTimer = false;
                     changePositionTime = changePositionTimer;
+                    
                 }
 
                 currentAnimation = sprite.Update(gameTime, currentAnimation, circlePosition, Direction.Right);

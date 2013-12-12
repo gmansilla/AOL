@@ -785,8 +785,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bosses\Thwomp.png">
-      <Name>Thwomp</Name>
+    <Compile Include="Bosses\thwomp.png">
+      <Name>thwomp</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

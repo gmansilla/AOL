@@ -17,7 +17,7 @@ namespace LadyJava
 
         protected int jumpTime;
 
-        const int MaxHP = 3;
+        protected const int MaxHP = 3;
         protected int hp = MaxHP;
         protected Vector2 hpOffsets = new Vector2(30, 0);
 
