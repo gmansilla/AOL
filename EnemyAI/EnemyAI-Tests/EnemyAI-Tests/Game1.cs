@@ -25,8 +25,12 @@ namespace EnemyAI_Tests
 
         Texture2D fighter;
 
-        AnimatedSprite bubSprite;
+        AnimatedSprite hero;
         Texture2D bub;
+
+        GroundAnimatedEnemy BUB, b1, b2, b3;
+
+        int BUBDifference, b1Diff, b2Diff, b3Diff, targetDifference;
 
         public Game1()
         {
@@ -83,7 +87,19 @@ namespace EnemyAI_Tests
             bub = Content.Load<Texture2D>("Sprites\\Bub");
 
             sprite = new AnimatedSprite(fighter, animations);
-            bubSprite = new AnimatedSprite(bub, animations);
+            hero = new AnimatedSprite(bub, animations);
+
+            BUB = new GroundAnimatedEnemy(bub, animations);
+            b1 = new GroundAnimatedEnemy(bub, animations);
+            b2 = new GroundAnimatedEnemy(bub, animations);
+            b3 = new GroundAnimatedEnemy(bub, animations);
+
+            BUB.Position = new Vector2(25, 50);
+            b1.Position = new Vector2(100, 100);
+            b2.Position = new Vector2(175, 150);
+            b3.Position = new Vector2(250, 200);
+
+            targetDifference = 10;
 
             dummy.LoadContent(this.Content, "Sprites\\Bub.png");
         }
@@ -114,43 +130,137 @@ namespace EnemyAI_Tests
 
             if (keyboardState.IsKeyDown(Keys.Down))
             {
-                bubSprite.IsAnimating = true;
-                bubSprite.CurrentAnimation = AnimationKey.Down;
+                hero.IsAnimating = true;
+                hero.CurrentAnimation = AnimationKey.Down;
                 motion.Y = 1;
             }
             else if (keyboardState.IsKeyDown(Keys.Up))
             {
-                bubSprite.IsAnimating = true;
-                bubSprite.CurrentAnimation = AnimationKey.Up;
+                hero.IsAnimating = true;
+                hero.CurrentAnimation = AnimationKey.Up;
                 motion.Y = -1;
             }
 
             if (keyboardState.IsKeyDown(Keys.Left))
             {
-                bubSprite.IsAnimating = true;
-                bubSprite.CurrentAnimation = AnimationKey.Left;
+                hero.IsAnimating = true;
+                hero.CurrentAnimation = AnimationKey.Left;
                 motion.X = -1;
             }
             else if (keyboardState.IsKeyDown(Keys.Right))
             {
-                bubSprite.IsAnimating = true;
-                bubSprite.CurrentAnimation = AnimationKey.Right;
+                hero.IsAnimating = true;
+                hero.CurrentAnimation = AnimationKey.Right;
                 motion.X = 1;
             }
 
             if (motion != Vector2.Zero)
             {
-                bubSprite.IsAnimating = true;
+                hero.IsAnimating = true;
                 motion.Normalize();
-                bubSprite.Position += motion * sprite.Speed;
+                hero.Position += motion * sprite.Speed;
             }
             else
             {
-                bubSprite.IsAnimating = false;
+                hero.IsAnimating = false;
             }
 
-            bubSprite.Update(gameTime);
 
+
+           
+
+            
+            
+
+            if (BUB != null)
+            {
+                if (BUB.IsAlive)
+                {
+                    BUBDifference = Math.Abs((int)hero.Position.X - (int)BUB.Position.X);
+
+                    if (keyboardState.IsKeyDown(Keys.Space))
+                    {
+                        if (BUBDifference <= targetDifference && BUBDifference >= 0)
+                        {
+                            BUB.IsAHit = true;
+                        }
+                    }
+                    
+                    BUB.Update(gameTime);
+                }
+                else if (!BUB.IsAlive)
+                {
+                    BUB = null;
+                }
+            }
+
+            if (b1 != null)
+            {
+                if (b1.IsAlive)
+                {
+                    b1Diff = Math.Abs((int)hero.Position.X - (int)b1.Position.X);
+
+                    if (keyboardState.IsKeyDown(Keys.Space))
+                    {
+                        if (b1Diff <= targetDifference && b1Diff >= 0)
+                        {
+                            b1.IsAHit = true;
+                        }
+                    }
+
+                    b1.Update(gameTime);
+                }
+                else if (!b1.IsAlive)
+                {
+                    b1 = null;
+                }
+            }
+
+            if (b2 != null)
+            {
+                if (b2.IsAlive)
+                {
+                    b2Diff = Math.Abs((int)hero.Position.X - (int)b2.Position.X);
+
+                    if (keyboardState.IsKeyDown(Keys.Space))
+                    {
+                        if (b2Diff <= targetDifference && b2Diff >= 0)
+                        {
+                            b2.IsAHit = true;
+                        }
+                    }
+
+                    b2.Update(gameTime);
+                }
+                else if (!b2.IsAlive)
+                {
+                    b2 = null;
+                }
+            }
+
+            if (b3 != null)
+            {
+                if (b3.IsAlive)
+                {
+                    b3Diff = Math.Abs((int)hero.Position.X - (int)b3.Position.X);
+
+                    if (keyboardState.IsKeyDown(Keys.Space))
+                    {
+                        if (b3Diff <= targetDifference && b3Diff >= 0)
+                        {
+                            b3.IsAHit = true;
+                        }
+                    }
+
+                    b3.Update(gameTime);
+                }
+                else if (!b3.IsAlive)
+                {
+                    b3 = null;
+                }
+            }
+
+            hero.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -166,7 +276,23 @@ namespace EnemyAI_Tests
             spriteBatch.Begin();
 
             //sprite.Draw(gameTime, spriteBatch);
-            bubSprite.Draw(gameTime, spriteBatch);
+            hero.Draw(gameTime, spriteBatch);
+            if (BUB != null)
+            {
+                BUB.Draw(gameTime, spriteBatch);
+            }
+            if (b1 != null)
+            {
+                b1.Draw(gameTime, spriteBatch);
+            }
+            if (b2 != null)
+            {
+                b2.Draw(gameTime, spriteBatch);
+            }
+            if (b3 != null)
+            {
+                b3.Draw(gameTime, spriteBatch);
+            }
 
             //dummy.Draw(this.spriteBatch);
             spriteBatch.End();

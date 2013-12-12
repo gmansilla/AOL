@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,13 +12,16 @@ namespace EnemyAI_Tests
     {
         #region Fields Region
 
-        Dictionary<AnimationKey, Animation> animations;
+        protected Dictionary<AnimationKey, Animation> animations;
         AnimationKey currentAnimation;
         bool isAnimating;
         Texture2D texture;
         Vector2 position;
         Vector2 velocity;
-        float speed = 4.0f;
+        float speed = 2.0f;
+
+        //private Component component = new Component();
+        //private bool disposed = false;
 
         #endregion
 
@@ -83,13 +87,15 @@ namespace EnemyAI_Tests
             {
                 animations.Add(key, (Animation)animation[key].Clone());
             }
+
+            //Dispose(false);
         }
 
         #endregion
 
         #region Methods Region
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             if (isAnimating)
             {
@@ -101,6 +107,25 @@ namespace EnemyAI_Tests
         {
             spriteBatch.Draw(texture, position, animations[currentAnimation].CurrentFrameRect, Color.White);
         }
+
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
+
+        //protected virtual void Dispose(bool disposing)
+        //{
+        //    if (!this.disposed)
+        //    {
+        //        if (disposing)
+        //        {
+        //            component.Dispose();
+        //        }
+        //        disposed = true;
+
+        //    }
+        //}
 
         #endregion
     }

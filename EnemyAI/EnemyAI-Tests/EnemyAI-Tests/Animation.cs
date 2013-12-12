@@ -92,9 +92,10 @@ namespace EnemyAI_Tests
             for (int i = 0; i < frameCount; i++)
             {
                 frames[i] = new Rectangle(xOffset + (frameWidth * i), yOffset, frameWidth, frameHeight);
+                //frames[i].X = frames[i].X + 1;
             }
 
-            FramesPerSecond = 10;
+            FramesPerSecond = 7;
             Reset();
         }
 
@@ -102,7 +103,7 @@ namespace EnemyAI_Tests
         private Animation(Animation animation)
         {
             this.frames = animation.frames;
-            FramesPerSecond = 10;
+            FramesPerSecond = 7;
         }
 
         #endregion
@@ -117,6 +118,7 @@ namespace EnemyAI_Tests
             {
                 frameTimer = TimeSpan.Zero;
                 currentFrame = (currentFrame + 1) % frames.Length;
+                //frames[currentFrame].X = frames[currentFrame].X + 1;
             }
         }
         
