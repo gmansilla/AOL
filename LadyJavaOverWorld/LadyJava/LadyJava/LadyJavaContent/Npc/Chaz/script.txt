@@ -1,0 +1,4 @@
+[Default]
+The store is closed. The clerk See Hash should be on duty, I hope he didn't go to the gym when he should be working. 
+[SeehashSaved]
+Hey, now the door says "At scrum meeting, back in 15 minutes".

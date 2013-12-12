@@ -1,0 +1,3 @@
+[Default]
+Scrum is the meaning of life. Well... not that important, but important for efficient development. 
+The true meaning of life is 42 or so they say...

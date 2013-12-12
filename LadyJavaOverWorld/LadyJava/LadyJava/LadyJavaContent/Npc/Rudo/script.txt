@@ -1,0 +1,2 @@
+[Default]
+A sprint is between one week and one month. I prefer two weeks

@@ -1,0 +1,4 @@
+[Default]
+Hi, I am Amy; I worked with Tech-Man yesterday. He told me he was going over to the lake to relax, but I have yet to see him. Try asking around over there.
+[TecManSaved]
+Thank you for finding Tech-Man!

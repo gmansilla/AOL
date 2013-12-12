@@ -1,0 +1,47 @@
+[Type]
+OverWorld
+
+[Demensions]
+5x5
+
+[TileDemensions]
+64x64
+
+[Textures]
+Inside\Floors\Tile_Blue 64 64
+Inside\Furni\Desk2 64 64
+Inside\Floors\Tile_Grey 64 64
+
+[Entrances]
+TileMaps\overworld.map
+
+[NPCs]
+Rudo Centre 25 50
+
+[TileLayer]
+00|00|00|00|00
+00|00|00|00|00
+00|00|00|00|00
+00|00|00|00|00
+00|00|02|00|00
+
+[TileLayer]
+-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1
+01|-1|-1|-1|-1
+-1|-1|-1|-1|01
+-1|-1|-1|-1|-1
+
+[CollisionLayer]
+-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1
+-2|-1|-1|-1|-1
+-1|-1|-3|-1|-2
+-1|-1|00|-1|-1
+
+[NPCLayer]
+-1|-1|-1|-1|-1
+-1|-1|-1|00|-1
+-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1

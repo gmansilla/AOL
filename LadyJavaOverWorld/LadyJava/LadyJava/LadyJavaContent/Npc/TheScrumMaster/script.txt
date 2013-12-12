@@ -1,0 +1,5 @@
+[Default]
+Hello Lady Java, you have proven yourself by rescuing us all. Now we can hold our scrum meeting. But keep in mind; I only moderate the scrum meeting. It is the responsibility of all the team members for completing their work for the sake agile development.
+[TheScrumMasterSaved]
+<FinalDialog>
+Thank you for saving all of us, Lady Java. Please take a seat so we can begin the daily scrum.

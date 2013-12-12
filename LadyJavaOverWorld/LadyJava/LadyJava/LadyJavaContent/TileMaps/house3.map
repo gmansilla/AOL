@@ -1,0 +1,49 @@
+[Type]
+OverWorld
+
+[Demensions]
+5x5
+
+[TileDemensions]
+64x64
+
+[Textures]
+Inside\Books\Book1 128 64
+Inside\Furni\Desk 64 64
+Inside\Furni\Desk2 64 64
+Inside\Floors\Tile_Green 64 64
+Inside\Floors\Tile_Grey 64 64
+
+[Entrances]
+TileMaps\overworld.map
+
+[NPCs]
+Rune Centre 25 50
+
+[TileLayer]
+03|03|03|03|03
+03|03|03|03|03
+03|03|03|03|03
+03|03|03|03|03
+03|03|04|03|03
+
+[TileLayer]
+00|-1|-1|00|-1
+-1|-1|-1|-1|-1
+-1|02|-1|02|-1
+-1|-1|-1|-1|-1
+01|-1|-1|-1|01
+
+[CollisionLayer]
+-2|-2|-1|-2|-2
+-1|-1|-1|-1|-1
+-1|-2|-1|-2|-1
+-1|-1|-3|-1|-1
+-2|-1|00|-1|-2
+
+[NPCLayer]
+-1|-1|00|-1|-1
+-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1
+-1|-1|-1|-1|-1

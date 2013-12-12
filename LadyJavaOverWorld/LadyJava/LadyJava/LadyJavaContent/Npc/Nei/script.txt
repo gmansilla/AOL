@@ -1,0 +1,3 @@
+[Default]
+Just 15 minutes a day, thats all it takes for better software development!!
+Seriously, the daily scrum is important...

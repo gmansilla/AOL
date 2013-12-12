@@ -1,0 +1,2 @@
+[Default]
+Scrum should be held every day.

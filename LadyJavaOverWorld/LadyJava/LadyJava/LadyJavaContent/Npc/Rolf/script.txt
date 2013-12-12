@@ -1,0 +1,2 @@
+[Default]
+The scrum master enforces the rules of scrum.

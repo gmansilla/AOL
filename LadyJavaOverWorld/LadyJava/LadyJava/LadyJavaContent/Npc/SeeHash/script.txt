@@ -1,0 +1,8 @@
+[Default]
+Thank you for saving me, I was trapped down here. I will see you at the campus square so we can hold our scrum meeting.
+[SeehashSaved]
+Thats the last time I ever exercise again.  Beer and pizza for me from now on, Cheers!!
+[AllSaved]
+Use your strength, you can do it.
+[TheScrumMasterSaved]
+The scrum master is like a trainer; he keeps us in check, but also motivates us.
